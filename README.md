@@ -45,6 +45,26 @@ If you are using FRP(内网穿透) for your server, this plugin may help [HAProx
 
 **Pull Requests and suggestions are welcome!**
 
+## Building
+
+* [Gradle](https://gradle.org/) - Dependency Management
+
+The GradleWrapper in included in this project.
+
+**Windows:**
+
+```
+gradlew.bat clean build
+```
+
+**macOS/Linux:**
+
+```
+./gradlew clean build
+```
+
+Build artifacts should be found in `./outs` folder.
+
 ## License
 
 Only modifications to AuthMeReloaded is under AGPL-3.0 license, AuthMeReloaded is licensed under GPL-3.0.

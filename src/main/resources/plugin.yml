@@ -1,8 +1,8 @@
-name: ${pluginDescription.name}
-authors: [${pluginDescription.authors}]
+name: AuthMe
+authors: [sgdc3, games647, Hex3l, krusic22, DGun Otto]
 website: https://github.com/HaHaWTH/AuthMeReReloaded/
 description: A fork of AuthMeReloaded that contains bug fixes
-main: ${pluginDescription.main}
+main: fr.xephi.authme.AuthMe
 folia-supported: true
 version: 5.6.0-FORK-b50
 api-version: 1.13

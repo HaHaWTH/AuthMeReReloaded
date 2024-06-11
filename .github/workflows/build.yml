@@ -1,0 +1,60 @@
+name: Plugin Build
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[skip]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Cache Gradle Packages
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-Build-Cache
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+      - name: Build
+        run: ./gradlew clean build
+      - name: Capture Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Artifacts
+          path: outs/
+  runtime-test:
+    name: Plugin Runtime Test
+    needs: [ Build ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - mcVersion: '1.8.8'
+            javaVersion: '8'
+          - mcVersion: '1.12.2'
+            javaVersion: '8'
+          - mcVersion: '1.18.2'
+            javaVersion: '17'
+          - mcVersion: '1.20.4'
+            javaVersion: '21'
+    steps:
+      - uses: HaHaWTH/minecraft-plugin-runtime-test@paper
+        with:
+          server-version: ${{ matrix.mcVersion }}
+          java-version: ${{ matrix.javaVersion }}
+          artifact-name: Artifacts
