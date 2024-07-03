@@ -778,7 +778,7 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.33</version>
+            <version>9.0.0</version>
             <optional>true</optional>
         </dependency>
         <dependency>
