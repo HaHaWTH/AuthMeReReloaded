@@ -23,8 +23,6 @@ import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import javax.inject.Inject;
 
@@ -150,7 +148,7 @@ public class AsynchronousUnregister implements AsynchronousProcess {
     private void applyBlindEffect(Player player) {
         if (service.getProperty(RegistrationSettings.APPLY_BLIND_EFFECT)) {
             int timeout = service.getProperty(RestrictionSettings.TIMEOUT) * TICKS_PER_SECOND;
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, timeout, 2));
+            bukkitService.runTaskIfFolia(player, () -> player.addPotionEffect(bukkitService.createBlindnessEffect(timeout)));
         }
     }
 

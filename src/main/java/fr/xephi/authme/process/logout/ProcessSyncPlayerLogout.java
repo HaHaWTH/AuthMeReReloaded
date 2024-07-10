@@ -14,8 +14,6 @@ import fr.xephi.authme.settings.commandconfig.CommandManager;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import javax.inject.Inject;
 
@@ -75,7 +73,7 @@ public class ProcessSyncPlayerLogout implements SynchronousProcess {
         // Apply Blindness effect
         if (service.getProperty(RegistrationSettings.APPLY_BLIND_EFFECT)) {
             int timeout = service.getProperty(RestrictionSettings.TIMEOUT) * TICKS_PER_SECOND;
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, timeout, 2));
+            player.addPotionEffect(bukkitService.createBlindnessEffect(timeout));
         }
 
         // Set player's data to unauthenticated

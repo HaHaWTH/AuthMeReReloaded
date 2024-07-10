@@ -60,6 +60,10 @@ public class I18NUtils {
         PLAYER_LOCALE.put(uuid, locale);
     }
 
+    public static void removeLocale(UUID uuid) {
+        PLAYER_LOCALE.remove(uuid);
+    }
+
     /**
      * Returns the AuthMe messages file language code, by given locale and settings.
      * Dreeam - Hard mapping, based on mc1.20.6, 5/29/2024

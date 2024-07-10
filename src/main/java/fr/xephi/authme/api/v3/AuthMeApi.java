@@ -15,6 +15,8 @@ import fr.xephi.authme.util.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 import javax.inject.Inject;
 import java.time.Instant;
@@ -24,6 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import static fr.xephi.authme.listener.PlayerListener.PENDING_INVENTORIES;
+
 /**
  * The current API of AuthMe.
  *
@@ -32,6 +36,7 @@ import java.util.Optional;
  * AuthMeApi authmeApi = AuthMeApi.getInstance();
  * </code>
  */
+@SuppressWarnings("unused")
 public class AuthMeApi {
 
     private static AuthMeApi singleton;
@@ -254,6 +259,18 @@ public class AuthMeApi {
             .registrationDate(System.currentTimeMillis())
             .build();
         return dataSource.saveAuth(auth);
+    }
+
+    /**
+     * Open an inventory for the given player at any time.
+     *
+     * @param player The player to open the inventory for
+     * @param inventory The inventory to open
+     * @return The inventory view
+     */
+    public InventoryView openInventory(Player player, Inventory inventory) {
+        PENDING_INVENTORIES.add(inventory);
+        return player.openInventory(inventory);
     }
 
     /**

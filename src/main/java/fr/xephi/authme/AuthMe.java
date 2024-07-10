@@ -74,9 +74,9 @@ public class AuthMe extends JavaPlugin {
     private static final int CLEANUP_INTERVAL = 5 * TICKS_PER_MINUTE;
 
     // Version and build number values
-    private static String pluginVersion = "5.6.0-Fork";
+    private static String pluginVersion = "5.7.0-Fork";
     private static final String pluginBuild = "b";
-    private static String pluginBuildNumber = "50";
+    private static String pluginBuildNumber = "51";
     // Private instances
     private EmailService emailService;
     private CommandHandler commandHandler;

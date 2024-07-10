@@ -16,9 +16,11 @@ import fr.xephi.authme.service.ValidationService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.SpawnLoader;
 import fr.xephi.authme.settings.properties.HooksSettings;
+import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import fr.xephi.authme.util.TeleportUtils;
+import fr.xephi.authme.util.message.I18NUtils;
 import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -50,9 +52,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -93,6 +98,7 @@ public class PlayerListener implements Listener {
     @Inject
     private QuickCommandsProtectionManager quickCommandsProtectionManager;
 
+    public static List<Inventory> PENDING_INVENTORIES = new ArrayList<>();
 
     // Lowest priority to apply fast protection checks
     @EventHandler(priority = EventPriority.LOWEST)
@@ -246,6 +252,11 @@ public class PlayerListener implements Listener {
             if (listenerService.shouldCancelEvent(event)) {
                 event.setQuitMessage(null);
             }
+        }
+
+        // Remove data from locale map when player quit
+        if (settings.getProperty(PluginSettings.I18N_MESSAGES)) {
+            I18NUtils.removeLocale(player.getUniqueId());
         }
 
         if (antiBotService.wasPlayerKicked(player.getName())) {
@@ -489,6 +500,17 @@ public class PlayerListener implements Listener {
         }
     }
 
+    private boolean isInventoryOpenedByApi(Inventory inventory) {
+        if (inventory == null) {
+            return false;
+        }
+        if (PENDING_INVENTORIES.contains(inventory)) {
+            PENDING_INVENTORIES.remove(inventory);
+            return true;
+        } else {
+            return false;
+        }
+    }
     @SuppressWarnings("all")
     private boolean isInventoryWhitelisted(InventoryView inventory) {
         if (inventory == null) {
@@ -515,7 +537,8 @@ public class PlayerListener implements Listener {
     public void onPlayerInventoryOpen(InventoryOpenEvent event) {
         final HumanEntity player = event.getPlayer();
         if (listenerService.shouldCancelEvent(player)
-            && !isInventoryWhitelisted(event.getView())) {
+            && !isInventoryWhitelisted(event.getView())
+            && !isInventoryOpenedByApi(event.getInventory())) {
             event.setCancelled(true);
 
             /*
