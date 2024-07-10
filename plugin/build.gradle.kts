@@ -20,8 +20,12 @@ subprojects {
     }
 
     dependencies {
+        // Modules
+        implementation(project(":project:module-common"))
         implementation(project(":project:module-util"))
+        implementation(project(":project:module-logger"))
         implementation(project(":project:module-configuration"))
+        implementation(project(":project:module-message"))
         // Spigot API, https://www.spigotmc.org/
         compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
         // Java Libraries
@@ -118,7 +122,9 @@ subprojects {
             archiveClassifier.set("")
             archiveBaseName.set("AuthMe")
             destinationDirectory.set(file("$rootDir/outs"))
-            // Libraries Relocate
+            // Kotlin
+            relocate("kotlin.", "kolin200.")
+            // Others
             relocate("org.apache.http", "fr.xephi.authme.libs.org.apache.http")
             relocate("org.apache.commons", "fr.xephi.authme.libs.org.apache.commons")
             relocate("waffle", "fr.xephi.authme.libs.waffle")

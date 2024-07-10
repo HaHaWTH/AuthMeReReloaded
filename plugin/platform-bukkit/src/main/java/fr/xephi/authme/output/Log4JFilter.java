@@ -7,12 +7,14 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.filter.AbstractFilter;
 import org.apache.logging.log4j.message.Message;
 
+import java.io.Serializable;
+
 /**
  * Implements a filter for Log4j to skip sensitive AuthMe commands.
  *
  * @author Xephi59
  */
-public class Log4JFilter extends AbstractFilter {
+public class Log4JFilter extends AbstractFilter implements Serializable {
 
     private static final long serialVersionUID = -5594073755007974254L;
 

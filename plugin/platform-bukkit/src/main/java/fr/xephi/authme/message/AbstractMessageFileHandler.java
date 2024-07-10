@@ -2,6 +2,7 @@ package fr.xephi.authme.message;
 
 import com.google.common.annotations.VisibleForTesting;
 import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.configruation.Configuration;
 import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
@@ -9,8 +10,6 @@ import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.FileUtils;
 import fr.xephi.authme.util.message.I18NUtils;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -35,8 +34,8 @@ public abstract class AbstractMessageFileHandler implements Reloadable {
     private Settings settings;
 
     private String filename;
-    private FileConfiguration configuration;
-    private Map<String, FileConfiguration> i18nConfiguration;
+    private Configuration configuration;
+    private Map<String, Configuration> i18nConfiguration;
     private final String defaultFile;
 
     protected AbstractMessageFileHandler() {
@@ -49,7 +48,7 @@ public abstract class AbstractMessageFileHandler implements Reloadable {
         String language = settings.getProperty(PluginSettings.MESSAGES_LANGUAGE);
         filename = createFilePath(language);
         File messagesFile = initializeFile(filename);
-        configuration = YamlConfiguration.loadConfiguration(messagesFile);
+        configuration = Configuration.loadFromFile(messagesFile);
         i18nConfiguration = null;
     }
 
@@ -117,7 +116,7 @@ public abstract class AbstractMessageFileHandler implements Reloadable {
         return configuration.getString(key);
     }
 
-    public FileConfiguration getI18nConfiguration(String locale) {
+    public Configuration getI18nConfiguration(String locale) {
         if (i18nConfiguration == null) {
             i18nConfiguration = new ConcurrentHashMap<>();
         }
@@ -130,7 +129,7 @@ public abstract class AbstractMessageFileHandler implements Reloadable {
             // Sync with reload();
             String i18nFilename = createFilePath(locale);
             File i18nMessagesFile = initializeFile(i18nFilename);
-            FileConfiguration config = YamlConfiguration.loadConfiguration(i18nMessagesFile);
+            Configuration config = Configuration.loadFromFile(i18nMessagesFile);
 
             i18nConfiguration.put(locale, config);
 

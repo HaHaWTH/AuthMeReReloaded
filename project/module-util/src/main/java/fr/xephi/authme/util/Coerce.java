@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.common.data.builder;
+package fr.xephi.authme.util;
 
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
@@ -44,7 +44,8 @@ public final class Coerce {
     /**
      * No subclasses for you.
      */
-    private Coerce() {}
+    private Coerce() {
+    }
 
     /**
      * Gets the given object as a {@link String}.

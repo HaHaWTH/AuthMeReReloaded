@@ -81,6 +81,8 @@ interface Configuration : ConfigurationSection {
         /**
          * 识别可能的 [ConfigurationSection] 类型
          */
+        @JvmStatic
+        @JvmOverloads
         fun parse(any: Any, type: Type = Type.YAML, concurrent: Boolean = true): ConfigurationSection {
             val unwrapped = ConfigSection.unwrap(any)
             if (unwrapped is Map<*, *>) {
@@ -96,6 +98,8 @@ interface Configuration : ConfigurationSection {
          * @param concurrent 是否支持并发
          * @return [Configuration]
          */
+        @JvmStatic
+        @JvmOverloads
         fun empty(type: Type = Type.YAML, concurrent: Boolean = true): Configuration {
             return ConfigFile(
                 if (concurrent) type.newFormat().createConcurrentConfig() else type.newFormat()
@@ -110,6 +114,8 @@ interface Configuration : ConfigurationSection {
          * @param concurrent 是否支持并发
          * @return [Configuration]
          */
+        @JvmStatic
+        @JvmOverloads
         fun loadFromFile(file: File, type: Type? = null, concurrent: Boolean = true): Configuration {
             val format = (type ?: getTypeFromFile(file)).newFormat()
             val configFile =
@@ -126,6 +132,8 @@ interface Configuration : ConfigurationSection {
          * @param concurrent 是否支持并发
          * @return [Configuration]
          */
+        @JvmStatic
+        @JvmOverloads
         fun loadFromReader(reader: Reader, type: Type = Type.YAML, concurrent: Boolean = true): Configuration {
             val format = type.newFormat()
             val configFile =
@@ -142,6 +150,8 @@ interface Configuration : ConfigurationSection {
          * @param concurrent 是否支持并发
          * @return [Configuration]
          */
+        @JvmStatic
+        @JvmOverloads
         fun loadFromString(contents: String, type: Type = Type.YAML, concurrent: Boolean = true): Configuration {
             val format = type.newFormat()
             val configFile =
@@ -158,6 +168,8 @@ interface Configuration : ConfigurationSection {
          * @param concurrent 是否支持并发
          * @return [Configuration]
          */
+        @JvmStatic
+        @JvmOverloads
         fun loadFromInputStream(
             inputStream: InputStream,
             type: Type = Type.YAML,
@@ -178,6 +190,8 @@ interface Configuration : ConfigurationSection {
          * @param concurrent 是否支持并发
          * @return [ConfigurationSection]
          */
+        @JvmStatic
+        @JvmOverloads
         fun fromMap(map: Map<*, *>, type: Type = Type.YAML, concurrent: Boolean = true): ConfigurationSection {
             val empty = empty(type, concurrent)
             map.forEach { (k, v) -> empty[k.toString()] = v }
@@ -191,6 +205,8 @@ interface Configuration : ConfigurationSection {
          * @param def 默认类型
          * @return [Type]
          */
+        @JvmStatic
+        @JvmOverloads
         fun getTypeFromFile(file: File, def: Type = Type.YAML): Type {
             return getTypeFromExtension(file.extension, def)
         }
@@ -202,6 +218,8 @@ interface Configuration : ConfigurationSection {
          * @param def 默认类型
          * @return [Type]
          */
+        @JvmStatic
+        @JvmOverloads
         fun getTypeFromExtension(extension: String, def: Type = Type.YAML): Type {
             return when (extension) {
                 "yaml", "yml" -> Type.YAML

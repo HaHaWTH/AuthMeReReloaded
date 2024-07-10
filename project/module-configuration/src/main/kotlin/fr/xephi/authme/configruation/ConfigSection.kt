@@ -3,12 +3,8 @@ package fr.xephi.authme.configruation
 import com.electronwill.nightconfig.core.CommentedConfig
 import com.electronwill.nightconfig.core.Config
 import com.electronwill.nightconfig.core.EnumGetMethod
-import org.tabooproject.reflex.Reflex.Companion.setProperty
-import taboolib.common.util.decodeUnicode
-import taboolib.common5.Coerce
-import taboolib.library.configuration.ConfigurationSection
-import taboolib.module.configuration.util.Commented
-import taboolib.module.configuration.util.CommentedList
+import fr.xephi.authme.util.Coerce
+import fr.xephi.authme.util.StringUtil
 
 /**
  * ConfigSection
@@ -16,7 +12,11 @@ import taboolib.module.configuration.util.CommentedList
  * @author Taboolib
  * @since 2024/7/10 19:33
  */
-open class ConfigSection(var root: Config, override val name: String = "", override val parent: ConfigurationSection? = null) : ConfigurationSection {
+open class ConfigSection(
+    var root: Config,
+    override val name: String = "",
+    override val parent: ConfigurationSection? = null
+) : ConfigurationSection {
 
     private val configType = Type.getType(root.configFormat())
 
@@ -71,9 +71,12 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
             // 因为在 set 方法中 Map 会被转换为 Config 类型
             is Map<*, *> -> {
                 val subConfig = root.createSubConfig()
-                subConfig.setProperty("map", value)
+                val field = subConfig::class.java.getField("map")
+                field.isAccessible = true
+                field.set(subConfig, value)
                 ConfigSection(subConfig, name, parent)
             }
+
             else -> unwrap(value)
         }
     }
@@ -84,15 +87,17 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
             value is List<*> -> root.set<Any>(path, unwrap(value, this))
             value is Collection<*> && value !is List<*> -> set(path, value.toList())
             value is ConfigurationSection -> set(path, value.getConfig())
-            value is Map<*, *> -> set(path, value.toConfig(this))
+            value is Map<*, *> -> set(path, value.asConfig(this))
             value is Commented -> {
                 set(path, value.value)
                 setComment(path, value.comment)
             }
+
             value is CommentedList -> {
                 set(path, value.value)
                 setComments(path, value.comment)
             }
+
             else -> root.set<Any>(path, value)
         }
     }
@@ -111,11 +116,11 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
     }
 
     override fun getInt(path: String): Int {
-        return Coerce.toInteger(get(path))
+        return Coerce.asInteger(get(path)).get()
     }
 
     override fun getInt(path: String, def: Int): Int {
-        return Coerce.toInteger(get(path) ?: def)
+        return Coerce.asInteger(get(path) ?: def).get()
     }
 
     override fun isInt(path: String): Boolean {
@@ -124,11 +129,11 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
     }
 
     override fun getBoolean(path: String): Boolean {
-        return Coerce.toBoolean(get(path))
+        return Coerce.asBoolean(get(path)).get()
     }
 
     override fun getBoolean(path: String, def: Boolean): Boolean {
-        return Coerce.toBoolean(get(path) ?: def)
+        return Coerce.asBoolean(get(path) ?: def).get()
     }
 
     override fun isBoolean(path: String): Boolean {
@@ -136,11 +141,11 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
     }
 
     override fun getDouble(path: String): Double {
-        return Coerce.toDouble(get(path))
+        return Coerce.asDouble(get(path)).get()
     }
 
     override fun getDouble(path: String, def: Double): Double {
-        return Coerce.toDouble(get(path) ?: def)
+        return Coerce.asDouble(get(path) ?: def).get()
     }
 
     override fun isDouble(path: String): Boolean {
@@ -148,11 +153,11 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
     }
 
     override fun getLong(path: String): Long {
-        return Coerce.toLong(get(path))
+        return Coerce.asLong(get(path)).get()
     }
 
     override fun getLong(path: String, def: Long): Long {
-        return Coerce.toLong(get(path) ?: def)
+        return Coerce.asLong(get(path) ?: def).get()
     }
 
     override fun isLong(path: String): Boolean {
@@ -176,35 +181,35 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
     }
 
     override fun getIntegerList(path: String): List<Int> {
-        return getList(path)?.map { Coerce.toInteger(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asInteger(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getBooleanList(path: String): List<Boolean> {
-        return getList(path)?.map { Coerce.toBoolean(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asBoolean(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getDoubleList(path: String): List<Double> {
-        return getList(path)?.map { Coerce.toDouble(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asDouble(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getFloatList(path: String): List<Float> {
-        return getList(path)?.map { Coerce.toFloat(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asFloat(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getLongList(path: String): List<Long> {
-        return getList(path)?.map { Coerce.toLong(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asLong(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getByteList(path: String): List<Byte> {
-        return getList(path)?.map { Coerce.toByte(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asByte(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getCharacterList(path: String): List<Char> {
-        return getList(path)?.map { Coerce.toChar(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asChar(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getShortList(path: String): List<Short> {
-        return getList(path)?.map { Coerce.toShort(it) }?.toList() ?: ArrayList()
+        return getList(path)?.map { Coerce.asShort(it).get() }?.toList() ?: ArrayList()
     }
 
     override fun getMapList(path: String): List<Map<*, *>> {
@@ -289,7 +294,7 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
             return if (this is ConfigSection) root else error("Not supported")
         }
 
-        private fun Map<*, *>.toConfig(parent: ConfigSection): Config {
+        private fun Map<*, *>.asConfig(parent: ConfigSection): Config {
             val section = ConfigSection(parent.root.createSubConfig())
             forEach { (k, v) -> section[k.toString()] = v }
             return section.root
@@ -321,7 +326,7 @@ open class ConfigSection(var root: Config, override val name: String = "", overr
                     value is List<*> -> unwrap(value, parent)
                     value is Collection<*> && value !is List<*> -> value.toList()
                     value is ConfigurationSection -> value.getConfig()
-                    value is Map<*, *> -> value.toConfig(parent)
+                    value is Map<*, *> -> value.asConfig(parent)
                     else -> value
                 }
             }

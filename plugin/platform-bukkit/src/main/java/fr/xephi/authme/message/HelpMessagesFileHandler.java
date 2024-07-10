@@ -1,10 +1,9 @@
 package fr.xephi.authme.message;
 
 import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.configruation.Configuration;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.util.FileUtils;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import javax.inject.Inject;
 import java.io.InputStream;
@@ -19,9 +18,10 @@ public class HelpMessagesFileHandler extends AbstractMessageFileHandler {
 
     private final ConsoleLogger logger = ConsoleLoggerFactory.get(HelpMessagesFileHandler.class);
 
-    private FileConfiguration defaultConfiguration;
+    private Configuration defaultConfiguration;
 
-    @Inject // Trigger injection in the superclass
+    @Inject
+        // Trigger injection in the superclass
     HelpMessagesFileHandler() {
     }
 
@@ -37,7 +37,7 @@ public class HelpMessagesFileHandler extends AbstractMessageFileHandler {
 
         if (message == null) {
             logger.warning("Error getting message with key '" + key + "'. "
-                + "Please update your config file '" + getFilename() + "' or run /authme messages help");
+                    + "Please update your config file '" + getFilename() + "' or run /authme messages help");
             return getDefault(key);
         }
         return message;
@@ -52,12 +52,12 @@ public class HelpMessagesFileHandler extends AbstractMessageFileHandler {
     private String getDefault(String key) {
         if (defaultConfiguration == null) {
             InputStream stream = FileUtils.getResourceFromJar(createFilePath(DEFAULT_LANGUAGE));
-            defaultConfiguration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+            defaultConfiguration = Configuration.loadFromReader(new InputStreamReader(stream));
         }
         String message = defaultConfiguration.getString(key);
         return message == null
-            ? "Error retrieving message '" + key + "'"
-            : message;
+                ? "Error retrieving message '" + key + "'"
+                : message;
     }
 
     @Override

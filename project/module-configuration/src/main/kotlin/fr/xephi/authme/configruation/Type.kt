@@ -1,5 +1,9 @@
 package fr.xephi.authme.configruation
 
+import com.electronwill.nightconfig.core.Config
+import com.electronwill.nightconfig.core.ConfigFormat
+import com.electronwill.nightconfig.yaml.YamlFormat
+
 /**
  * Type
  *
@@ -8,7 +12,7 @@ package fr.xephi.authme.configruation
  */
 enum class Type(private val format: () -> ConfigFormat<out Config>) {
 
-    YAML({ YamlFormat.INSTANCE });
+    YAML({ YamlFormat.defaultInstance() });
 
 //    TOML({ TomlFormat.instance() }),
 //
@@ -25,7 +29,7 @@ enum class Type(private val format: () -> ConfigFormat<out Config>) {
     companion object {
 
         fun getType(format: ConfigFormat<*>): Type {
-            return values().first { it.newFormat().javaClass == format.javaClass }
+            return entries.first { it.newFormat().javaClass == format.javaClass }
         }
     }
 }
