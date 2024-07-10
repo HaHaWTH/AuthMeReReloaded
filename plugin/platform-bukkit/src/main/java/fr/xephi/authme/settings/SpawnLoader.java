@@ -36,7 +36,7 @@ public class SpawnLoader implements Reloadable {
     private final File authMeConfigurationFile;
     private final Settings settings;
     private final PluginHookService pluginHookService;
-    private Configuration authMeConfiguration;
+    private FileConfiguration authMeConfiguration;
     private String[] spawnPriority;
     private Location essentialsSpawn;
     private Location cmiSpawn;

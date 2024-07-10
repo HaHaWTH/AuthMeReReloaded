@@ -32,8 +32,6 @@ subprojects {
         compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT")
         // Jalu Injector
         implementation("ch.jalu:injector:1.0")
-        // String comparison library. Used for dynamic help system.
-        implementation("net.ricecode:string-similarity:1.0.0")
         // MaxMind GEO IP with our modifications to use GSON in replacement of the big Jackson dependency
         // GSON is already included and therefore it reduces the file size in comparison to the original version
         implementation("com.maxmind.db:maxmind-db-gson:2.0.3") {
@@ -43,7 +41,7 @@ subprojects {
         implementation("javatar:javatar:2.5")
         // Java Email Library
         implementation("org.apache.commons:commons-email:1.6-SNAPSHOT")
-        // Log4J Logger (required by the console filter)
+        // Log4J Logger (required by the console filter) TODO Remove
         compileOnly("org.apache.logging.log4j:log4j-core:2.20.0") // Log4J version bundled in 1.12.2
         // Libby
         implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
@@ -77,8 +75,8 @@ subprojects {
         compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
         // Adventure API
         implementation("net.kyori:adventure-text-minimessage:4.17.0")
-        implementation("net.kyori:adventure-platform-bukkit:4.3.2")
         implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
+        implementation("net.kyori:adventure-platform-bukkit:4.3.2")
         // LuckPerms plugin
         compileOnly("net.luckperms:api:5.4")
         // PermissionsEx plugin
@@ -143,7 +141,6 @@ subprojects {
             relocate("org.slf4j", "fr.xephi.authme.libs.org.slf4j")
             relocate("com.maxmind.db", "fr.xephi.authme.libs.com.maxmind.db")
             relocate("com.ice.tar", "fr.xephi.authme.libs.com.icetar.tar")
-            relocate("net.ricecode.similarity", "fr.xephi.authme.libs.ricecode.net.ricecode.similarity")
             relocate("de.rtner", "fr.xephi.authme.libs.de.rtner")
             relocate("org.picketbox", "fr.xephi.authme.libs.org.picketbox")
             relocate("org.jboss.crypto", "fr.xephi.authme.libs.org.jboss.crypto")

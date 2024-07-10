@@ -1,5 +1,10 @@
 [versions]
 guava = "33.2.1-jre"
+adventure = "4.17.0"
+adventure-platform = "4.3.2"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+adventure-text-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
+adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }

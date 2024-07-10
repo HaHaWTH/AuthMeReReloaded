@@ -4,7 +4,7 @@ import com.electronwill.nightconfig.core.CommentedConfig
 import com.electronwill.nightconfig.core.Config
 import com.electronwill.nightconfig.core.EnumGetMethod
 import fr.xephi.authme.util.Coerce
-import fr.xephi.authme.util.StringUtil
+import fr.xephi.authme.util.StringUtils
 
 /**
  * ConfigSection
@@ -87,7 +87,7 @@ open class ConfigSection(
             value is List<*> -> root.set<Any>(path, unwrap(value, this))
             value is Collection<*> && value !is List<*> -> set(path, value.toList())
             value is ConfigurationSection -> set(path, value.getConfig())
-            value is Map<*, *> -> set(path, value.asConfig(this))
+            value is Map<*, *> -> set(path, value.toConfig(this))
             value is Commented -> {
                 set(path, value.value)
                 setComment(path, value.comment)
@@ -294,7 +294,7 @@ open class ConfigSection(
             return if (this is ConfigSection) root else error("Not supported")
         }
 
-        private fun Map<*, *>.asConfig(parent: ConfigSection): Config {
+        private fun Map<*, *>.toConfig(parent: ConfigSection): Config {
             val section = ConfigSection(parent.root.createSubConfig())
             forEach { (k, v) -> section[k.toString()] = v }
             return section.root
@@ -326,7 +326,7 @@ open class ConfigSection(
                     value is List<*> -> unwrap(value, parent)
                     value is Collection<*> && value !is List<*> -> value.toList()
                     value is ConfigurationSection -> value.getConfig()
-                    value is Map<*, *> -> value.asConfig(parent)
+                    value is Map<*, *> -> value.toConfig(parent)
                     else -> value
                 }
             }

@@ -67,7 +67,7 @@ public final class StringUtils {
      * Checks that the given needle is in the middle of the haystack, i.e. that the haystack
      * contains the needle and that it is not at the very start or end.
      *
-     * @param needle the needle to search for
+     * @param needle   the needle to search for
      * @param haystack the haystack to search in
      * @return true if the needle is in the middle of the word, false otherwise
      */
@@ -77,4 +77,18 @@ public final class StringUtils {
         int index = haystack.indexOf(needle);
         return index > 0 && index < haystack.length() - 1;
     }
+
+    /**
+     * 解码 Unicode
+     */
+    public static String decodeUnicode(String str) {
+        String r = str;
+        int i = r.indexOf("\\u");
+        if (i != -1) {
+            r = r.substring(0, i) + (char) Integer.parseInt(r.substring(i + 2, i + 6), 16) + r.substring(i + 6);
+            decodeUnicode(r);
+        }
+        return r;
+    }
+
 }
