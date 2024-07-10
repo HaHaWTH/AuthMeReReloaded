@@ -1,0 +1,173 @@
+# List of global tags:
+# %nl% - Goes to new line.
+# %username% - Replaces the username of the player receiving the message.
+# %displayname% - Replaces the nickname (and colors) of the player receiving the message.
+
+# Registration
+registration:
+    disabled: '&c遊戲內註冊已停用!'
+    name_taken: '&c您已經註冊此用戶名!'
+    register_request: '&3[請先注冊] 請按T , 然後輸入 "/register [你的密碼] [重覆確認你的密碼]" 來注冊。'
+    command_usage: '&c使用方法: 輸入"/register [你的密碼] [重覆確認你的密碼]"'
+    reg_only: '&4只有註冊用戶才能加入服務器！ 請訪問https://example.com註冊！'
+    success: '&2已成功註冊!'
+    kicked_admin_registered: '管理員剛剛註冊了您; 請重新登錄。'
+
+# Password errors on registration
+password:
+    match_error: '&密碼錯誤!'
+    name_in_password: '&c你不能使用你的用戶名作密碼,請 choose another one...'
+    unsafe_password: '&c所選的你的密碼並不安全的，請選擇另一個...'
+    forbidden_characters: '&4您的密碼含有非法字符。允許的字符：%valid_chars'
+    wrong_length: '&c你的密碼太短或太長!請嘗試另一個!'
+    pwned_password: '&c你使用的密碼並不安全。它已經被使用了 %pwned_count 次! 請使用一個更強大的密碼...'
+
+# Login
+login:
+    command_usage: '&b使用方法: 輸入"/login [你的密碼]" 來登入'
+    wrong_password: '&c密碼錯誤!'
+    success: '&2你已成功登入!'
+    login_request: '&c [請先登入] 請按T , 然後輸入 "/login [你的密碼]" 。'
+    timeout_error: '&4超過登錄超時，您已從伺服器中踢出，請重試!'
+
+# Errors
+error:
+    denied_command: '&c你必須得到權限來使用此指令!'
+    denied_chat: '&c你必須得到權限來使用聊天功能!'
+    unregistered_user: '&c此用戶尚未注冊!'
+    not_logged_in: '&c你尚未登入!'
+    no_permission: '&4您沒有執行此操作的權限!'
+    unexpected_error: '&4發生錯誤!請聯繫伺服器管理員!'
+    max_registration: '&c您已超過註冊的最大數量(%reg_count/%max_acc %reg_names)!'
+    logged_in: '&c您已經登錄!'
+    kick_for_vip: '&3一名VIP玩家在服務器已滿時已加入伺服器!'
+    kick_unresolved_hostname: '&c發生了一個錯誤: 無法解析玩家的主機名'
+    tempban_max_logins: '&c由於登錄失敗次數過多，您已被暫時禁止。'
+
+# AntiBot
+antibot:
+    kick_antibot: '伺服器正在啟用AntiBot保護模式！ 您必須等待幾分鐘才能加入服務器。'
+    auto_enabled: '&4[AntiBotService] 伺服器由於連接數量龐大而啟用AntiBot!'
+    auto_disabled: '&2[AntiBotService] AntiBot將在%m分鐘後禁用!'
+
+# Unregister
+unregister:
+    success: '&c帳戶已刪除!'
+    command_usage: '&c使用方法: "/unregister <你的密碼>"'
+
+# Other messages
+misc:
+    account_not_activated: '&c你的帳戶未激活,請確認電郵!'
+    not_activated: '&c賬戶未激活,請註冊激活後再次嘗試.'
+    password_changed: '&2密碼已更變!'
+    logout: '&2已成功註銷!'
+    reload: '&2伺服器已正確地被重新加載配置和數據庫！'
+    usage_change_password: '&c使用方法: "/changepassword [舊密碼] [新密碼]"'
+    accounts_owned_self: '您擁有 %count 個帳戶:'
+    accounts_owned_other: '玩家 %name 擁有 %count 個帳戶:'
+
+# Session messages
+session:
+    valid_session: '&2由於會話重新連接而登錄.'
+    invalid_session: '&c您的IP已更改，並且您的會話數據已過期！'
+
+# Error messages when joining
+on_join_validation:
+    same_ip_online: '一位同一IP的玩家已在遊戲中!'
+    same_nick_online: '&4伺服器上已經在使用相同的用戶名！'
+    name_length: '&4你的暱稱太短或太長!'
+    characters_in_name: '&4您的暱稱含有非法字符。允許的字符：%valid_chars'
+    kick_full_server: '&4服務器已滿,請稍後再試!'
+    country_banned: '&4您的國家/地區已被禁止使用此伺服器!'
+    not_owner_error: '您不是此帳戶的所有者。 請選擇其他名稱!'
+    invalid_name_case: '您應該使用用戶名 %valid 而不是 %invalid 來加入。'
+    quick_command: '&c您發送命令的速度太快了,請重新加入伺服器等待一會後再使用命令'
+
+# Email
+email:
+    add_email_request: '&3請使用命令: /email add [你的電郵地址] [重覆確認你的電郵地址] 將您的電子郵件添加到您的帳戶"'
+    usage_email_add: '&c使用方法: "/email add [電郵地址] [confirmEmail]"'
+    usage_email_change: '&c使用方法: "/email change [舊電郵地址] [新電郵地址]"'
+    new_email_invalid: '&c新電子郵件地址無效，請重試!'
+    old_email_invalid: '&c舊電子郵件地址無效，請重試!'
+    invalid: '&c電子郵件地址無效，請重試!'
+    added: '&2電子郵件地址已成功添加到您的帳戶!'
+    add_not_allowed: '&c伺服器不允許添加電子郵箱'
+    request_confirmation: '&c請確認你的電郵地址!'
+    changed: '&2已正確地更改電子郵件地址!'
+    change_not_allowed: '&c伺服器不允許修改郵箱地址'
+    email_show: '&a該賬戶使用的電子郵箱為: &a%email'
+    no_email_for_account: '&c當前並沒有任何郵箱與該賬戶綁定'
+    already_used: '&4此電子郵件地址已被使用'
+    incomplete_settings: '缺少必要的配置來為發送電子郵件。請聯繫管理員。'
+    send_failure: '&c郵件已被作廢,請檢查您的郵箱是否正常工作.'
+    change_password_expired: '&c您不能使用此命令更改密碼'
+    email_cooldown_error: '&c您需要等待 %time 後才能再次請求發送'
+
+# Password recovery by email
+recovery:
+    forgot_password_hint: '&3忘記密碼了嗎？ 請使用命令: "/email recovery [你的電郵地址]"'
+    command_usage: '&c使用方法: "/email recovery [電郵地址]"'
+    email_sent: '&2帳戶恢復電子郵件已成功發送！ 請檢查您的電子郵件收件箱!'
+    code:
+        code_sent: '已將重設密碼的恢復代碼發送到您的電子郵件。'
+        incorrect: '恢復代碼錯誤!使用指令: "/email recovery [電郵地址]" 生成新的一個恢復代碼。'
+        tries_exceeded: '&a您已經達到輸入驗證碼次數的最大允許次數.'
+        correct: '&a*** 驗證通過 ***'
+        change_password: '&c請使用 /email setpassword <新密碼> 立即設置新的密碼'
+
+# Captcha
+captcha:
+    usage_captcha: '&3T要登錄您必須使用captcha驗證碼,請使用命令: "/captcha %captcha_code"'
+    wrong_captcha: '&c驗證碼錯誤!請按T在聊天中輸入 "/captcha %captcha_code"'
+    valid_captcha: '&2驗證碼正確!'
+    captcha_for_registration: '&7請輸入 /captcha %captcha_code 來驗證操作.'
+    register_captcha_valid: '&a驗證通過, 現在可以使用 /register 註冊啦!'
+
+# Verification code
+verification:
+    code_required: '&a*** 已發送驗證郵件 ***'
+    command_usage: '&c使用方法:/verification <驗證碼>'
+    incorrect_code: '&c錯誤的驗證碼.'
+    success: '&a*** 驗證通過 ***'
+    already_verified: '&a您已經通過驗證'
+    code_expired: '&c驗證碼已失效'
+    email_needed: '&c郵箱未綁定'
+
+# Time units
+time:
+    second: '秒'
+    seconds: '秒'
+    minute: '分'
+    minutes: '分'
+    hour: '時'
+    hours: '時'
+    day: '天'
+    days: '天'
+
+# Two-factor authentication
+two_factor:
+    code_created: '&2您的密碼是 %code。您可以從這裡掃描 %url'
+    confirmation_required: '&7請輸入“/totp confirm <驗證碼>”來確認啟動雙重驗證'
+    code_required: '&c請輸入“/totp code <驗證碼>”來提交驗證碼'
+    already_enabled: '&a雙重驗證已啟用'
+    enable_error_no_code: '&c驗證碼丟失'
+    enable_success: '&a已成功啟用雙重驗證'
+    enable_error_wrong_code: '&c驗證碼錯誤或者已經過期,請重新執行“/totp add”'
+    not_enabled_error: '&c雙重驗證未在您的賬號上啟用,請使用“/totp add”來啟用'
+    removed_success: '&c雙重驗證已從您的賬號上禁用'
+    invalid_code: '&c無效的驗證碼'
+
+# 3rd party features: Bedrock Auto Login
+bedrock_auto_login:
+  success: "&a基岩版自動登錄完成"
+
+# 3rd party features: Login Location Fix
+login_location_fix:
+  fix_portal: '&a你在登錄時卡在了地獄門, 現已修正'
+  fix_underground: '&a你被埋住了, 坐標已修正, 下次下線之前請小心!'
+  cannot_fix_underground: '&a你被埋住了, 坐標無法修正, 只好送你去了最高點, 自求多福吧少年~'
+
+# 3rd party features: Double Login Fix
+double_login_fix:
+  fix_message: '&a已修復幽靈玩家, 請重新進入'

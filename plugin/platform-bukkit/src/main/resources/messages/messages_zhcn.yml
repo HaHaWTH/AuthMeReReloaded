@@ -1,0 +1,181 @@
+# List of global tags:
+# %nl% - Goes to new line.
+# %username% - Replaces the username of the player receiving the message.
+# %displayname% - Replaces the nickname (and colors) of the player receiving the message.
+
+# Registration
+registration:
+    disabled: '&c注册已被禁止'
+    name_taken: '&c此用户已经在此服务器注册过'
+    register_request: '&b请输入“&a/reg <密码> <重复密码>&b”以注册'
+    command_usage: '&c正确用法:“/reg <密码> <重复密码>”'
+    reg_only: '&c只允许注册过的玩家进服!'
+    success: '&a*** 已成功注册 ***'
+    kicked_admin_registered: '&a*** 管理员刚刚注册了您; 请重新登录 ***'
+
+# Password errors on registration
+password:
+    match_error: '&c密码不相同'
+    name_in_password: '&c您不能使用您的名字作为密码。 '
+    unsafe_password: '&c您不能使用安全性过低的密码。 '
+    forbidden_characters: '&4您的密码包含了非法字符.可使用的字符: %valid_chars'
+    wrong_length: '&4您的密码没有达到要求!'
+    pwned_password: '&c你使用的密码并不安全。它已经被使用了 %pwned_count 次! 请使用一个更强大的密码...'
+
+# Login
+login:
+    command_usage: '&c正确用法:“/l <密码>”'
+    wrong_password: '&c*** 密码错误 ***'
+    success: '&a*** 已成功登录 ***'
+    login_request: '&c请输入“/l <密码>”以登录'
+    timeout_error: '给您登录的时间已经过了'
+
+# Errors
+error:
+    denied_command: '&7您需要先通过验证才能使用该命令!'
+    denied_chat: '&7您需要先通过验证才能聊天!'
+    unregistered_user: '&c此用户名还未注册过'
+    not_logged_in: '&c您还未登录!'
+    no_permission: '&c没有权限'
+    unexpected_error: '&4发现错误,请联系管理员'
+    max_registration: '&c该地址已无法注册,请联系管理员进行注册.'
+    logged_in: '&c您已经登陆过了!'
+    kick_for_vip: '&c一个VIP玩家加入了已满的服务器!'
+    kick_unresolved_hostname: '&c发生了一个错误: 无法解析玩家的主机名'
+    tempban_max_logins: '&c由于您登录失败次数过多,已被暂时禁止登录。'
+
+# AntiBot
+antibot:
+    kick_antibot: '连接异常,请稍后加入'
+    auto_enabled: '&c由于发生大量异常连接,本服将禁止连接.'
+    auto_disabled: '&a异常连接减少,本服将在 &a%m &a分钟后自动开放连接.'
+
+# Unregister
+unregister:
+    success: '&a*** 已成功注销 ***'
+    command_usage: '&c正确用法:“/unregister <密码>”'
+
+# Other messages
+misc:
+    account_not_activated: |-
+      &a一封包含密码的邮件已发送至您的收件箱.
+      &a请在十分钟内完成登录,否则将注销此账户.
+    not_activated: '&c账户未激活,请注册激活后再次尝试.'
+    password_changed: '&a*** 密码已修改 ***'
+    logout: '&a*** 已成功登出 ***'
+    reload: '&a配置以及数据已经重新加载完毕'
+    usage_change_password: '&a正确用法:“/changepassword 旧密码 新密码”'
+    accounts_owned_self: '您拥有 %count 个账户:'
+    accounts_owned_other: '玩家 %name 拥有 %count 个账户:'
+
+# Session messages
+session:
+    valid_session: ''
+    invalid_session: '&c*** 请重新登录 ***'
+
+# Error messages when joining
+on_join_validation:
+    same_ip_online: '已有一个同IP玩家在游戏中了!'
+    same_nick_online: '&a同样的用户名现在在线且已经登录了!'
+    name_length: '&c您的用户名太短或者太长了'
+    characters_in_name: '&c您的用户名不符合标准.'
+    kick_full_server: '&c抱歉,服务器已满!'
+    country_banned: |-
+      &6[&b&lAccount Security System&6]
+      &c为保证您的游玩体验,请使用中国境内网络连接.
+      &cTo ensure your play experience,please use the Internet connection within China.
+    not_owner_error: |-
+      &6[&b&lAccount Security System&6]
+      &c请勿尝试登陆系统账户,系统账户受安全系统保护.
+      &c如果您并不知情,请更换您的用户名重新加入该服务器.
+    invalid_name_case: '&c您应该使用 %valid 登录服务器,当前名字: %invalid .'
+    quick_command: '&c您发送命令的速度太快了,请重新加入服务器等待一会后再使用命令'
+
+# Email
+email:
+    add_email_request: ''
+    usage_email_add: '&a用法: /email add <邮箱> <确认邮箱> '
+    usage_email_change: '&a用法: /email change <旧邮箱> <新邮箱> '
+    new_email_invalid: '&c新邮箱无效!'
+    old_email_invalid: '&c旧邮箱无效!'
+    invalid: '&c无效的邮箱'
+    added: '&a*** 邮箱已添加 ***'
+    add_not_allowed: '&c服务器不允许添加电子邮箱'
+    request_confirmation: '&c确认您的邮箱'
+    changed: '&a*** 邮箱已修改 ***'
+    change_not_allowed: '&c服务器不允许修改邮箱地址'
+    email_show: '&a该账户使用的电子邮箱为: &a%email'
+    no_email_for_account: '&c当前并没有任何邮箱与该账号绑定'
+    already_used: '&c邮箱已被使用'
+    incomplete_settings: '&c错误: 必要设置未设定完成,请联系管理员'
+    send_failure: '&c邮件已被作废,请检查您的邮箱是否正常工作.'
+    change_password_expired: '&c您不能使用此命令更改密码'
+    email_cooldown_error: '&c您需要等待 %time 后才能再次请求发送'
+
+# Password recovery by email
+recovery:
+    forgot_password_hint: '&c忘了您的密码？请输入:“/email recovery <您的邮箱>”'
+    command_usage: '&a用法: /email recovery <邮箱>'
+    email_sent: '&a找回密码邮件已发送!'
+    code:
+        code_sent: '&a*** 已发送验证邮件 ***'
+        incorrect: '&a验证码不正确! 使用 /email recovery [邮箱] 以生成新的验证码'
+        tries_exceeded: '&a您已经达到输入验证码次数的最大允许次数.'
+        correct: '&a*** 验证通过 ***'
+        change_password: '&c请使用 /email setpassword <新密码> 立即设置新的密码'
+
+# Captcha
+captcha:
+    usage_captcha: '&7请输入 /captcha %captcha_code 来验证操作.'
+    wrong_captcha: '&c错误的验证码.'
+    valid_captcha: '&a*** 验证通过 ***'
+    captcha_for_registration: '&7请输入 /captcha %captcha_code 来验证操作.'
+    register_captcha_valid: '&a验证通过, 现在可以使用 /register 注册啦!'
+
+# Verification code
+verification:
+    code_required: '&a*** 已发送验证邮件 ***'
+    command_usage: '&c使用方法:/verification <验证码>'
+    incorrect_code: '&c错误的验证码.'
+    success: '&a*** 验证通过 ***'
+    already_verified: '&a您已经通过验证'
+    code_expired: '&c验证码已失效'
+    email_needed: '&c邮箱未绑定'
+
+# Time units
+time:
+    second: '秒'
+    seconds: '秒'
+    minute: '分'
+    minutes: '分'
+    hour: '时'
+    hours: '时'
+    day: '天'
+    days: '天'
+
+# Two-factor authentication
+two_factor:
+  code_created: '&7您正在激活双重验证, 请打开 &a%url &7扫描二维码'
+  confirmation_required: '&7请输入“/totp confirm <验证码>”来确认激活双重验证'
+  code_required: '&c请输入“/totp code <验证码>”来提交验证码'
+  already_enabled: '&a双重验证已启用'
+  enable_error_no_code: '&c验证码丢失'
+  enable_success: '&a已成功启用双重验证'
+  enable_error_wrong_code: '&c验证码错误或者已经过期,请重新执行“/totp add”'
+  not_enabled_error: '&c双重验证未在您的账号上启用,请使用“/totp add”来启用'
+  removed_success: '&c双重验证已从您的账号上禁用'
+  invalid_code: '&c无效的验证码'
+
+# 3rd party features: Bedrock Auto Login
+bedrock_auto_login:
+  success: "&a基岩版自动登录完成"
+
+# 3rd party features: Login Location Fix
+login_location_fix:
+  fix_portal: '&a你在登录时卡在了地狱门, 现已修正'
+  fix_underground: '&a你被埋住了, 坐标已修正, 下次下线之前请小心!'
+  cannot_fix_underground: '&a你被埋住了, 坐标无法修正, 只好送你去了最高点, 自求多福吧少年~'
+
+# 3rd party features: Double Login Fix
+double_login_fix:
+  fix_message: '&a已修复幽灵玩家, 请重新进入'

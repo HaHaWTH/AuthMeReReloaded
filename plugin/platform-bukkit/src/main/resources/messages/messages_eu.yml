@@ -1,0 +1,173 @@
+# List of global tags:
+# %nl% - Goes to new line.
+# %username% - Replaces the username of the player receiving the message.
+# %displayname% - Replaces the nickname (and colors) of the player receiving the message.
+
+# Registration
+registration:
+    disabled: '&cIzen ematea itxita dago!'
+    name_taken: '&cDagoeneko badago erabiltzaile izen hori duen norbait.'
+    register_request: '&cMesedez erabili "/register <pasahitza> <pasahitza>" izena emateko'
+    command_usage: '&cErabilera: /register <pasahitza> <errepikatuPasahitza>'
+    reg_only: '&fIzena eman duten jokalariak bakarrik sartu daitezke! Mesedez, eman izena https://example.com webgunean'
+    success: '&cEskerrik asko izena emateagatik!'
+    kicked_admin_registered: 'Administratzaile batek izena eman dizu, mesedez irten eta sartu zerbitzaritik.'
+
+# Password errors on registration
+password:
+    match_error: '&fBi pasahitzak ez datoz bat'
+    name_in_password: '&cPasahitza eta erabiltzaile izena ezin dira berdinak izan. Mesedez, aukeratu beste pasahitz bat...'
+    unsafe_password: '&cAukeratutako pasahitza ez da segurua.Mesedez, aukeratu beste bat...'
+    forbidden_characters: '&4Pasahitzak ondorengo karaktereak bakarrik izan ditzake: %valid_chars'
+    wrong_length: '&fZure pasahitza motzegia edo luzeegia da'
+    pwned_password: '&cAukeratutako pasahitza ez da segurua. %pwned_count aldiz erabili da dagoeneko! Mesedez, erabili pasahitz sendo bat...'
+
+# Login
+login:
+    command_usage: '&cErabilera: /login pasahitza'
+    wrong_password: '&cPasahitz okerra'
+    success: '&cSaioa hasi duzu!'
+    login_request: '&cMesedez erabili "/login pasahitza" saioa hasteko'
+    timeout_error: '&fDenbora gehiegi egon zara saioa hasi gabe.'
+
+# Errors
+error:
+    denied_command: '&cHori egiteko ezinbestekoa da saioa hastea!'
+    denied_chat: '&cTxatean hitz egiteko ezinbestekoa da saioa hastea!'
+    unregistered_user: '&cErabiltzaileak ez du izena eman!'
+    not_logged_in: '&cEz duzu saioa hasi!'
+    no_permission: '&cEz daukazu baimenik'
+    unexpected_error: '&fUstekabeko errore bat gertatu da. Mesedez jarri harremanetan administratzaile batekin.'
+    max_registration: '&fKonexioko gehienezko erabiltzaile kopurua gainditu duzu (%reg_count/%max_acc %reg_names)'
+    logged_in: '&cDagoeneko saioa hasita duzu!'
+    kick_for_vip: '&cVIP erabiltzaile bati lekua egiteko kanporatua izan zara!'
+    kick_unresolved_hostname: '&cErrore bat geratu da: ezin izan da erabiltzailearen ostalari izena lortu!'
+    tempban_max_logins: '&cDenbora baterako kanporatua izan zara, pasahitza behin baino gehiagotan gaizki sartzeagatik.'
+
+# AntiBot
+antibot:
+    kick_antibot: 'AntiBot babesa aktibatuta dago! Minutu batzuk itxaron beharko dituzu berriro sartu aurretik.'
+    auto_enabled: '&4[AntiBotZerbitzua] AntiBot babesa aktibatu da konexio kopurua handia delako!'
+    auto_disabled: '&2[AntiBotZerbitzua] AntiBot babesa desaktibatu da %m minutuz martxan egon ondoren!'
+
+# Unregister
+unregister:
+    success: '&cZure kontua ezabatu duzu!'
+    command_usage: '&cErabilera: /unregister <pasahitza>'
+
+# Other messages
+misc:
+    account_not_activated: '&fZure kontua aktibatu gabe dago. Mesedez,  berretsi zure posta elektronikoa!'
+    not_activated: '&cKontua ez dago aktibatuta, mesedez erregistratu eta aktibatu berriro saiatu aurretik.'
+    password_changed: '&cPasahitza ondo aldatu duzu!'
+    logout: '&cSaioa itxi duzu'
+    reload: '&fEzarpenak eta datu-basea berrabiarazi dira'
+    usage_change_password: '&fErabilera: /changepassword <pasahitzZaharra> <pasahitzBerria>'
+    accounts_owned_self: '%count kontu dituzu:'
+    accounts_owned_other: '%name erabiltzaileak %count kontu ditu:'
+
+# Session messages
+session:
+    valid_session: '&cSesioa mantendu eta beraz ez daukazu saioa hasi beharrik.'
+    invalid_session: '&cZure IP helbidea aldatu da, eta horregatik zure sesioa iraungi da!'
+
+# Error messages when joining
+on_join_validation:
+    same_ip_online: 'IP helbide bera duen beste erabiltzaile bat dago zerbitzarian!'
+    same_nick_online: '&fErabiltzaile izen bera duen erabailtzaile bat dago zerbitzarian'
+    name_length: '&cZure erabiltzaile izena motzegia edo luzeegia da'
+    characters_in_name: '&cZure erabiltzaileak debekatutako karaktereak ditu. Ondorengoak bakarrik onartzen ditugu: %valid_chars'
+    kick_full_server: '&cZerbitzaria beteta dago. Sentitzen dugu!'
+    country_banned: 'Zure herrialdetik ezin zara zerbitzari honetan sartu'
+    not_owner_error: 'Kontu hau ez da zurea! Erabili beste bat!'
+    invalid_name_case: '%valid erabiltzailea erabili beharko duzu, ez %invalid.'
+    quick_command: 'Komandoa azkarregi exekutatu duzu! Mesdez, sartu zerbitzarian berriro eta itxaron pixka bat ezer idatzi aurretik.'
+
+# Email
+email:
+    add_email_request: '&cMesedez, sartu zure posta elektroniko helbidea : /email add <helbidea> <helbidea>'
+    usage_email_add: '&fErabilera: /email add <helbidea> <berretsiHelbidea> '
+    usage_email_change: '&fErabilera: /email change <helbideZaharra> <helbideBerria> '
+    new_email_invalid: 'Helbide berria okerra da!'
+    old_email_invalid: 'Lehengo helbidea ez dator bat!'
+    invalid: 'Helbide okerra'
+    added: 'Helbidea ondo sartu duzu'
+    add_not_allowed: '&cEzin duzu posta helbiderik sartu'
+    request_confirmation: 'Berretsi zure posta helbidea!'
+    changed: 'Posta helbidea ondo aldatu duzu'
+    change_not_allowed: '&cEzin duzu posta helbidea aldatu'
+    email_show: '&2Zure posta helbidea ondorengoa da: &f%email'
+    no_email_for_account: '&2Ez daukazu posta helbiderik kontu honetara lotuta.'
+    already_used: '&4Posta helbide hori dagoeneko badarabil norbaitek'
+    incomplete_settings: 'Errorea: posta elektronikoak bidaltzeko ezparpen guztiak ez daude konfiguratu. Mesedez, jarri harremanetan administratzaile batekin.'
+    send_failure: 'Ezin izan da mezua bidali. Mesedez, jarri harremanetan administratzaile batekin.'
+    change_password_expired: 'Pasahitza aldatzeko denbora iraungi da.'
+    email_cooldown_error: '&cMezu bat bidali dizugu duela denbora gutxik. %time itxaron behar duzu berriro bidaltzeko eskatu aurretik.'
+
+# Password recovery by email
+recovery:
+    forgot_password_hint: '&cPasahitza ahaztu duzu? Berreskuratzeko erabili /email recovery <helbidea>'
+    command_usage: '&fErabili: /email recovery <helbidea>'
+    email_sent: 'Berreskuratze mezua bidali dizugu. Mesedez begiratu sarrera ontzia!'
+    code:
+        code_sent: 'Pasahitza berreskuratzeko kode bat bidali dizugu zure posta elektronikora.'
+        incorrect: 'Berreskuratze kodea ez da zuzena! %count saiakera dituzu.'
+        tries_exceeded: 'Berreskuratze kodea sartzeko gehienezko saiakera kopurua gainditu duzu. Erabili "/email recovery [helbidea]" berri bat jasotzeko.'
+        correct: 'Kode zuzena!'
+        change_password: 'Mesedez, erabili "/email setpassword <pasahitzBerria> pasahitza aldatzeko.'
+
+# Captcha
+captcha:
+    usage_captcha: '&3Sartzeko captcha asmatu beharko duzu. Mesedez erabaili /captcha %captcha_code'
+    wrong_captcha: '&cCaptacha okerra, mesedez, idatzi "/captcha %captcha_code" txatean!'
+    valid_captcha: '&2Captcha asmatu duzu!'
+    captcha_for_registration: 'Izena emateko captcha asmatu beharko duzu, mesedez erabili ondorengo komandoa: /captcha %captcha_code'
+    register_captcha_valid: '&2Captcha zuzena! Orain izena eman dezakezu /register erabilita'
+
+# Verification code
+verification:
+    code_required: '&3Komando hori babestuta dago, eta horregatik eposta berrespena beharrazkoa da! Begiratu zure sarrera ontzia, eta jarraitu bertan adierazitako pausoak.'
+    command_usage: '&cErabilera: /verification <kodea>'
+    incorrect_code: '&cKode okerra, mesedez idatzi "/verification <kodea>" txatean, postan jaso duzun kodea erabilita'
+    success: '&2Zure identitatea berretsi duzu! Orain komando babestuak erabiltzeko baimena daukazu sesioak irauten duen bitartean!'
+    already_verified: '&2Dagoeneko badaukazu komando babestuak erabiltzeko baimena sesio honek irauten duen bitartean!'
+    code_expired: '&3Kodea iraungi egin da! Exekutatu beste komando babestu bat kode berri bat lortzeko!'
+    email_needed: '&3Zure identitatea berresteko beharrezkoa da zure kontuan posta elektronikoa konfiguratuta izatea!!'
+
+# Time units
+time:
+    second: 'segundu'
+    seconds: 'segundu'
+    minute: 'minutu'
+    minutes: 'minutu'
+    hour: 'ordu'
+    hours: 'ordu'
+    day: 'egun'
+    days: 'egun'
+
+# Two-factor authentication
+two_factor:
+    code_created: '&2Zure kode sekretua %code da. Hemen eskaneatu dezakezu: %url'
+    confirmation_required: 'Mesedez, berretsi kodea ondorengoa erabilita: /2fa confirm <kodea>'
+    code_required: 'Mesedez, bidali zure bi faktoreko autentikazio kodea ondorengoa erabilita: /2fa code <kodea>'
+    already_enabled: 'Dagoeneko badaukazu bi faktoreko autentikazioa aktibatuta!'
+    enable_error_no_code: 'Ez duzu 2fa koderik sortu, edo iraungita dago. Mesedez, erabili /2fa add'
+    enable_success: '2 faktoreko autentikazioa aktibatu duzu'
+    enable_error_wrong_code: 'Kode okerra, edo iraungita dago. Mesedez erabili /2fa add'
+    not_enabled_error: 'Ez duzu 2 faktore autentikazioa konfiguratu. Erabaili /2fa add'
+    removed_success: '2 faktoreko autentikazioa desaktibatu duzu'
+    invalid_code: 'Kode okerra!'
+
+# 3rd party features: Bedrock Auto Login
+bedrock_auto_login:
+  success: '&aBedrock automatikoki saioa hasi da!'
+
+# 3rd party features: Login Location Fix
+login_location_fix:
+  fix_portal: '&aPortal batean trabatuta zaude saioa hasten ari zarela.'
+  fix_underground: '&aLur azpian trabatuta zaude saioa hasten ari zarela.'
+  cannot_fix_underground: '&aLur azpian trabatuta zaude saioa hasten ari zarela, baina ezin dugu konpondu.'
+
+# 3rd party features: Double Login Fix
+double_login_fix:
+  fix_message: '&cSistematik kanporatu zaitugu saio bikoitza egiteagatik.'

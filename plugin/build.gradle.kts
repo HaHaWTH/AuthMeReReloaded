@@ -20,6 +20,8 @@ subprojects {
     }
 
     dependencies {
+        implementation(project(":project:module-util"))
+        implementation(project(":project:module-configuration"))
         // Spigot API, https://www.spigotmc.org/
         compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
         // Java Libraries

@@ -1,0 +1,173 @@
+# List of global tags:
+# %nl% - Goes to new line.
+# %username% - Replaces the username of the player receiving the message.
+# %displayname% - Replaces the nickname (and colors) of the player receiving the message.
+
+# Registration
+registration:
+    disabled: '&cOyun icin kayit olma kapatildi!'
+    name_taken: '&cSenin adinda daha once birisi kaydolmus!'
+    register_request: '&3Lutfen kayit komutunu kullanin "/register <sifre> <TekrarSifre>"'
+    command_usage: '&cKullanim: /register <sifre> <TekrarSifre>'
+    reg_only: '&4Sunucuya kayit sadece internet uzerinden yapilmakta! Lutfen https://ornek.com sitesini kayit icin ziyaret edin!'
+    success: '&2Basariyla kaydoldun!'
+    kicked_admin_registered: 'Bir yetkili seni kayit etti; tekrardan giris yap'
+
+# Password errors on registration
+password:
+    match_error: '&cSifre eslesmiyor, tekrar deneyin!'
+    name_in_password: '&cSifrenize adinizi koyamazsiniz, lutfen farkli bir sifre secin...'
+    unsafe_password: '&cSectiginiz sifre guvenli degil, lutfen farkli bir sifre secin...'
+    forbidden_characters: '&4Sifrenizde izin verilmeyen karakterler bulunmakta. Izin verilen karakterler: %valid_chars'
+    wrong_length: '&cSenin sifren ya cok kisa yada cok uzun! Lutfen farkli birsey dene!'
+    pwned_password: '&cSeçtiğiniz şifre güvenli değil. Zaten %pwned_count kez kullanılmış! Lütfen güçlü bir şifre kullanın...'
+
+# Login
+login:
+    command_usage: '&cKullanim: /login <sifre>'
+    wrong_password: '&cYanlis sifre!'
+    success: '&2Giris basarili!'
+    login_request: '&cLutfen giris komutunu kullanin "/login <sifre>"'
+    timeout_error: '&4Giris izni icin verilen zaman suresini astigin icin sunucudan atildin, tekrar deneyin!'
+
+# Errors
+error:
+    denied_command: '&cSuanda bu komutu kullanamazsin!'
+    denied_chat: '&cSuanda sohbeti kullanamazsin!'
+    unregistered_user: '&cBu oyuncu kayitli degil!'
+    not_logged_in: '&cGiris yapmadin!'
+    no_permission: '&4Bunu yapmak icin iznin yok!'
+    unexpected_error: '&4Beklenmedik bir hata olustu, yetkili ile iletisime gecin!'
+    max_registration: '&cSen maksimum kayit sinirini astin (%reg_count/%max_acc %reg_names)!'
+    logged_in: '&cZaten giris yaptin!'
+    kick_for_vip: '&3Bir VIP oyuna giris yaptigi icin atildin!'
+    kick_unresolved_hostname: '&cBir hata olustu: cozumlenemeyen oyuncu bilgisayar adi!'
+    tempban_max_logins: '&cBir cok kez yanlis giris yaptiginiz icin gecici olarak banlandiniz.'
+
+# AntiBot
+antibot:
+    kick_antibot: 'AntiBot koruma modu aktif! Birkac dakika sonra tekrar girmeyi deneyin.'
+    auto_enabled: '&4[AntiBotServis] Saldiri oldugu icin AntiBot aktif edildi!'
+    auto_disabled: '&2[AntiBotServis] AntiBot, %m dakika sonra deaktif edilecek!'
+
+# Unregister
+unregister:
+    success: '&cKayit basariyla kaldirildi!'
+    command_usage: '&cKullanim: /unregister <sifre>'
+
+# Other messages
+misc:
+    account_not_activated: '&cHeabiniz henuz aktif edilmemis, e-postanizi kontrol edin!'
+    not_activated: '&cHesap aktif değil, lütfen tekrar denemeden önce kaydolun ve aktif hale getirin.'
+    password_changed: '&2Sifre basariyla degistirildi!'
+    logout: '&2Basariyla cikis yaptin!'
+    reload: '&2Ayarlar ve veritabani yenilendi!'
+    usage_change_password: '&cKullanim: /changepassword <eskiSifre> <yeniSifre>'
+    accounts_owned_self: 'Sen %count hesaba sahipsin:'
+    accounts_owned_other: 'Oyuncu %name %count hesaba sahip:'
+
+# Session messages
+session:
+    valid_session: '&2Oturuma girisiniz otomatikmen yapilmistir.'
+    invalid_session: '&cIP adresin degistirildi ve oturum suren doldu!'
+
+# Error messages when joining
+on_join_validation:
+    same_ip_online: 'Oyunda sizin ipnizden giren biri bulunmakta!'
+    same_nick_online: '&4Senin isminde bir oyuncu suncuda bulunmakta!'
+    name_length: '&4Senin ismin ya cok kisa yada cok uzun!'
+    characters_in_name: '&4Senin isminde uygunsuz karakterler bulunmakta. Izin verilen karakterler: %valid_chars'
+    kick_full_server: '&4Sunucu suanda dolu, daha sonra tekrar deneyin!'
+    country_banned: '&4Senin bolgen sunucudan yasaklandi!'
+    not_owner_error: 'Bu hesabin sahibi degilsin. Lutfen farkli bir isim sec!'
+    invalid_name_case: 'Oyuna %valid isminde katilmalisin. %invalid ismini kullanarak katilamazsin.'
+    quick_command: 'Bu komutu cok hizli kullandin! Lutfen, sunucuya tekrar gir ve herhangi bir komut kullanmadan once biraz bekle.'
+
+# Email
+email:
+    add_email_request: '&3Lutfen hesabinize eposta adresinizi komut ile ekleyin "/email add <eposta> <tekrarEposta>"'
+    usage_email_add: '&cKullanim: /email add <eposta> <tekrarEposta>'
+    usage_email_change: '&cKullanim: /email change <eskiEposta> <yeniEposta>'
+    new_email_invalid: '&cGecersiz yeni eposta, tekrar deneyin!'
+    old_email_invalid: '&cGecersiz eski eposta, tekrar deneyin!'
+    invalid: '&cGecersiz eposta, tekrar deneyin!'
+    added: '&2Eposta basariyla kullaniciniza eklendi!'
+    add_not_allowed: '&cE-posta eklenmesine izin verilmedi!'
+    request_confirmation: '&cLutfen tekrar epostanizi giriniz!'
+    changed: '&2Epostaniz basariyla degistirildi!'
+    change_not_allowed: '&cEposta degistirilmesine izin verilmedi!'
+    email_show: '&2Suanki eposta adresin: &f%email'
+    no_email_for_account: '&2Bu hesapla iliskili bir eposta bulunmuyor.'
+    already_used: '&4Eposta adresi zaten kullaniliyor.'
+    incomplete_settings: 'Hata: Gonderilen epostada bazi ayarlar tamamlanmis degil. Yetkili ile iletisime gec.'
+    send_failure: 'Eposta gonderilemedi. Yetkili ile iletisime gec.'
+    change_password_expired: 'Artik bu komutu kullanarak sifrenizi degistiremezsiniz.'
+    email_cooldown_error: '&cKisa bir sure once eposta gonderildi. Yeni bir eposta almak icin %time beklemelisin.'
+
+# Password recovery by email
+recovery:
+    forgot_password_hint: '&3Sifreni mi unuttun ? Komut kullanarak ogrenebilirsin "/email recovery <eposta>"'
+    command_usage: '&cKullanim: /email recovery <Eposta>'
+    email_sent: '&2Sifreniz epostaniza gonderildi! Lutfen eposta kutunuzu kontrol edin!'
+    code:
+        code_sent: 'Sifre sifirlama kodu eposta adresinize gonderildi.'
+        incorrect: 'Kod dogru degil! Kullanim "/email recovery [eposta]" ile yeni bir kod olustur'
+        tries_exceeded: 'Kurtarma kodu icin girilen maksimum sayisi astiniz. "/email recovery [email]" komutunu kullanarak yeni bir tane olusturabilirsiniz.'
+        correct: 'Kurtarma kodu dogru sekilde girildi!'
+        change_password: 'Lutfen sifrenizi degistirmek icin /email setpassword <yeni sifre> komutunu kullanin.'
+
+# Captcha
+captcha:
+    usage_captcha: '&3Giris yapmak icin guvenlik kodunu komut yazarak girin "/captcha %captcha_code"'
+    wrong_captcha: '&cYanlis guvenlik kodu, kullanim sekli "/captcha %captcha_code" sohbete yazin!'
+    valid_captcha: '&2Guvenlik kodu dogrulandi!'
+    captcha_for_registration: 'Kayit olmak icin once bir captcha cozmeniz gerekiyor, lutfen bu komutu kullan: /captcha %captcha_code'
+    register_captcha_valid: '&2Gecerli captcha! /register ile kayit olabilirsiniz'
+
+# Verification code
+verification:
+    code_required: '&3Bu komut hassas ve eposta dogrulamasi gerektiriyor! Gelen kutunuzu kontrol edin ve epostalarin talimatlarina uyun.'
+    command_usage: '&Kullanim: /verification <code>'
+    incorrect_code: '&cYanlis kod, lutfen email ile aldiginiz kodu kullanarak, chate "/verification <kod>" yazin'
+    success: '&2Kimliginiz dogrulandi! Simdi mevcut oturumdaki butun komutlari calistirabilirsiniz!'
+    already_verified: '&2Mevcut oturumda her hassas komutu zaten calistirabilirsiniz!'
+    code_expired: '&3Kodunuzun suresi doldu! Diger hassas komutlari calistirmak icin yeni bir kod alin!'
+    email_needed: '&3Kimliginizi dogrulamak icin hesabiniza bir email adresi baglamis olmaniz gerekir!!'
+
+# Time units
+time:
+    second: 'saniye'
+    seconds: 'saniye'
+    minute: 'dakika'
+    minutes: 'dakika'
+    hour: 'saat'
+    hours: 'saat'
+    day: 'gun'
+    days: 'gun'
+
+# Two-factor authentication
+two_factor:
+    code_created: '&2Gizli kodunuz %code. Buradan test edebilirsin, %url'
+    confirmation_required: 'Lutfen kodunuzu /2fa confirm <kod> komutu ile dogrulayin'
+    code_required: 'Lutfen iki-faktorlu dogrulama kodunuzu /2fa code <kod> komutu ile gonderin'
+    already_enabled: 'Iki-faktorlu dogrulama zaten hesabinizda aktif durumda!'
+    enable_error_no_code: 'Sizin icin 2fa anahtari olusturulmamis ya da suresi dolmus. Lutfen /2fa add komutunu calistirin'
+    enable_success: 'Iki-faktorlu kimlik dogrulama hesabiniz icin basariyla aktif edildi'
+    enable_error_wrong_code: 'Yanlis kod veya kodun suresi dolmus. Lutfen /2fa add komutunu calistirin'
+    not_enabled_error: 'Iki-faktorlu kimlik dogrulama kodu hesabiniz icin aktif edilmemis. /2fa add komutunu calistirin'
+    removed_success: 'Iki-faktorlu dogrulama hesabinizdan basariyla kaldirilmistir'
+    invalid_code: 'Gecersiz kod!'
+
+# 3rd party features: Bedrock Auto Login
+bedrock_auto_login:
+  success: '&aBedrock otomatik giriş başarılı!'
+
+# 3rd party features: Login Location Fix
+login_location_fix:
+  fix_portal: '&aGiriş sırasında portalda sıkıştınız.'
+  fix_underground: '&aGiriş sırasında yeraltında sıkıştınız.'
+  cannot_fix_underground: '&aGiriş sırasında yeraltında sıkıştınız, ancak bunu düzeltemiyoruz.'
+
+# 3rd party features: Double Login Fix
+double_login_fix:
+  fix_message: '&cÇifte giriş nedeniyle bağlantınız kesildi.'

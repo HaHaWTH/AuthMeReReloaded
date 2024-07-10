@@ -1,0 +1,176 @@
+# Traduction par: André & Twonox
+
+# Pour afficher une apostrophe, vous devez en mettre deux consécutivement (ex: «J''ai» au lieu de «J'ai»)
+# Liste des tags globaux:
+# %nl% - Permet de passer à la ligne.
+# %username% - Affiche le pseudo du joueur recevant le message.
+# %displayname% - Affiche le pseudo, avec couleurs, du joueur recevant le message.
+
+# Enregistrement
+registration:
+    disabled: '&cL''inscription est désactivée.'
+    name_taken: '&cUtilisateur déjà inscrit.'
+    register_request: '&cPour vous inscrire, utilisez "/register <MotDePasse> <ConfirmerMotDePasse>"'
+    command_usage: '&cUsage: /register <MotDePasse> <ConfirmerMotDePasse>'
+    reg_only: 'Seul les joueurs enregistrés sont admis!%nl%Veuillez vous rendre sur https://www.example.com pour plus d''infos.'
+    success: '&aInscription effectuée !'
+    kicked_admin_registered: 'Un admin vient de vous inscrire, veuillez vous reconnecter.'
+
+# Erreur de mot de passe lors de l'enregistrement
+password:
+    match_error: '&cLe mot de passe de confirmation ne correspond pas.'
+    name_in_password: '&cVous ne pouvez pas utiliser votre pseudo comme mot de passe.'
+    unsafe_password: '&cCe mot de passe n''est pas accepté, choisissez-en un autre.'
+    forbidden_characters: '&cVotre mot de passe contient des caractères non autorisés. Caractères permis : %valid_chars'
+    wrong_length: '&cVotre mot de passe est trop court ou trop long !'
+    pwned_password: '&cLe mot de passe choisi n''est pas sécurisé. Il a déjà été utilisé %pwned_count fois ! Veuillez utiliser un mot de passe fort...'
+
+# Identification
+login:
+    command_usage: '&cUsage: /login <MotDePasse>'
+    wrong_password: '&cMauvais mot de passe !'
+    success: '&aIdentification effectuée !'
+    login_request: '&cPour vous identifier, utilisez "/login <MotDePasse>"'
+    timeout_error: 'Vous avez été expulsé car vous êtes trop lent pour vous enregistrer/identifier !'
+
+# Erreurs
+error:
+    denied_command: '&cVous devez être connecté pour pouvoir utiliser cette commande.'
+    denied_chat: '&cVous devez être connecté pour pouvoir écrire dans le chat.'
+    unregistered_user: '&cUtilisateur non-inscrit.'
+    not_logged_in: '&cUtilisateur non connecté !'
+    no_permission: '&cVous n''êtes pas autorisé à utiliser cette commande.'
+    unexpected_error: '&cUne erreur est apparue, veuillez contacter un administrateur.'
+    max_registration: 'Vous avez atteint la limite d''inscription !%nl%&cVous avez %reg_count sur %max_acc : %reg_names'
+    logged_in: '&aVous êtes déjà connecté.'
+    kick_for_vip: 'Un joueur VIP a rejoint le serveur à votre place (serveur plein).'
+    kick_unresolved_hostname: '&cUne erreur est apparue : nom d''hôte non identifié !'
+    tempban_max_logins: '&cVous êtes temporairement banni suite à plusieurs échecs de connexions !'
+
+# AntiBot
+antibot:
+    kick_antibot: 'L''AntiBot est activé, veuillez attendre %m minutes avant de joindre le serveur.'
+    auto_enabled: 'L''AntiBot a été activé automatiquement à cause de nombreuses connexions !'
+    auto_disabled: 'L''AntiBot a été désactivé automatiquement après %m minutes, espérons que l''invasion se soit arrêtée !'
+
+# Dé-enregistrement
+unregister:
+    success: '&aCompte supprimé !'
+    command_usage: '&cPour supprimer votre compte, utilisez "/unregister <MotDePasse>"'
+
+# Autres messages
+misc:
+    account_not_activated: '&fCe compte n''est pas actif, consultez vos mails !'
+    not_activated: '&cCompte non activé, veuillez vous inscrire et l''activer avant de réessayer.'
+    password_changed: '&aMot de passe changé avec succès !'
+    logout: '&cVous avez été déconnecté !'
+    reload: '&aAuthMe a été relancé avec succès.'
+    usage_change_password: '&cPour changer de mot de passe, utilisez "/changepassword <AncienMotDePasse> <NouveauMotDePasse>"'
+    accounts_owned_self: 'Vous avez %count comptes:'
+    accounts_owned_other: 'Le joueur %name a %count comptes:'
+
+# Session
+session:
+    valid_session: '&aVous avez été automatiquement connecté !'
+    invalid_session: 'Session expirée suite à un changement d''IP.'
+
+# Erreurs lors d'une tentative connexion
+on_join_validation:
+    same_ip_online: 'Un joueur avec la même adresse IP joue déjà !'
+    same_nick_online: 'Un joueur ayant le même pseudo est déjà connecté.'
+    name_length: 'Votre pseudo est trop long ou trop court.'
+    characters_in_name: 'Caractères de pseudo autorisés: %valid_chars'
+    kick_full_server: '&cLe serveur est actuellement plein, désolé !'
+    country_banned: 'Votre pays est banni de ce serveur.'
+    not_owner_error: 'Vous n''êtes pas le propriétaire de ce compte. Veuillez utiliser un autre pseudo !'
+    invalid_name_case: 'Veuillez vous connecter avec "%valid" et non pas avec "%invalid".'
+    quick_command: '&cUtilisation trop rapide de commande! Veuillez vous reconnecter et attendre un peu avant d''exécuter une commande.'
+
+# Email
+email:
+    add_email_request: '&cLiez votre email à votre compte en faisant "/email add <Email> <ConfirmerEmail>"'
+    usage_email_add: '&fUsage: /email add <Email> <ConfirmerEmail> '
+    usage_email_change: '&fUsage: /email change <AncienEmail> <NouvelEmail> '
+    new_email_invalid: '&cNouvel email invalide !'
+    old_email_invalid: '&cAncien email invalide !'
+    invalid: '&cL''email inscrit est invalide !'
+    added: '&aEmail enregistré. En cas de perte de MDP, faites "/email recover <Email>"'
+    add_not_allowed: '&cVous n''êtes pas autorisé à ajouter une adresse mail.'
+    request_confirmation: '&cLa confirmation de l''email est manquante ou éronnée.'
+    changed: '&aVotre email a été mis à jour.'
+    change_not_allowed: '&cVous n''êtes pas autorisé à modifier l''adresse mail.'
+    email_show: '&fL''email enregistré pour votre compte est: %email'
+    no_email_for_account: '&c&oVous n''avez aucun email enregistré sur votre compte.'
+    already_used: '&cCet email est déjà utilisé !'
+    incomplete_settings: '&cErreur : Tous les paramètres requis ne sont pas présent pour l''envoi de mail, veuillez contacter un admin.'
+    send_failure: '&cLe mail n''a pas pu être envoyé. Veuillez contacter un admin.'
+    change_password_expired: 'Vous ne pouvez pas changer votre mot de passe avec cette commande.'
+    email_cooldown_error: '&cUn mail de récupération a déjà été envoyé récemment. Veuillez attendre %time pour le demander de nouveau.'
+
+# Récupération de mot de passe par mail
+recovery:
+    forgot_password_hint: '&cVous avez oublié votre Mot de Passe? Utilisez "/email recovery <votreEmail>"'
+    command_usage: '&fUsage: /email recovery <Email>'
+    email_sent: '&aMail de récupération envoyé !'
+    code:
+        code_sent: 'Un code de récupération a été envoyé à votre email afin de réinitialiser votre mot de passe.'
+        incorrect: '&cLe code de réinitialisation est incorrect! Il vous reste %count% essai(s).'
+        tries_exceeded: 'Vous avez atteint le nombre maximum d''essais pour rentrer le code.%nl%Refaites "/email recovery <email>" pour en régénérer à nouveau.'
+        correct: '&aCode de réinitialisation correct !'
+        change_password: 'Veuillez faire "/email setpassword <NouveauMotDePasse>" pour changer votre mot de passe directement.'
+
+# Captcha
+captcha:
+    usage_captcha: '&cTrop de tentatives de connexion ont échoué, faites: /captcha %captcha_code'
+    wrong_captcha: '&cCaptcha incorrect, écrivez de nouveau: /captcha %captcha_code'
+    valid_captcha: '&aCaptcha validé! Vous pouvez maintenant réessayer de vous connecter.'
+    captcha_for_registration: 'Avant de vous inscrire, veuillez rentrer un captcha en faisant "/captcha %captcha_code"'
+    register_captcha_valid: '&aCaptcha validé! Vous pouvez maintenant vous inscrire.'
+
+# Code de vérification
+verification:
+    code_required: '&cCette commande est sensible, elle nécessite donc une confirmation par email.%nl%&cVeuillez suivre les instructions qui viennent de vous être envoyées par email.'
+    command_usage: '&cUsage: /verification <code>'
+    incorrect_code: '&cCode incorrect !%nl%&cVeuillez taper "/verification <code>" dans le chat en utilisant le code reçu par mail.'
+    success: '&aVotre identité a bien été vérifiée !%nl%&aVous pouvez désormais utiliser la commande souhaitée durant toute la session.'
+    already_verified: '&aVous êtes déjà autorisé à utiliser les commandes sensibles durant votre session actuelle.'
+    code_expired: '&cVotre code d''identification a expiré !%nl%&cVeuillez re-exécuter une commande sensible pour recevoir un nouveau code.'
+    email_needed: '&cAfin de vérifier votre identité, vous devez avoir un email lié à votre compte.%nl%&cPour cela, faites "/email add <Email> <ConfirmerEmail>"'
+
+# Unités de temps
+time:
+    second: 'seconde'
+    seconds: 'secondes'
+    minute: 'minute'
+    minutes: 'minutes'
+    hour: 'heure'
+    hours: 'heures'
+    day: 'jour'
+    days: 'jours'
+
+# Identification à deux facteurs
+two_factor:
+    code_created: '&aVotre code secret est &2%code&a. Vous pouvez le scanner depuis &2%url'
+    confirmation_required: 'Veuillez confirmer votre code secret en écrivant "/2fa confirm <Code>"'
+    code_required: 'Veuillez indiquer votre code secret en écrivant "/2fa code <Code>"'
+    already_enabled: '&aL''authentification à double facteur est déjà active !'
+    enable_error_no_code: '&cAucun code secret n''a été généré ou bien celui-ci a expiré. Veuillez écrire "/2fa add"'
+    enable_success: '&aL''authentification à double facteur a été activé pour votre compte !'
+    enable_error_wrong_code: '&cLe code secret est faux ou bien celui-ci a expiré. Veuillez écrire "/2fa add"'
+    not_enabled_error: '&cL''authentification à double facteur n''est pas active sur votre compte. Faites "/2fa add" pour l''activer.'
+    removed_success: '&cL''authentification à double facteur a été désactivé pour votre compte !'
+    invalid_code: '&cCode secret invalide !'
+
+# 3rd party features: Bedrock Auto Login
+bedrock_auto_login:
+  success: '&aConnexion automatique Bedrock réussie !'
+
+# 3rd party features: Login Location Fix
+login_location_fix:
+  fix_portal: '&aVous êtes bloqué dans un portail lors de la connexion.'
+  fix_underground: '&aVous êtes bloqué sous terre lors de la connexion.'
+  cannot_fix_underground: '&aVous êtes bloqué sous terre lors de la connexion, mais nous ne pouvons pas le corriger.'
+
+# 3rd party features: Double Login Fix
+double_login_fix:
+  fix_message: '&cVous avez été déconnecté en raison d''une double connexion.'
