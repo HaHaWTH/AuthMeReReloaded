@@ -1,7 +1,1 @@
-subprojects {
-
-    tasks {
-        build { dependsOn(shadowJar) }
-    }
-
-}
+subprojects {}

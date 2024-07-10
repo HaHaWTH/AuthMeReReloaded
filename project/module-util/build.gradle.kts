@@ -6,6 +6,6 @@ dependencies {
 
 tasks {
     shadowJar {
-        relocate("net.ricecode.similarity", "fr.xephi.authme.libs.ricecode.net.ricecode.similarity")
+        relocate("net.ricecode.similarity", "${project.group}.libs.net.ricecode.similarity")
     }
 }

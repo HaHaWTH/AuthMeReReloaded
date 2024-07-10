@@ -21,11 +21,11 @@ subprojects {
 
     dependencies {
         // Modules
-        implementation(project(":project:module-common"))
-        implementation(project(":project:module-util"))
-        implementation(project(":project:module-logger"))
-        implementation(project(":project:module-configuration"))
-        implementation(project(":project:module-message"))
+        implementation(project(":project:module-common", "shadow"))
+        implementation(project(":project:module-util", "shadow"))
+        implementation(project(":project:module-logger", "shadow"))
+        implementation(project(":project:module-configuration", "shadow"))
+        implementation(project(":project:module-message", "shadow"))
         // Adventure API
         implementation("net.kyori:adventure-text-minimessage:4.17.0")
         implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
@@ -103,6 +103,7 @@ subprojects {
     }
 
     tasks {
+        if (!project.name.startsWith("platform")) return@tasks
         build { dependsOn(shadowJar) }
         // ShadowJar Config
         shadowJar {
@@ -113,46 +114,45 @@ subprojects {
             // Kotlin
             relocate("kotlin.", "kolin200.")
             // Adventure
-            relocate("net.kyori.adventure", "fr.xephi.authme.libs.net.kyori.adventure")
-            relocate("net.kyori.examination", "fr.xephi.authme.libs.net.kyori.examination")
-            relocate("net.kyori.option", "fr.xephi.authme.libs.net.kyori.option")
+            relocate("net.kyori.adventure", "${project.group}.libs.net.kyori.adventure")
+            relocate("net.kyori.examination", "${project.group}.libs.net.kyori.examination")
+            relocate("net.kyori.option", "${project.group}.libs.net.kyori.option")
             // Others
-            relocate("org.apache.http", "fr.xephi.authme.libs.org.apache.http")
-            relocate("org.apache.commons", "fr.xephi.authme.libs.org.apache.commons")
-            relocate("waffle", "fr.xephi.authme.libs.waffle")
-            relocate("com.github.benmanes.caffeine", "fr.xephi.authme.libs.com.github.benmanes.caffeine")
-            relocate("com.google.common", "fr.xephi.authme.libs.com.google.common")
-            relocate("com.google.thirdparty", "fr.xephi.authme.libs.com.google.thirdparty")
-            relocate("com.google.j2objc", "fr.xephi.authme.libs.com.google.j2objc")
-            relocate("com.google.errorprone", "fr.xephi.authme.libs.com.google.errorprone")
-            relocate("com.google.gson", "fr.xephi.authme.libs.com.google.gson")
-            relocate("org.apache.http", "fr.xephi.authme.libs.org.apache.http")
-            relocate("org.apache.commons", "fr.xephi.authme.libs.org.apache.commons")
-            relocate("waffle", "fr.xephi.authme.libs.waffle")
-            relocate("com.github.benmanes.caffeine", "fr.xephi.authme.libs.com.github.benmanes.caffeine")
-            relocate("ch.jalu", "fr.xephi.authme.libs.ch.jalu")
-            relocate("com.zaxxer.hikari", "fr.xephi.authme.libs.com.zaxxer.hikari")
-            relocate("org.slf4j", "fr.xephi.authme.libs.org.slf4j")
-            relocate("com.maxmind.db", "fr.xephi.authme.libs.com.maxmind.db")
-            relocate("com.ice.tar", "fr.xephi.authme.libs.com.icetar.tar")
-            relocate("de.rtner", "fr.xephi.authme.libs.de.rtner")
-            relocate("org.picketbox", "fr.xephi.authme.libs.org.picketbox")
-            relocate("org.jboss.crypto", "fr.xephi.authme.libs.org.jboss.crypto")
-            relocate("org.jboss.security", "fr.xephi.authme.libs.org.jboss.security")
-            relocate("de.mkammerer", "fr.xephi.authme.libs.de.mkammerer")
-            relocate("com.warrenstrange", "fr.xephi.authme.libs.com.warrenstrange")
-            relocate("javax.inject", "fr.xephi.authme.libs.javax.inject")
-            relocate("at.favre.lib", "fr.xephi.authme.libs.at.favre.lib")
-            relocate("org.postgresql", "fr.xephi.authme.libs.org.postgresql")
+            relocate("org.apache.http", "${project.group}.libs.org.apache.http")
+            relocate("org.apache.commons", "${project.group}.libs.org.apache.commons")
+            relocate("waffle", "${project.group}.libs.waffle")
+            relocate("com.github.benmanes.caffeine", "${project.group}.libs.com.github.benmanes.caffeine")
+            relocate("com.google.common", "${project.group}.libs.com.google.common")
+            relocate("com.google.thirdparty", "${project.group}.libs.com.google.thirdparty")
+            relocate("com.google.j2objc", "${project.group}.libs.com.google.j2objc")
+            relocate("com.google.errorprone", "${project.group}.libs.com.google.errorprone")
+            relocate("com.google.gson", "${project.group}.libs.com.google.gson")
+            relocate("org.apache.http", "${project.group}.libs.org.apache.http")
+            relocate("org.apache.commons", "${project.group}.libs.org.apache.commons")
+            relocate("com.github.benmanes.caffeine", "${project.group}.libs.com.github.benmanes.caffeine")
+            relocate("ch.jalu", "${project.group}.libs.ch.jalu")
+            relocate("com.zaxxer.hikari", "${project.group}.libs.com.zaxxer.hikari")
+            relocate("org.slf4j", "${project.group}.libs.org.slf4j")
+            relocate("com.maxmind.db", "${project.group}.libs.com.maxmind.db")
+            relocate("com.ice.tar", "${project.group}.libs.com.icetar.tar")
+            relocate("de.rtner", "${project.group}.libs.de.rtner")
+            relocate("org.picketbox", "${project.group}.libs.org.picketbox")
+            relocate("org.jboss.crypto", "${project.group}.libs.org.jboss.crypto")
+            relocate("org.jboss.security", "${project.group}.libs.org.jboss.security")
+            relocate("de.mkammerer", "${project.group}.libs.de.mkammerer")
+            relocate("com.warrenstrange", "${project.group}.libs.com.warrenstrange")
+            relocate("javax.inject", "${project.group}.libs.javax.inject")
+            relocate("at.favre.lib", "${project.group}.libs.at.favre.lib")
+            relocate("org.postgresql", "${project.group}.libs.org.postgresql")
             // bStats metrics class
-            relocate("org.bstats", "fr.xephi.authme.libs.org.bstats")
-            relocate("org.mariadb.jdbc", "fr.xephi.authme.libs.org.mariadb.jdbc")
-            relocate("com.github.Anon8281.universalScheduler", "fr.xephi.authme.libs.com.github.Anon8281.universalScheduler")
-            relocate("com.mysql", "fr.xephi.authme.libs.com.mysql")
-            relocate("com.google.protobuf", "fr.xephi.authme.libs.com.google.protobuf")
-            relocate("io.netty", "fr.xephi.authme.libs.io.netty")
-            relocate("org.apache.commons.validator", "fr.xephi.authme.libs.org.apache.commons.validator")
-            relocate("com.alessiodp.libby", "fr.xephi.authme.libs.com.alessiodp.libby")
+            relocate("org.bstats", "${project.group}.libs.org.bstats")
+            relocate("org.mariadb.jdbc", "${project.group}.libs.org.mariadb.jdbc")
+            relocate("com.github.Anon8281.universalScheduler", "${project.group}.libs.com.github.Anon8281.universalScheduler")
+            relocate("com.mysql", "${project.group}.libs.com.mysql")
+            relocate("com.google.protobuf", "${project.group}.libs.com.google.protobuf")
+            relocate("io.netty", "${project.group}.libs.io.netty")
+            relocate("org.apache.commons.validator", "${project.group}.libs.org.apache.commons.validator")
+            relocate("com.alessiodp.libby", "${project.group}.libs.com.alessiodp.libby")
         }
     }
 
