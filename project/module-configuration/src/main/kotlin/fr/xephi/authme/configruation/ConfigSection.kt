@@ -314,7 +314,7 @@ open class ConfigSection(
                     is Config -> unwrap(v.valueMap())
                     is Collection<*> -> v.map { unwrap(it) }.toList()
                     is Map<*, *> -> v.map { it.key to unwrap(it.value) }.toMap()
-                    is String -> StringUtil.decodeUnicode(v)
+                    is String -> StringUtils.decodeUnicode(v)
                     else -> v
                 }
             }

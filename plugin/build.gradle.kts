@@ -26,6 +26,9 @@ subprojects {
         implementation(project(":project:module-logger"))
         implementation(project(":project:module-configuration"))
         implementation(project(":project:module-message"))
+        // Adventure API
+        implementation("net.kyori:adventure-text-minimessage:4.17.0")
+        implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
         // Spigot API, https://www.spigotmc.org/
         compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
         // Java Libraries
@@ -73,10 +76,6 @@ subprojects {
         implementation("org.bstats:bstats-bukkit:3.0.2")
         // ProtocolLib
         compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
-        // Adventure API
-        implementation("net.kyori:adventure-text-minimessage:4.17.0")
-        implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
-        implementation("net.kyori:adventure-platform-bukkit:4.3.2")
         // LuckPerms plugin
         compileOnly("net.luckperms:api:5.4")
         // PermissionsEx plugin
@@ -122,6 +121,10 @@ subprojects {
             destinationDirectory.set(file("$rootDir/outs"))
             // Kotlin
             relocate("kotlin.", "kolin200.")
+            // Adventure
+            relocate("net.kyori.adventure", "fr.xephi.authme.libs.net.kyori.adventure")
+            relocate("net.kyori.examination", "fr.xephi.authme.libs.net.kyori.examination")
+            relocate("net.kyori.option", "fr.xephi.authme.libs.net.kyori.option")
             // Others
             relocate("org.apache.http", "fr.xephi.authme.libs.org.apache.http")
             relocate("org.apache.commons", "fr.xephi.authme.libs.org.apache.commons")
@@ -153,18 +156,12 @@ subprojects {
             // bStats metrics class
             relocate("org.bstats", "fr.xephi.authme.libs.org.bstats")
             relocate("org.mariadb.jdbc", "fr.xephi.authme.libs.org.mariadb.jdbc")
-            relocate(
-                "com.github.Anon8281.universalScheduler",
-                "fr.xephi.authme.libs.com.github.Anon8281.universalScheduler"
-            )
+            relocate("com.github.Anon8281.universalScheduler", "fr.xephi.authme.libs.com.github.Anon8281.universalScheduler")
             relocate("com.mysql", "fr.xephi.authme.libs.com.mysql")
             relocate("com.google.protobuf", "fr.xephi.authme.libs.com.google.protobuf")
             relocate("io.netty", "fr.xephi.authme.libs.io.netty")
             relocate("org.apache.commons.validator", "fr.xephi.authme.libs.org.apache.commons.validator")
             relocate("com.alessiodp.libby", "fr.xephi.authme.libs.com.alessiodp.libby")
-            relocate("net.kyori.adventure", "fr.xephi.authme.libs.net.kyori.adventure")
-            relocate("net.kyori.examination", "fr.xephi.authme.libs.net.kyori.examination")
-            relocate("net.kyori.option", "fr.xephi.authme.libs.net.kyori.option")
         }
     }
 
