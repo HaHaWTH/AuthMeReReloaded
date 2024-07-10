@@ -72,14 +72,6 @@ subprojects {
         implementation("ch.jalu:configme:1.3.1") {
             exclude("org.yaml", "snakeyaml")
         }
-        // bStats metrics
-        implementation("org.bstats:bstats-bukkit:3.0.2")
-        // ProtocolLib
-        compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
-        // LuckPerms plugin
-        compileOnly("net.luckperms:api:5.4")
-        // PermissionsEx plugin
-        compileOnly("ru.tehkode:PermissionsEx:1.23.5-SNAPSHOT")
         // Dependencies used by HAProxy feature
 //    implementation("io.netty:netty-codec-haproxy:4.1.104.Final")
 //    compileOnly("commons-validator:commons-validator:1.8.0")
@@ -117,7 +109,6 @@ subprojects {
             // Options
             archiveAppendix.set("")
             archiveClassifier.set("")
-            archiveBaseName.set("AuthMe")
             destinationDirectory.set(file("$rootDir/outs"))
             // Kotlin
             relocate("kotlin.", "kolin200.")
