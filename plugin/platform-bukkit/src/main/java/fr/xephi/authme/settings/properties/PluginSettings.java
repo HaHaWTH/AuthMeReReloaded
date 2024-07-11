@@ -73,9 +73,6 @@ public final class PluginSettings implements SettingsHolder {
     public static final Property<Boolean> FORCE_VAULT_HOOK =
             newProperty("settings.forceVaultHook", false);
 
-    @Comment("The name of the server, used in some placeholders.")
-    public static final Property<String> SERVER_NAME = newProperty("settings.serverName", "Your Minecraft Server");
-
     private PluginSettings() {
     }
 
