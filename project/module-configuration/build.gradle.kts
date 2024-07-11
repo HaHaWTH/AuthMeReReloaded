@@ -5,9 +5,9 @@
 
 dependencies {
     compileOnly(project(":project:module-util"))
-    implementation("org.yaml:snakeyaml:2.2")
-    implementation("com.electronwill.night-config:core:3.6.7")
-    implementation("com.electronwill.night-config:yaml:3.6.7") {
+    api("org.yaml:snakeyaml:2.2")
+    api("com.electronwill.night-config:core:3.6.7")
+    api("com.electronwill.night-config:yaml:3.6.7") {
         exclude("org.yaml", "snakeyaml")
     }
 }

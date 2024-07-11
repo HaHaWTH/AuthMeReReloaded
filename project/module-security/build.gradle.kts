@@ -6,11 +6,11 @@ dependencies {
     compileOnly(libs.configme)
     compileOnly(libs.jalu.injector)
     // PBKDF2 implementation
-    implementation("de.rtner:PBKDF2:1.1.4")
+    api("de.rtner:PBKDF2:1.1.4")
     // BCrypt implementation
-    implementation("at.favre.lib:bcrypt:0.10.2")
+    api("at.favre.lib:bcrypt:0.10.2")
     // Argon2 implementation
-    implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
+    api("de.mkammerer:argon2-jvm-nolibs:2.11")
 }
 
 tasks.shadowJar {

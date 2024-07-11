@@ -7,10 +7,10 @@ dependencies {
     compileOnly(libs.configme)
     compileOnly(libs.jalu.injector)
     // Database Connection Pool
-    implementation("com.zaxxer:HikariCP:4.0.3" /* Latest java 8 release */) {
+    api("com.zaxxer:HikariCP:4.0.3" /* Latest java 8 release */) {
         exclude("org.slf4j", "slf4j-api")
     }
-    implementation("ch.jalu:datasourcecolumns:0.1.2")
+    api("ch.jalu:datasourcecolumns:0.1.2")
 }
 
 tasks.shadowJar {

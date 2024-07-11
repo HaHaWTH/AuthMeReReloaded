@@ -1,7 +1,7 @@
 dependencies {
     compileOnly(libs.guava)
     // String comparison library. Used for dynamic help system.
-    implementation("net.ricecode:string-similarity:1.0.0")
+    api("net.ricecode:string-similarity:1.0.0")
 }
 
 tasks.shadowJar {
