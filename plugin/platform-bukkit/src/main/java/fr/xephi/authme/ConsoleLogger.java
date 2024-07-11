@@ -27,12 +27,15 @@ import java.util.logging.Logger;
 public final class ConsoleLogger {
 
     private static final String NEW_LINE = System.lineSeparator();
-    /** Formatter which formats dates to something like "[08-16 21:18:46]" for any given LocalDateTime. */
+
+    /**
+     * Formatter which formats dates to something like "[08-16 21:18:46]" for any given LocalDateTime.
+     */
     private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder()
-        .appendLiteral('[')
-        .appendPattern("MM-dd HH:mm:ss")
-        .appendLiteral(']')
-        .toFormatter();
+            .appendLiteral('[')
+            .appendPattern("MM-dd HH:mm:ss")
+            .appendLiteral(']')
+            .toFormatter();
 
     // Outside references
     private static File logFile;
@@ -168,7 +171,7 @@ public final class ConsoleLogger {
      * Log the DEBUG message.
      *
      * @param message the message
-     * @param param1 parameter to replace in the message
+     * @param param1  parameter to replace in the message
      */
     // Avoids array creation if DEBUG level is disabled
     public void debug(String message, Object param1) {
@@ -181,8 +184,8 @@ public final class ConsoleLogger {
      * Log the DEBUG message.
      *
      * @param message the message
-     * @param param1 first param to replace in message
-     * @param param2 second param to replace in message
+     * @param param1  first param to replace in message
+     * @param param2  second param to replace in message
      */
     // Avoids array creation if DEBUG level is disabled
     public void debug(String message, Object param1, Object param2) {
@@ -195,7 +198,7 @@ public final class ConsoleLogger {
      * Log the DEBUG message.
      *
      * @param message the message
-     * @param params the params to replace in the message
+     * @param params  the params to replace in the message
      */
     public void debug(String message, Object... params) {
         if (logLevel.includes(LogLevel.DEBUG)) {

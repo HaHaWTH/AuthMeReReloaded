@@ -38,8 +38,8 @@ public class SendMailSsl {
      * @return true if the necessary email settings are set, false otherwise
      */
     public boolean hasAllInformation() {
-        return !settings.getProperty(MAIL_ACCOUNT).isEmpty()
-            && !settings.getProperty(MAIL_PASSWORD).isEmpty();
+        return !settings.getProperty(EmailSettings.MAIL_ACCOUNT).isEmpty()
+            && !settings.getProperty(EmailSettings.MAIL_PASSWORD).isEmpty();
     }
 
     /**

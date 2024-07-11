@@ -15,9 +15,9 @@ final class LogFilterHelper {
 
     @VisibleForTesting
     static final List<String> COMMANDS_TO_SKIP = withAndWithoutAuthMePrefix(
-        "/login ", "/l ", "/log ", "/register ", "/reg ", "/unregister ", "/unreg ",
-        "/changepassword ", "/cp ", "/changepass ", "/authme register ",  "/authme reg ", "/authme r ",
-        "/authme changepassword ", "/authme password ", "/authme changepass ", "/authme cp ", "/email setpassword ");
+            "/login ", "/l ", "/log ", "/register ", "/reg ", "/unregister ", "/unreg ",
+            "/changepassword ", "/cp ", "/changepass ", "/authme register ", "/authme reg ", "/authme r ",
+            "/authme changepassword ", "/authme password ", "/authme changepass ", "/authme cp ", "/email setpassword ");
 
     private static final String ISSUED_COMMAND_TEXT = "issued server command:";
 
@@ -29,7 +29,6 @@ final class LogFilterHelper {
      * Validate a message and return whether the message contains a sensitive AuthMe command.
      *
      * @param message The message to verify
-     *
      * @return True if it is a sensitive AuthMe command, false otherwise
      */
     static boolean isSensitiveAuthMeCommand(String message) {

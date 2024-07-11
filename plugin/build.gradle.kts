@@ -21,14 +21,16 @@ subprojects {
 
     dependencies {
         // Modules
-        implementation(project(":project:module-common", "shadow"))
-        implementation(project(":project:module-util", "shadow"))
-        implementation(project(":project:module-logger", "shadow"))
         implementation(project(":project:module-configuration", "shadow"))
+        implementation(project(":project:module-logger", "shadow"))
+        implementation(project(":project:module-util", "shadow"))
+        implementation(project(":project:module-common", "shadow"))
         implementation(project(":project:module-message", "shadow"))
+        implementation(project(":project:module-database", "shadow"))
+        implementation(project(":project:module-mail", "shadow"))
         // Adventure API
-        implementation("net.kyori:adventure-text-minimessage:4.17.0")
-        implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
+        implementation(rootProject.libs.adventure.text.minimessage)
+        implementation(rootProject.libs.adventure.text.serializer.gson)
         // Spigot API, https://www.spigotmc.org/
         compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
         // Java Libraries
@@ -42,8 +44,6 @@ subprojects {
         }
         // Library for tar archives
         implementation("javatar:javatar:2.5")
-        // Java Email Library
-        implementation("org.apache.commons:commons-email:1.6-SNAPSHOT")
         // Log4J Logger (required by the console filter) TODO Remove
         compileOnly("org.apache.logging.log4j:log4j-core:2.20.0") // Log4J version bundled in 1.12.2
         // Libby

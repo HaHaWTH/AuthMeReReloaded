@@ -40,7 +40,7 @@ public class EmailService {
         return sendMailSsl.hasAllInformation();
     }
 
-    public boolean sendNewPasswordMail(String name, String mailAddress, String newPass,String ip,String time) {
+    public boolean sendNewPasswordMail(String name, String mailAddress, String newPass, String ip, String time) {
         HtmlEmail email;
         try {
             email = sendMailSsl.initializeMail(mailAddress);
@@ -49,7 +49,7 @@ public class EmailService {
             return false;
         }
 
-        String mailText = replaceTagsForPasswordMail(settings.getNewPasswordEmailMessage(), name, newPass,ip,time);
+        String mailText = replaceTagsForPasswordMail(settings.getNewPasswordEmailMessage(), name, newPass, ip, time);
         File file = null;
         if (settings.getProperty(EmailSettings.PASSWORD_AS_IMAGE)) {
             try {
@@ -57,7 +57,7 @@ public class EmailService {
                 mailText = embedImageIntoEmailContent(file, email, mailText);
             } catch (IOException | EmailException e) {
                 logger.logException(
-                    "Unable to send new password as image for email " + mailAddress + ":", e);
+                        "Unable to send new password as image for email " + mailAddress + ":", e);
             }
         }
 
@@ -69,9 +69,9 @@ public class EmailService {
     /**
      * Sends an email to the user with his new password.
      *
-     * @param name the name of the player
+     * @param name        the name of the player
      * @param mailAddress the player's email
-     * @param newPass the new password
+     * @param newPass     the new password
      * @return true if email could be sent, false otherwise
      */
     public boolean sendPasswordMail(String name, String mailAddress, String newPass, String time) {
@@ -88,7 +88,7 @@ public class EmailService {
             return false;
         }
 
-        String mailText = replaceTagsForPasswordMail(settings.getPasswordEmailMessage(), name, newPass,time);
+        String mailText = replaceTagsForPasswordMail(settings.getPasswordEmailMessage(), name, newPass, time);
         // Generate an image?
         File file = null;
         if (settings.getProperty(EmailSettings.PASSWORD_AS_IMAGE)) {
@@ -97,7 +97,7 @@ public class EmailService {
                 mailText = embedImageIntoEmailContent(file, email, mailText);
             } catch (IOException | EmailException e) {
                 logger.logException(
-                    "Unable to send new password as image for email " + mailAddress + ":", e);
+                        "Unable to send new password as image for email " + mailAddress + ":", e);
             }
         }
 
@@ -105,6 +105,7 @@ public class EmailService {
         FileUtils.delete(file);
         return couldSendEmail;
     }
+
     /**
      * Sends an email to the user with the temporary verification code.
      *
@@ -127,16 +128,16 @@ public class EmailService {
         }
 
         String mailText = replaceTagsForVerificationEmail(settings.getVerificationEmailMessage(), name, code,
-            settings.getProperty(SecuritySettings.VERIFICATION_CODE_EXPIRATION_MINUTES),time);
+                settings.getProperty(SecuritySettings.VERIFICATION_CODE_EXPIRATION_MINUTES), time);
         sendMailSsl.sendEmail(mailText, email);
     }
 
     /**
      * Sends an email to the user with a recovery code for the password recovery process.
      *
-     * @param name the name of the player
+     * @param name  the name of the player
      * @param email the player's email address
-     * @param code the recovery code
+     * @param code  the recovery code
      * @return true if email could be sent, false otherwise
      */
     public boolean sendRecoveryCode(String name, String email, String code, String time) {
@@ -149,7 +150,7 @@ public class EmailService {
         }
 
         String message = replaceTagsForRecoveryCodeMail(settings.getRecoveryCodeEmailMessage(),
-            name, code, settings.getProperty(SecuritySettings.RECOVERY_CODE_HOURS_VALID),time);
+                name, code, settings.getProperty(SecuritySettings.RECOVERY_CODE_HOURS_VALID), time);
         return sendMailSsl.sendEmail(message, htmlEmail);
     }
 
@@ -174,50 +175,51 @@ public class EmailService {
     }
 
     private static String embedImageIntoEmailContent(File image, HtmlEmail email, String content)
-        throws EmailException {
+            throws EmailException {
         DataSource source = new FileDataSource(image);
         String tag = email.embed(source, image.getName());
         return content.replace("<image />", "<img src=\"cid:" + tag + "\">");
     }
 
-    private String replaceTagsForPasswordMail(String mailText, String name, String newPass,String ip,String time) {
+    private String replaceTagsForPasswordMail(String mailText, String name, String newPass, String ip, String time) {
         return mailText
-            .replace("<playername />", name)
-            .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
-            .replace("<generatedpass />", newPass)
-            .replace("<playerip />", ip)
-            .replace("<time />", time);
+                .replace("<playername />", name)
+                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<generatedpass />", newPass)
+                .replace("<playerip />", ip)
+                .replace("<time />", time);
     }
 
     private String replaceTagsForPasswordMail(String mailText, String name, String newPass, String time) {
         return mailText
-            .replace("<playername />", name)
-            .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
-            .replace("<generatedpass />", newPass)
-            .replace("<time />", time);
+                .replace("<playername />", name)
+                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<generatedpass />", newPass)
+                .replace("<time />", time);
     }
 
     private String replaceTagsForVerificationEmail(String mailText, String name, String code, int minutesValid, String time) {
         return mailText
-            .replace("<playername />", name)
-            .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
-            .replace("<generatedcode />", code)
-            .replace("<minutesvalid />", String.valueOf(minutesValid))
-            .replace("<time />", time);
+                .replace("<playername />", name)
+                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<generatedcode />", code)
+                .replace("<minutesvalid />", String.valueOf(minutesValid))
+                .replace("<time />", time);
     }
 
     private String replaceTagsForRecoveryCodeMail(String mailText, String name, String code, int hoursValid, String time) {
         return mailText
-            .replace("<playername />", name)
-            .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
-            .replace("<recoverycode />", code)
-            .replace("<hoursvalid />", String.valueOf(hoursValid))
-            .replace("<time />", time);
+                .replace("<playername />", name)
+                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<recoverycode />", code)
+                .replace("<hoursvalid />", String.valueOf(hoursValid))
+                .replace("<time />", time);
     }
+
     private String replaceTagsForShutDownMail(String mailText, String time) {
         return mailText
-            .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
-            .replace("<time />", time);
+                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<time />", time);
     }
 
 }

@@ -1,7 +1,6 @@
 package fr.xephi.authme.util;
 
 import com.google.common.io.Files;
-import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 
@@ -19,7 +18,7 @@ import static java.lang.String.format;
 public final class FileUtils {
 
     private static final DateTimeFormatter CURRENT_DATE_STRING_FORMATTER =
-        DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
+            DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
 
     private static ConsoleLogger logger = ConsoleLoggerFactory.get(FileUtils.class);
 
@@ -32,7 +31,6 @@ public final class FileUtils {
      *
      * @param destinationFile The file to check and copy to (outside of JAR)
      * @param resourcePath    Local path to the resource file (path to file within JAR)
-     *
      * @return False if the file does not exist and could not be copied, true otherwise
      */
     public static boolean copyFileFromResource(File destinationFile, String resourcePath) {
@@ -46,14 +44,14 @@ public final class FileUtils {
         try (InputStream is = getResourceFromJar(resourcePath)) {
             if (is == null) {
                 logger.warning(format("Cannot copy resource '%s' to file '%s': cannot load resource",
-                    resourcePath, destinationFile.getPath()));
+                        resourcePath, destinationFile.getPath()));
             } else {
                 java.nio.file.Files.copy(is, destinationFile.toPath());
                 return true;
             }
         } catch (IOException e) {
             logger.logException(format("Cannot copy resource '%s' to file '%s':",
-                resourcePath, destinationFile.getPath()), e);
+                    resourcePath, destinationFile.getPath()), e);
         }
         return false;
     }
@@ -78,10 +76,18 @@ public final class FileUtils {
      * @param path the local path (starting from resources project, e.g. "config.yml" for 'resources/config.yml')
      * @return the stream if the file exists, or false otherwise
      */
-    public static InputStream getResourceFromJar(String path) {
+    public static InputStream getResourceFromJar(String path, ClassLoader classLoader) {
         // ClassLoader#getResourceAsStream does not deal with the '\' path separator: replace to '/'
         final String normalizedPath = path.replace("\\", "/");
-        return AuthMe.class.getClassLoader().getResourceAsStream(normalizedPath);
+        return classLoader.getResourceAsStream(normalizedPath);
+    }
+
+    /**
+     * Returns a JAR file as stream. Returns null if it doesn't exist.
+     * And it will find resources in the classLoader of FileUtils
+     */
+    public static InputStream getResourceFromJar(String path) {
+        return getResourceFromJar(path, FileUtils.class.getClassLoader());
     }
 
     /**
@@ -140,7 +146,6 @@ public final class FileUtils {
      * Construct a file path from the given elements, i.e. separate the given elements by the file separator.
      *
      * @param elements The elements to create a path with
-     *
      * @return The created path
      */
     public static String makePath(String... elements) {
@@ -166,8 +171,9 @@ public final class FileUtils {
      */
     public static String createBackupFilePath(File file) {
         String filename = "backup_" + Files.getNameWithoutExtension(file.getName())
-            + "_" + createCurrentTimeString()
-            + "." + Files.getFileExtension(file.getName());
+                + "_" + createCurrentTimeString()
+                + "." + Files.getFileExtension(file.getName());
         return makePath(file.getParent(), filename);
     }
+
 }

@@ -12,11 +12,9 @@ dependencies {
     }
 }
 
-tasks {
-    shadowJar {
-        // NightConfig
-        relocate("com.electronwill.nightconfig", "com.electronwill.nightconfig_3_6_7")
-        // Snakeyaml
-        relocate("org.yaml.snakeyaml", "org.yaml.snakeyaml_2_2")
-    }
+tasks.shadowJar {
+    // NightConfig
+    relocate("com.electronwill.nightconfig", "com.electronwill.nightconfig_3_6_7")
+    // Snakeyaml
+    relocate("org.yaml.snakeyaml", "org.yaml.snakeyaml_2_2")
 }
