@@ -9,7 +9,6 @@ import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.HooksSettings;
-import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import fr.xephi.authme.settings.properties.SecuritySettings;
 
@@ -24,7 +23,7 @@ import java.util.Optional;
  * see {@link SettingsMigrationService}.
  */
 public class SettingsWarner {
-    
+
     private final ConsoleLogger logger = ConsoleLoggerFactory.get(SettingsWarner.class);
 
     @Inject
@@ -50,37 +49,37 @@ public class SettingsWarner {
 
         // Use TLS property only affects port 25
         if (!settings.getProperty(EmailSettings.PORT25_USE_TLS)
-            && settings.getProperty(EmailSettings.SMTP_PORT) != 25) {
+                && settings.getProperty(EmailSettings.SMTP_PORT) != 25) {
             logger.warning("Note: You have set Email.useTls to false but this only affects mail over port 25");
         }
 
         // Output hint if sessions are enabled that the timeout must be positive
         if (settings.getProperty(CommonSettings.SESSIONS_ENABLED)
-            && settings.getProperty(CommonSettings.SESSIONS_TIMEOUT) <= 0) {
+                && settings.getProperty(CommonSettings.SESSIONS_TIMEOUT) <= 0) {
             logger.warning("Warning: Session timeout needs to be positive in order to work!");
         }
 
         // Warn if spigot.yml has settings.bungeecord set to true but config.yml has Hooks.bungeecord set to false
         if (isTrue(bukkitService.isBungeeCordConfiguredForSpigot())
-            && !settings.getProperty(HooksSettings.BUNGEECORD) && !settings.getProperty(HooksSettings.VELOCITY)) {
+                && !settings.getProperty(HooksSettings.BUNGEECORD) && !settings.getProperty(HooksSettings.VELOCITY)) {
             logger.warning("Note: Hooks.bungeecord is set to false but your server appears to be running in"
-                + " bungeecord mode (see your spigot.yml). In order to allow the datasource caching and the"
-                + " AuthMeBungee add-on to work properly you have to enable this option!");
+                    + " bungeecord mode (see your spigot.yml). In order to allow the datasource caching and the"
+                    + " AuthMeBungee add-on to work properly you have to enable this option!");
         }
 
         if (!isTrue(bukkitService.isBungeeCordConfiguredForSpigot())
-            && settings.getProperty(HooksSettings.BUNGEECORD)) {
+                && settings.getProperty(HooksSettings.BUNGEECORD)) {
             logger.warning("Note: Hooks.bungeecord is set to true but your server appears to be running in"
-                + " non-bungeecord mode (see your spigot.yml). In order to prevent untrusted payload attack, "
-                + "BungeeCord hook will be automatically disabled!");
+                    + " non-bungeecord mode (see your spigot.yml). In order to prevent untrusted payload attack, "
+                    + "BungeeCord hook will be automatically disabled!");
         }
 
 
         // Check if argon2 library is present and can be loaded
         if (settings.getProperty(SecuritySettings.PASSWORD_HASH).equals(HashAlgorithm.ARGON2)
-            && !Argon2.isLibraryLoaded()) {
+                && !Argon2.isLibraryLoaded()) {
             logger.warning("WARNING!!! You use Argon2 Hash Algorithm method but we can't find the Argon2 "
-                + "library on your system! See https://github.com/AuthMe/AuthMeReloaded/wiki/Argon2-as-Password-Hash");
+                    + "library on your system! See https://github.com/AuthMe/AuthMeReloaded/wiki/Argon2-as-Password-Hash");
             authMe.stopOrUnload();
         }
     }

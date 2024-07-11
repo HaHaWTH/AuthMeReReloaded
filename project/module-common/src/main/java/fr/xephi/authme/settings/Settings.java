@@ -78,11 +78,12 @@ public class Settings extends SettingsManagerImpl {
     }
 
     private void loadSettingsFromFiles() {
-        newPasswordEmailMessage = readFile("new_email.html");
-        passwordEmailMessage = readFile("email.html");
-        verificationEmailMessage = readFile("verification_code_email.html");
-        recoveryCodeEmailMessage = readFile("recovery_code_email.html");
-        shutdownEmailMessage = readFile("shutdown.html");
+        File emailFolder = new File(pluginFolder, "email-formats");
+        newPasswordEmailMessage = readFile(emailFolder, "new_email.html");
+        passwordEmailMessage = readFile(emailFolder, "email.html");
+        verificationEmailMessage = readFile(emailFolder, "verification_code_email.html");
+        recoveryCodeEmailMessage = readFile(emailFolder, "recovery_code_email.html");
+        shutdownEmailMessage = readFile(emailFolder, "shutdown_email.html");
         String country = readFile("GeoLite2-Country.mmdb");
     }
 
@@ -98,8 +99,8 @@ public class Settings extends SettingsManagerImpl {
      * @param filename the file to read
      * @return the file's contents
      */
-    private String readFile(String filename) {
-        final File file = new File(pluginFolder, filename);
+    private String readFile(File folder, String filename) {
+        final File file = new File(folder, filename);
         if (FileUtils.copyFileFromResource(file, filename)) {
             try {
                 return Files.asCharSource(file, StandardCharsets.UTF_8).read();
@@ -110,6 +111,10 @@ public class Settings extends SettingsManagerImpl {
             logger.warning("Failed to copy file '" + filename + "' from JAR");
         }
         return "";
+    }
+
+    private String readFile(String filename) {
+        return readFile(pluginFolder, filename);
     }
 
 }

@@ -5,29 +5,31 @@ import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.properties.Property;
 import fr.xephi.authme.datasource.DataSourceType;
 
+import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
+
 public final class DatabaseSettings implements SettingsHolder {
 
     @Comment({"What type of database do you want to use?",
             "Valid values: H2, SQLITE, MARIADB, MYSQL, POSTGRESQL"})
     public static final Property<DataSourceType> BACKEND =
-            PropertyInitializer.newProperty(DataSourceType.class, "DataSource.backend", DataSourceType.SQLITE);
+            newProperty(DataSourceType.class, "DataSource.backend", DataSourceType.SQLITE);
 
     @Comment({"Enable the database caching system, should be disabled on bungeecord environments",
             "or when a website integration is being used."})
     public static final Property<Boolean> USE_CACHING =
-            PropertyInitializer.newProperty("DataSource.caching", true);
+            newProperty("DataSource.caching", true);
 
     @Comment("Should we try to use VirtualThreads(Java 21+) for database cache loader?")
     public static final Property<Boolean> USE_VIRTUAL_THREADS =
-            PropertyInitializer.newProperty("DataSource.useVirtualThreadsCache", false);
+            newProperty("DataSource.useVirtualThreadsCache", false);
 
     @Comment("Database host address")
     public static final Property<String> MYSQL_HOST =
-            PropertyInitializer.newProperty("DataSource.mySQLHost", "127.0.0.1");
+            newProperty("DataSource.mySQLHost", "127.0.0.1");
 
     @Comment("Database port")
     public static final Property<String> MYSQL_PORT =
-            PropertyInitializer.newProperty("DataSource.mySQLPort", "3306");
+            newProperty("DataSource.mySQLPort", "3306");
 
     @Comment({"Replacement of Mysql's useSsl (for MariaDB only).",
             "- disable: No SSL",
@@ -36,133 +38,133 @@ public final class DatabaseSettings implements SettingsHolder {
             "- verify_full: Encryption, certificate validation and hostname validation",
             "Read more: https://bit.ly/mariadb-sslmode"})
     public static final Property<String> MARIADB_SSL_MODE =
-            PropertyInitializer.newProperty("DataSource.MariaDbSslMode", "disabled");
+            newProperty("DataSource.MariaDbSslMode", "disabled");
 
     @Comment({"Connect to MySQL database over SSL",
             "If you're using MariaDB, use sslMode instead"})
     public static final Property<Boolean> MYSQL_USE_SSL =
-            PropertyInitializer.newProperty("DataSource.mySQLUseSSL", true);
+            newProperty("DataSource.mySQLUseSSL", true);
 
     @Comment({"Verification of server's certificate.",
             "We would not recommend to set this option to false.",
             "Set this option to false at your own risk if and only if you know what you're doing"})
     public static final Property<Boolean> MYSQL_CHECK_SERVER_CERTIFICATE =
-            PropertyInitializer.newProperty("DataSource.mySQLCheckServerCertificate", true);
+            newProperty("DataSource.mySQLCheckServerCertificate", true);
 
     @Comment({"Authorize client to retrieve RSA server public key.",
             "Advanced option, ignore if you don't know what it means.",
             "If you are using MariaDB, use MariaDbSslMode instead."})
     public static final Property<Boolean> MYSQL_ALLOW_PUBLIC_KEY_RETRIEVAL =
-            PropertyInitializer.newProperty("DataSource.mySQLAllowPublicKeyRetrieval", true);
+            newProperty("DataSource.mySQLAllowPublicKeyRetrieval", true);
 
     @Comment("Username to connect to the MySQL database")
     public static final Property<String> MYSQL_USERNAME =
-            PropertyInitializer.newProperty("DataSource.mySQLUsername", "authme");
+            newProperty("DataSource.mySQLUsername", "authme");
 
     @Comment("Password to connect to the MySQL database")
     public static final Property<String> MYSQL_PASSWORD =
-            PropertyInitializer.newProperty("DataSource.mySQLPassword", "12345");
+            newProperty("DataSource.mySQLPassword", "12345");
 
     @Comment("Database Name, use with converters or as SQLITE database name")
     public static final Property<String> MYSQL_DATABASE =
-            PropertyInitializer.newProperty("DataSource.mySQLDatabase", "authme");
+            newProperty("DataSource.mySQLDatabase", "authme");
 
     @Comment("Table of the database")
     public static final Property<String> MYSQL_TABLE =
-            PropertyInitializer.newProperty("DataSource.mySQLTablename", "authme");
+            newProperty("DataSource.mySQLTablename", "authme");
 
     @Comment("Column of IDs to sort data")
     public static final Property<String> MYSQL_COL_ID =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnId", "id");
+            newProperty("DataSource.mySQLColumnId", "id");
 
     @Comment("Column for storing or checking players nickname")
     public static final Property<String> MYSQL_COL_NAME =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnName", "username");
+            newProperty("DataSource.mySQLColumnName", "username");
 
     @Comment("Column for storing or checking players RealName")
     public static final Property<String> MYSQL_COL_REALNAME =
-            PropertyInitializer.newProperty("DataSource.mySQLRealName", "realname");
+            newProperty("DataSource.mySQLRealName", "realname");
 
     @Comment("Column for storing players passwords")
     public static final Property<String> MYSQL_COL_PASSWORD =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnPassword", "password");
+            newProperty("DataSource.mySQLColumnPassword", "password");
 
     @Comment("Column for storing players passwords salts")
     public static final Property<String> MYSQL_COL_SALT =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnSalt", "");
+            newProperty("DataSource.mySQLColumnSalt", "");
 
     @Comment("Column for storing players emails")
     public static final Property<String> MYSQL_COL_EMAIL =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnEmail", "email");
+            newProperty("DataSource.mySQLColumnEmail", "email");
 
     @Comment("Column for storing if a player is logged in or not")
     public static final Property<String> MYSQL_COL_ISLOGGED =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnLogged", "isLogged");
+            newProperty("DataSource.mySQLColumnLogged", "isLogged");
 
     @Comment("Column for storing if a player has a valid session or not")
     public static final Property<String> MYSQL_COL_HASSESSION =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnHasSession", "hasSession");
+            newProperty("DataSource.mySQLColumnHasSession", "hasSession");
 
     @Comment("Column for storing a player's TOTP key (for two-factor authentication)")
     public static final Property<String> MYSQL_COL_TOTP_KEY =
-            PropertyInitializer.newProperty("DataSource.mySQLtotpKey", "totp");
+            newProperty("DataSource.mySQLtotpKey", "totp");
 
     @Comment("Column for storing the player's last IP")
     public static final Property<String> MYSQL_COL_LAST_IP =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnIp", "ip");
+            newProperty("DataSource.mySQLColumnIp", "ip");
 
     @Comment("Column for storing players lastlogins")
     public static final Property<String> MYSQL_COL_LASTLOGIN =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnLastLogin", "lastlogin");
+            newProperty("DataSource.mySQLColumnLastLogin", "lastlogin");
 
     @Comment("Column storing the registration date")
     public static final Property<String> MYSQL_COL_REGISTER_DATE =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnRegisterDate", "regdate");
+            newProperty("DataSource.mySQLColumnRegisterDate", "regdate");
 
     @Comment("Column for storing the IP address at the time of registration")
     public static final Property<String> MYSQL_COL_REGISTER_IP =
-            PropertyInitializer.newProperty("DataSource.mySQLColumnRegisterIp", "regip");
+            newProperty("DataSource.mySQLColumnRegisterIp", "regip");
 
     @Comment("Column for storing player LastLocation - X")
     public static final Property<String> MYSQL_COL_LASTLOC_X =
-            PropertyInitializer.newProperty("DataSource.mySQLlastlocX", "x");
+            newProperty("DataSource.mySQLlastlocX", "x");
 
     @Comment("Column for storing player LastLocation - Y")
     public static final Property<String> MYSQL_COL_LASTLOC_Y =
-            PropertyInitializer.newProperty("DataSource.mySQLlastlocY", "y");
+            newProperty("DataSource.mySQLlastlocY", "y");
 
     @Comment("Column for storing player LastLocation - Z")
     public static final Property<String> MYSQL_COL_LASTLOC_Z =
-            PropertyInitializer.newProperty("DataSource.mySQLlastlocZ", "z");
+            newProperty("DataSource.mySQLlastlocZ", "z");
 
     @Comment("Column for storing player LastLocation - World Name")
     public static final Property<String> MYSQL_COL_LASTLOC_WORLD =
-            PropertyInitializer.newProperty("DataSource.mySQLlastlocWorld", "world");
+            newProperty("DataSource.mySQLlastlocWorld", "world");
 
     @Comment("Column for storing player LastLocation - Yaw")
     public static final Property<String> MYSQL_COL_LASTLOC_YAW =
-            PropertyInitializer.newProperty("DataSource.mySQLlastlocYaw", "yaw");
+            newProperty("DataSource.mySQLlastlocYaw", "yaw");
 
     @Comment("Column for storing player LastLocation - Pitch")
     public static final Property<String> MYSQL_COL_LASTLOC_PITCH =
-            PropertyInitializer.newProperty("DataSource.mySQLlastlocPitch", "pitch");
+            newProperty("DataSource.mySQLlastlocPitch", "pitch");
 
     @Comment("Column for storing players uuids (optional)")
     public static final Property<String> MYSQL_COL_PLAYER_UUID =
-            PropertyInitializer.newProperty("DataSource.mySQLPlayerUUID", "");
+            newProperty("DataSource.mySQLPlayerUUID", "");
 
     @Comment("Column for storing players groups")
     public static final Property<String> MYSQL_COL_GROUP =
-            PropertyInitializer.newProperty("ExternalBoardOptions.mySQLColumnGroup", "");
+            newProperty("ExternalBoardOptions.mySQLColumnGroup", "");
 
     @Comment("Overrides the size of the DB Connection Pool, default = 10")
     public static final Property<Integer> MYSQL_POOL_SIZE =
-            PropertyInitializer.newProperty("DataSource.poolSize", 10);
+            newProperty("DataSource.poolSize", 10);
 
     @Comment({"The maximum lifetime of a connection in the pool, default = 1800 seconds",
             "You should set this at least 30 seconds less than mysql server wait_timeout"})
     public static final Property<Integer> MYSQL_CONNECTION_MAX_LIFETIME =
-            PropertyInitializer.newProperty("DataSource.maxLifetime", 1800);
+            newProperty("DataSource.maxLifetime", 1800);
 
     private DatabaseSettings() {
     }

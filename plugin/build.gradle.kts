@@ -37,7 +37,7 @@ subprojects {
         // Java Libraries
         compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT")
         // Jalu Injector
-        implementation("ch.jalu:injector:1.0")
+        implementation(rootProject.libs.jalu.injector)
         // MaxMind GEO IP with our modifications to use GSON in replacement of the big Jackson dependency
         // GSON is already included and therefore it reduces the file size in comparison to the original version
         implementation("com.maxmind.db:maxmind-db-gson:2.0.3") {
@@ -49,7 +49,7 @@ subprojects {
         compileOnly("org.apache.logging.log4j:log4j-core:2.20.0") // Log4J version bundled in 1.12.2
         // Libby
         implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
-        // Database Connection Pool
+        // Database Connection Pool TODO  Remove
         implementation("com.zaxxer:HikariCP:4.0.3" /* Latest java 8 release */) {
             exclude("org.slf4j", "slf4j-api")
         }
@@ -86,7 +86,7 @@ subprojects {
         compileOnly("net.essentialsx:EssentialsX:2.20.1")
         // XAuth, another authentication plugin, required by the database converter
         compileOnly("de.luricos.bukkit:xAuth:2.6.1-SNAPSHOT")
-        implementation("ch.jalu:datasourcecolumns:0.1.1-SNAPSHOT")
+        implementation("ch.jalu:datasourcecolumns:0.1.1-SNAPSHOT") // TODO REMOVE
         implementation("org.postgresql:postgresql:42.7.3") {
             exclude("org.checkerframework", "checker-qual")
         }
@@ -128,7 +128,6 @@ subprojects {
             relocate("org.apache.commons", "${project.group}.libs.org.apache.commons")
             relocate("com.github.benmanes.caffeine", "${project.group}.libs.com.github.benmanes.caffeine")
             relocate("ch.jalu", "${project.group}.libs.ch.jalu")
-            relocate("com.zaxxer.hikari", "${project.group}.libs.com.zaxxer.hikari")
             relocate("org.slf4j", "${project.group}.libs.org.slf4j")
             relocate("com.maxmind.db", "${project.group}.libs.com.maxmind.db")
             relocate("com.ice.tar", "${project.group}.libs.com.icetar.tar")
@@ -143,7 +142,10 @@ subprojects {
             // bStats metrics class
             relocate("org.bstats", "${project.group}.libs.org.bstats")
             relocate("org.mariadb.jdbc", "${project.group}.libs.org.mariadb.jdbc")
-            relocate("com.github.Anon8281.universalScheduler", "${project.group}.libs.com.github.Anon8281.universalScheduler")
+            relocate(
+                "com.github.Anon8281.universalScheduler",
+                "${project.group}.libs.com.github.Anon8281.universalScheduler"
+            )
             relocate("com.mysql", "${project.group}.libs.com.mysql")
             relocate("com.google.protobuf", "${project.group}.libs.com.google.protobuf")
             relocate("io.netty", "${project.group}.libs.io.netty")
