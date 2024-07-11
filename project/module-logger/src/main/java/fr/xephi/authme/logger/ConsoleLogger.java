@@ -1,9 +1,6 @@
 package fr.xephi.authme.logger;
 
 import com.google.common.base.Throwables;
-import fr.xephi.authme.settings.Settings;
-import fr.xephi.authme.settings.properties.PluginSettings;
-import fr.xephi.authme.settings.properties.SecuritySettings;
 import fr.xephi.authme.util.ExceptionUtils;
 
 import java.io.Closeable;
@@ -67,11 +64,8 @@ public final class ConsoleLogger {
 
     /**
      * Sets logging settings which are shared by all logger instances.
-     *
-     * @param settings the settings to read from
      */
-    public static void initializeSharedSettings(Settings settings) {
-        boolean useLogging = settings.getProperty(SecuritySettings.USE_LOGGING);
+    public static void initialize(boolean useLogging) {
         if (useLogging) {
             initializeFileWriter();
         } else {
@@ -79,13 +73,37 @@ public final class ConsoleLogger {
         }
     }
 
-    /**
-     * Sets logging settings which are individual to all loggers.
-     *
-     * @param settings the settings to read from
-     */
-    public void initializeSettings(Settings settings) {
-        this.logLevel = settings.getProperty(PluginSettings.LOG_LEVEL);
+    public static void initialize() {
+        initialize(true);
+    }
+
+    // Disabled
+//    /**
+//     * Sets logging settings which are shared by all logger instances.
+//     *
+//     * @param settings the settings to read from
+//     */
+//    public static void initializeSharedSettings(Settings settings) {
+//        boolean useLogging = settings.getProperty(SecuritySettings.USE_LOGGING);
+//        if (useLogging) {
+//            initializeFileWriter();
+//        } else {
+//            closeFileWriter();
+//        }
+//    }
+
+    // Disabled
+//    /**
+//     * Sets logging settings which are individual to all loggers.
+//     *
+//     * @param settings the settings to read from
+//     */
+//    public void initializeSettings(Settings settings) {
+//        this.logLevel = settings.getProperty(PluginSettings.LOG_LEVEL);
+//    }
+
+    public void setLogLevel(LogLevel level) {
+        logLevel = level;
     }
 
     public LogLevel getLogLevel() {
@@ -286,4 +304,5 @@ public final class ConsoleLogger {
             }
         }
     }
+
 }

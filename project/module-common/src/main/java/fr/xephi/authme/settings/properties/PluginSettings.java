@@ -11,6 +11,7 @@ import static ch.jalu.configme.properties.PropertyInitializer.newLowercaseString
 import static ch.jalu.configme.properties.PropertyInitializer.newProperty;
 
 public final class PluginSettings implements SettingsHolder {
+
     @Comment({
             "Should we execute /help command when unregistered players press Shift+F?",
             "This keeps compatibility with some menu plugins",

@@ -29,8 +29,8 @@ import fr.xephi.authme.listener.PlayerListenerHigherThan18;
 import fr.xephi.authme.listener.PurgeListener;
 import fr.xephi.authme.listener.ServerListener;
 import fr.xephi.authme.logger.ConsoleLogger;
-import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.security.crypts.Sha256;
 import fr.xephi.authme.service.BackupService;
 import fr.xephi.authme.service.BukkitService;
@@ -163,9 +163,9 @@ public class AuthMe extends JavaPlugin {
 
         // Check server version
         if (!isClassLoaded("org.spigotmc.event.player.PlayerSpawnLocationEvent")
-            || !isClassLoaded("org.bukkit.event.player.PlayerInteractAtEntityEvent")) {
+                || !isClassLoaded("org.bukkit.event.player.PlayerInteractAtEntityEvent")) {
             logger.warning("You are running an unsupported server version (" + getServerNameVersionSafe() + "). "
-                + "AuthMe requires Spigot 1.8.X or later!");
+                    + "AuthMe requires Spigot 1.8.X or later!");
             stopOrUnload();
             return;
         }
@@ -173,7 +173,7 @@ public class AuthMe extends JavaPlugin {
         // Prevent running AuthMeBridge due to major exploit issues
         if (getServer().getPluginManager().isPluginEnabled("AuthMeBridge")) {
             logger.warning("Detected AuthMeBridge, support for it has been dropped as it was "
-                + "causing exploit issues, please use AuthMeBungee instead! Aborting!");
+                    + "causing exploit issues, please use AuthMeBungee instead! Aborting!");
             stopOrUnload();
             return;
         }
@@ -188,7 +188,7 @@ public class AuthMe extends JavaPlugin {
                 th.printStackTrace();
             } else {
                 logger.logException("File '" + yamlParseException.getFile() + "' contains invalid YAML. "
-                    + "Please run its contents through http://yamllint.com", yamlParseException);
+                        + "Please run its contents through http://yamllint.com", yamlParseException);
             }
             stopOrUnload();
             return;
@@ -206,11 +206,11 @@ public class AuthMe extends JavaPlugin {
         OnStartupTasks.sendMetrics(this, settings);
         if (settings.getProperty(SecuritySettings.SHOW_STARTUP_BANNER)) {
             logger.info("\n" + "    ___         __  __    __  ___   \n" +
-                "   /   | __  __/ /_/ /_  /  |/  /__ \n" +
-                "  / /| |/ / / / __/ __ \\/ /|_/ / _ \\\n" +
-                " / ___ / /_/ / /_/ / / / /  / /  __/\n" +
-                "/_/  |_\\__,_/\\__/_/ /_/_/  /_/\\___/ \n" +
-                "                                    ");
+                    "   /   | __  __/ /_/ /_  /  |/  /__ \n" +
+                    "  / /| |/ / / / __/ __ \\/ /|_/ / _ \\\n" +
+                    " / ___ / /_/ / /_/ / / / /  / /  __/\n" +
+                    "/_/  |_\\__,_/\\__/_/ /_/_/  /_/\\___/ \n" +
+                    "                                    ");
         }
         //detect server brand with classloader
         checkServerType();
@@ -256,8 +256,8 @@ public class AuthMe extends JavaPlugin {
 
         // Create injector, provide elements from the Bukkit environment and register providers
         injector = new InjectorBuilder()
-            .addDefaultHandlers("fr.xephi.authme")
-            .create();
+                .addDefaultHandlers("fr.xephi.authme")
+                .create();
         injector.register(AuthMe.class, this);
         injector.register(Server.class, getServer());
         injector.register(PluginManager.class, getServer().getPluginManager());
@@ -267,7 +267,7 @@ public class AuthMe extends JavaPlugin {
 
         // Get settings and set up logger
         settings = injector.getSingleton(Settings.class);
-        ConsoleLoggerFactory.reloadSettings(settings);
+        ConsoleLogger.initialize();
         OnStartupTasks.setupConsoleFilter(getLogger());
 
         // Set all service fields on the AuthMe class
@@ -385,15 +385,15 @@ public class AuthMe extends JavaPlugin {
     public void onDisable() {
         // onDisable is also called when we prematurely abort, so any field may be null
         OnShutdownPlayerSaver onShutdownPlayerSaver = injector == null
-            ? null
-            : injector.createIfHasDependencies(OnShutdownPlayerSaver.class);
+                ? null
+                : injector.createIfHasDependencies(OnShutdownPlayerSaver.class);
         if (onShutdownPlayerSaver != null) {
             onShutdownPlayerSaver.saveAllPlayers();
         }
         if (settings != null && settings.getProperty(EmailSettings.SHUTDOWN_MAIL)) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy'.'MM'.'dd'.' HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
-            emailService.sendShutDown(settings.getProperty(EmailSettings.SHUTDOWN_MAIL_ADDRESS),dateFormat.format(date));
+            emailService.sendShutDown(settings.getProperty(EmailSettings.SHUTDOWN_MAIL_ADDRESS), dateFormat.format(date));
         }
 
         // Do backup on stop if enabled

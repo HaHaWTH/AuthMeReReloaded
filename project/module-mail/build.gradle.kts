@@ -1,5 +1,4 @@
 dependencies {
-    compileOnly(project(":project:module-common"))
     compileOnly(project(":project:module-logger"))
     compileOnly(project(":project:module-util"))
     compileOnly(libs.configme)

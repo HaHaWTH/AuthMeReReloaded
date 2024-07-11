@@ -1,6 +1,7 @@
 dependencies {
     compileOnly(project(":project:module-util"))
     compileOnly(libs.guava)
+    compileOnly(libs.configme)
     compileOnly(libs.jalu.injector)
     // PBKDF2 implementation
     implementation("de.rtner:PBKDF2:1.1.4")
