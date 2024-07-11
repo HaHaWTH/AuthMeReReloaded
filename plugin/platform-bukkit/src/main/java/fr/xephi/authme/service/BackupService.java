@@ -1,10 +1,10 @@
 package fr.xephi.authme.service;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSourceType;
 import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.mail.EmailService;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.BackupSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;

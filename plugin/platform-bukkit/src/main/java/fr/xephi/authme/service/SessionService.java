@@ -1,12 +1,12 @@
 package fr.xephi.authme.service;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.events.RestoreSessionEvent;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.message.MessageKey;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.PlayerUtils;
 import org.bukkit.entity.Player;

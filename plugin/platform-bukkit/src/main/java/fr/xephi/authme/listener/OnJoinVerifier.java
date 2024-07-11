@@ -1,12 +1,12 @@
 package fr.xephi.authme.listener;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import fr.xephi.authme.service.AntiBotService;

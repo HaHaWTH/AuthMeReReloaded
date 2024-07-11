@@ -1,10 +1,10 @@
 package fr.xephi.authme.permission;
 
 import com.google.common.annotations.VisibleForTesting;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.limbo.UserGroup;
 import fr.xephi.authme.initialization.Reloadable;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.handlers.LuckPermsHandler;
 import fr.xephi.authme.permission.handlers.PermissionHandler;
 import fr.xephi.authme.permission.handlers.PermissionHandlerException;

@@ -1,11 +1,11 @@
 package fr.xephi.authme.message;
 
 import com.google.common.annotations.VisibleForTesting;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.configruation.Configuration;
 import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.initialization.Reloadable;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.FileUtils;

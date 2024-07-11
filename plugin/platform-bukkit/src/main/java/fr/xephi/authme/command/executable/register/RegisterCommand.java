@@ -1,12 +1,12 @@
 package fr.xephi.authme.command.executable.register;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.command.PlayerCommand;
 import fr.xephi.authme.data.captcha.RegistrationCaptchaManager;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.message.MessageKey;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.process.Management;
 import fr.xephi.authme.process.register.RegisterSecondaryArgument;
 import fr.xephi.authme.process.register.RegistrationType;

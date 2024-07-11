@@ -1,7 +1,7 @@
 package fr.xephi.authme.data.limbo;
 
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import org.bukkit.entity.Player;
 
 /**

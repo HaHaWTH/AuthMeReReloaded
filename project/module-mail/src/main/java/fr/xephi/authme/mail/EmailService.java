@@ -1,8 +1,8 @@
 package fr.xephi.authme.mail;
 
-import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.initialization.DataFolder;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;

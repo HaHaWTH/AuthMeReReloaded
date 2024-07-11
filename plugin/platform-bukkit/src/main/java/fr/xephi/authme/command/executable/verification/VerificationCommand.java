@@ -1,10 +1,10 @@
 package fr.xephi.authme.command.executable.verification;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.command.PlayerCommand;
 import fr.xephi.authme.data.VerificationCodeManager;
 import fr.xephi.authme.message.MessageKey;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.service.CommonService;
 import org.bukkit.entity.Player;
 

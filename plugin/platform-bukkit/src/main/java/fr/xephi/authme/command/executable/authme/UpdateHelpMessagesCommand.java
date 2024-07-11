@@ -1,9 +1,9 @@
 package fr.xephi.authme.command.executable.authme;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.command.help.HelpMessagesService;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.service.HelpTranslationGenerator;
 import org.bukkit.command.CommandSender;
 

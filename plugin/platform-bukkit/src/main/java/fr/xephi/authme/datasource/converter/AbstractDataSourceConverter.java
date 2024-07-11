@@ -1,10 +1,10 @@
 package fr.xephi.authme.datasource.converter;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.datasource.DataSourceType;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

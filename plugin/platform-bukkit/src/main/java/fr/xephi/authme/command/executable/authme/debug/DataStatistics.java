@@ -8,7 +8,7 @@ import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.HasCleanup;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.initialization.SettingsDependent;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import org.bukkit.ChatColor;

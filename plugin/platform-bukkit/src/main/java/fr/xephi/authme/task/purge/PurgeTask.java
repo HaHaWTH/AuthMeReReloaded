@@ -1,8 +1,8 @@
 package fr.xephi.authme.task.purge;
 
 import com.github.Anon8281.universalScheduler.UniversalRunnable;
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import org.bukkit.Bukkit;

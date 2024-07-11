@@ -1,11 +1,11 @@
 package fr.xephi.authme.process.logout;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.limbo.LimboService;
 import fr.xephi.authme.events.LogoutEvent;
 import fr.xephi.authme.listener.protocollib.ProtocolLibService;
 import fr.xephi.authme.message.MessageKey;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.process.SynchronousProcess;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.CommonService;

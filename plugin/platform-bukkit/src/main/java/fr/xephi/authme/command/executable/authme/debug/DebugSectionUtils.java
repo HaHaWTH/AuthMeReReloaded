@@ -1,10 +1,10 @@
 package fr.xephi.authme.command.executable.authme.debug;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.limbo.LimboService;
 import fr.xephi.authme.datasource.CacheDataSource;
 import fr.xephi.authme.datasource.DataSource;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import org.bukkit.Location;
 
 import java.lang.reflect.Field;

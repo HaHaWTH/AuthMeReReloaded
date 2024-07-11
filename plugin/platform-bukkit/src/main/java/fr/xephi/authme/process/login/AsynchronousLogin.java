@@ -1,7 +1,7 @@
 package fr.xephi.authme.process.login;
 
 import com.google.common.annotations.VisibleForTesting;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.TempbanManager;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.data.auth.PlayerCache;
@@ -14,7 +14,7 @@ import fr.xephi.authme.events.AuthMeAsyncPreLoginEvent;
 import fr.xephi.authme.events.FailedLoginEvent;
 import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.message.MessageKey;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.AdminPermission;
 import fr.xephi.authme.permission.PlayerPermission;
 import fr.xephi.authme.permission.PlayerStatePermission;

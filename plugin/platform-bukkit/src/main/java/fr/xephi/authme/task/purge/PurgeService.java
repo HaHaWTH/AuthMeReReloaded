@@ -1,8 +1,8 @@
 package fr.xephi.authme.task.purge;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;

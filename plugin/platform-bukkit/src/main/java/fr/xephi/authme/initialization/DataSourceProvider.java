@@ -1,7 +1,6 @@
 package fr.xephi.authme.initialization;
 
 import com.alessiodp.libby.Library;
-import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.CacheDataSource;
 import fr.xephi.authme.datasource.DataSource;
@@ -12,7 +11,8 @@ import fr.xephi.authme.datasource.MySQL;
 import fr.xephi.authme.datasource.PostgreSqlDataSource;
 import fr.xephi.authme.datasource.SQLite;
 import fr.xephi.authme.datasource.mysqlextensions.MySqlExtensionsFactory;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
@@ -82,10 +82,10 @@ public class DataSourceProvider implements Provider<DataSource> {
                 break;
             case H2:
                 Library h2 = Library.builder()
-                    .groupId("com.h2database")
-                    .artifactId("h2")
-                    .version("2.2.224")
-                    .build();
+                        .groupId("com.h2database")
+                        .artifactId("h2")
+                        .version("2.2.224")
+                        .build();
                 libraryManager.addMavenCentral();
                 libraryManager.loadLibrary(h2);
                 dataSource = new H2(settings, dataFolder);
@@ -108,7 +108,7 @@ public class DataSourceProvider implements Provider<DataSource> {
             int accounts = dataSource.getAccountsRegistered();
             if (accounts >= SQLITE_MAX_SIZE) {
                 logger.warning("YOU'RE USING THE SQLITE DATABASE WITH "
-                    + accounts + "+ ACCOUNTS; FOR BETTER PERFORMANCE, PLEASE UPGRADE TO MYSQL!!");
+                        + accounts + "+ ACCOUNTS; FOR BETTER PERFORMANCE, PLEASE UPGRADE TO MYSQL!!");
             }
         });
     }

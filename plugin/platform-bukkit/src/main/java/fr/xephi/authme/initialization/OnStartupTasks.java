@@ -2,13 +2,13 @@ package fr.xephi.authme.initialization;
 
 import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import fr.xephi.authme.AuthMe;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
-import fr.xephi.authme.output.ConsoleFilter;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
-import fr.xephi.authme.output.Log4JFilter;
+import fr.xephi.authme.logger.ConsoleFilter;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.Log4JFilter;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;

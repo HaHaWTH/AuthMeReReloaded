@@ -1,4 +1,4 @@
-package fr.xephi.authme.output;
+package fr.xephi.authme.logger;
 
 import com.google.common.annotations.VisibleForTesting;
 import fr.xephi.authme.util.StringUtils;

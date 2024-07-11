@@ -2,8 +2,8 @@ package fr.xephi.authme.message.updater;
 
 import ch.jalu.configme.properties.Property;
 import ch.jalu.configme.resource.PropertyReader;
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.util.FileUtils;
 
 import java.io.IOException;

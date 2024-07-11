@@ -1,4 +1,4 @@
-package fr.xephi.authme.output;
+package fr.xephi.authme.logger;
 
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;

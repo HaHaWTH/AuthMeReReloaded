@@ -1,9 +1,9 @@
 package fr.xephi.authme.settings;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.initialization.Reloadable;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.service.PluginHookService;
 import fr.xephi.authme.settings.properties.HooksSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;

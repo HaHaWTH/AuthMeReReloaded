@@ -1,9 +1,9 @@
 package fr.xephi.authme.message;
 
 import com.google.common.collect.ImmutableMap;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.mail.EmailService;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.util.expiring.Duration;
 import fr.xephi.authme.util.message.I18NUtils;
 import fr.xephi.authme.util.message.MiniMessageUtils;

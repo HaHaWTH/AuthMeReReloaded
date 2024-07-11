@@ -2,8 +2,8 @@ package fr.xephi.authme.security.crypts;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.IllegalBCryptFormatException;
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.security.crypts.description.HasSalt;
 import fr.xephi.authme.security.crypts.description.Recommendation;
 import fr.xephi.authme.security.crypts.description.SaltType;

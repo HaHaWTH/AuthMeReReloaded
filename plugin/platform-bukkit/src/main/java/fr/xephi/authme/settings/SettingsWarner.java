@@ -1,8 +1,8 @@
 package fr.xephi.authme.settings;
 
 import fr.xephi.authme.AuthMe;
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.security.HashAlgorithm;
 import fr.xephi.authme.security.crypts.Argon2;
 import fr.xephi.authme.service.BukkitService;

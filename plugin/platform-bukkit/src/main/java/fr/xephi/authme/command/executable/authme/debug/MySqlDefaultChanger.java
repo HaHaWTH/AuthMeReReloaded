@@ -2,10 +2,10 @@ package fr.xephi.authme.command.executable.authme.debug;
 
 import ch.jalu.configme.properties.Property;
 import com.google.common.annotations.VisibleForTesting;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.datasource.MySQL;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import fr.xephi.authme.settings.Settings;

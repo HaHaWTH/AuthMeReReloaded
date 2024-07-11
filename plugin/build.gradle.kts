@@ -24,6 +24,7 @@ subprojects {
         implementation(project(":project:module-configuration", "shadow"))
         implementation(project(":project:module-logger", "shadow"))
         implementation(project(":project:module-util", "shadow"))
+        implementation(project(":project:module-security", "shadow"))
         implementation(project(":project:module-common", "shadow"))
         implementation(project(":project:module-message", "shadow"))
         implementation(project(":project:module-database", "shadow"))

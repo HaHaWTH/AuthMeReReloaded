@@ -5,14 +5,13 @@ import ch.jalu.configme.configurationdata.ConfigurationData;
 import ch.jalu.configme.migration.MigrationService;
 import ch.jalu.configme.resource.PropertyResource;
 import com.google.common.io.Files;
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
-import static fr.xephi.authme.util.FileUtils.copyFileFromResource;
 
 /**
  * The AuthMe settings manager.
@@ -31,9 +30,9 @@ public class Settings extends SettingsManagerImpl {
     /**
      * Constructor.
      *
-     * @param pluginFolder the AuthMe plugin folder
-     * @param resource the property resource to read and write properties to
-     * @param migrationService migration service to check the settings file with
+     * @param pluginFolder      the AuthMe plugin folder
+     * @param resource          the property resource to read and write properties to
+     * @param migrationService  migration service to check the settings file with
      * @param configurationData configuration data (properties and comments)
      */
     public Settings(File pluginFolder, PropertyResource resource, MigrationService migrationService,
@@ -70,7 +69,9 @@ public class Settings extends SettingsManagerImpl {
         return recoveryCodeEmailMessage;
     }
 
-    public String getShutdownEmailMessage() {return shutdownEmailMessage;}
+    public String getShutdownEmailMessage() {
+        return shutdownEmailMessage;
+    }
 
     public String getNewPasswordEmailMessage() {
         return newPasswordEmailMessage;
@@ -99,7 +100,7 @@ public class Settings extends SettingsManagerImpl {
      */
     private String readFile(String filename) {
         final File file = new File(pluginFolder, filename);
-        if (copyFileFromResource(file, filename)) {
+        if (FileUtils.copyFileFromResource(file, filename)) {
             try {
                 return Files.asCharSource(file, StandardCharsets.UTF_8).read();
             } catch (IOException e) {
@@ -110,4 +111,5 @@ public class Settings extends SettingsManagerImpl {
         }
         return "";
     }
+
 }

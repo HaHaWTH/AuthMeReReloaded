@@ -1,4 +1,4 @@
-package fr.xephi.authme.output;
+package fr.xephi.authme.logger;
 
 /**
  * Log level.

@@ -7,9 +7,9 @@ import com.maxmind.db.Reader.FileMode;
 import com.maxmind.db.cache.CHMCache;
 import com.maxmind.db.model.Country;
 import com.maxmind.db.model.CountryResponse;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.initialization.DataFolder;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.util.InternetProtocolUtils;
 
 import javax.inject.Inject;

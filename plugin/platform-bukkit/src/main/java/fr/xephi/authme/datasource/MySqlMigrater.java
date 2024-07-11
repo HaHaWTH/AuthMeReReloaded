@@ -1,7 +1,7 @@
 package fr.xephi.authme.datasource;
 
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;

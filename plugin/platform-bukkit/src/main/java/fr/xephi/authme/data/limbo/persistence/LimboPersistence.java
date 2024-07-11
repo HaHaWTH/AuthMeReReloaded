@@ -1,10 +1,10 @@
 package fr.xephi.authme.data.limbo.persistence;
 
 import ch.jalu.injector.factory.Factory;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.limbo.LimboPlayer;
 import fr.xephi.authme.initialization.SettingsDependent;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.LimboSettings;
 import org.bukkit.entity.Player;

@@ -1,8 +1,8 @@
 package fr.xephi.authme.mail;
 
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
-import fr.xephi.authme.output.LogLevel;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.LogLevel;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
@@ -17,9 +17,6 @@ import javax.inject.Inject;
 import javax.mail.Session;
 import java.security.Security;
 import java.util.Properties;
-
-import static fr.xephi.authme.settings.properties.EmailSettings.MAIL_ACCOUNT;
-import static fr.xephi.authme.settings.properties.EmailSettings.MAIL_PASSWORD;
 
 
 /**
@@ -39,7 +36,7 @@ public class SendMailSsl {
      */
     public boolean hasAllInformation() {
         return !settings.getProperty(EmailSettings.MAIL_ACCOUNT).isEmpty()
-            && !settings.getProperty(EmailSettings.MAIL_PASSWORD).isEmpty();
+                && !settings.getProperty(EmailSettings.MAIL_PASSWORD).isEmpty();
     }
 
     /**
@@ -52,12 +49,12 @@ public class SendMailSsl {
      */
     public HtmlEmail initializeMail(String emailAddress) throws EmailException {
         String senderMail = StringUtils.isBlank(settings.getProperty(EmailSettings.MAIL_ADDRESS))
-            ? settings.getProperty(EmailSettings.MAIL_ACCOUNT)
-            : settings.getProperty(EmailSettings.MAIL_ADDRESS);
+                ? settings.getProperty(EmailSettings.MAIL_ACCOUNT)
+                : settings.getProperty(EmailSettings.MAIL_ADDRESS);
 
         String senderName = StringUtils.isBlank(settings.getProperty(EmailSettings.MAIL_SENDER_NAME))
-            ? senderMail
-            : settings.getProperty(EmailSettings.MAIL_SENDER_NAME);
+                ? senderMail
+                : settings.getProperty(EmailSettings.MAIL_SENDER_NAME);
         String mailPassword = settings.getProperty(EmailSettings.MAIL_PASSWORD);
         int port = settings.getProperty(EmailSettings.SMTP_PORT);
 
@@ -81,7 +78,7 @@ public class SendMailSsl {
      * Sets the given content to the HtmlEmail object and sends it.
      *
      * @param content the content to set
-     * @param email the email object to send
+     * @param email   the email object to send
      * @return true upon success, false otherwise
      */
     public boolean sendEmail(String content, HtmlEmail email) {
@@ -115,7 +112,7 @@ public class SendMailSsl {
      * Sets properties to the given HtmlEmail object based on the port from which it will be sent.
      *
      * @param email the email object to configure
-     * @param port the configured outgoing port
+     * @param port  the configured outgoing port
      */
     private void setPropertiesForPort(HtmlEmail email, int port) throws EmailException {
         switch (port) {

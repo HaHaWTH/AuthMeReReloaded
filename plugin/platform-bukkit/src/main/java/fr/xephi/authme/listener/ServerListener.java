@@ -1,8 +1,8 @@
 package fr.xephi.authme.listener;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.listener.protocollib.ProtocolLibService;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.service.PluginHookService;
 import fr.xephi.authme.settings.SpawnLoader;

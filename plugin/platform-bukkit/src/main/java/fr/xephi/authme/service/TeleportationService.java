@@ -1,6 +1,6 @@
 package fr.xephi.authme.service;
 
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.data.limbo.LimboPlayer;
@@ -10,7 +10,7 @@ import fr.xephi.authme.events.AuthMeTeleportEvent;
 import fr.xephi.authme.events.FirstSpawnTeleportEvent;
 import fr.xephi.authme.events.SpawnTeleportEvent;
 import fr.xephi.authme.initialization.Reloadable;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.SpawnLoader;
 import fr.xephi.authme.settings.properties.RestrictionSettings;

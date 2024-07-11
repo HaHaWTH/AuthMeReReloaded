@@ -1,10 +1,10 @@
 package fr.xephi.authme.command.executable.authme.debug;
 
 import ch.jalu.datasourcecolumns.data.DataSourceValue;
-import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.mail.SendMailSsl;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import fr.xephi.authme.util.StringUtils;

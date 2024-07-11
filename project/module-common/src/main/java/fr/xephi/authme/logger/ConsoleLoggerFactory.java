@@ -1,6 +1,5 @@
-package fr.xephi.authme.output;
+package fr.xephi.authme.logger;
 
-import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.settings.Settings;
 
 import java.util.Map;

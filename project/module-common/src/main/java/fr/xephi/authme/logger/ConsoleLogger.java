@@ -1,7 +1,6 @@
-package fr.xephi.authme;
+package fr.xephi.authme.logger;
 
 import com.google.common.base.Throwables;
-import fr.xephi.authme.output.LogLevel;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.SecuritySettings;
