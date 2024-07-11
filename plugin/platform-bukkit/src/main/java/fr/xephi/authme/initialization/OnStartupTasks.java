@@ -11,6 +11,7 @@ import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.logger.Log4JFilter;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
@@ -56,7 +57,7 @@ public class OnStartupTasks {
         final Metrics metrics = new Metrics(plugin, 18479);
 
         metrics.addCustomChart(new SimplePie("messages_language",
-            () -> settings.getProperty(PluginSettings.MESSAGES_LANGUAGE)));
+            () -> settings.getProperty(CommonSettings.MESSAGES_LANGUAGE)));
         metrics.addCustomChart(new SimplePie("database_backend",
             () -> settings.getProperty(DatabaseSettings.BACKEND).toString()));
     }

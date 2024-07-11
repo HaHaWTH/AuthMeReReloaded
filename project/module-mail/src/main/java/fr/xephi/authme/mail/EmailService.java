@@ -4,8 +4,8 @@ import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
-import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.SecuritySettings;
 import fr.xephi.authme.util.FileUtils;
 import org.apache.commons.mail.EmailException;
@@ -184,7 +184,7 @@ public class EmailService {
     private String replaceTagsForPasswordMail(String mailText, String name, String newPass, String ip, String time) {
         return mailText
                 .replace("<playername />", name)
-                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<servername />", settings.getProperty(CommonSettings.SERVER_NAME))
                 .replace("<generatedpass />", newPass)
                 .replace("<playerip />", ip)
                 .replace("<time />", time);
@@ -193,7 +193,7 @@ public class EmailService {
     private String replaceTagsForPasswordMail(String mailText, String name, String newPass, String time) {
         return mailText
                 .replace("<playername />", name)
-                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<servername />", settings.getProperty(CommonSettings.SERVER_NAME))
                 .replace("<generatedpass />", newPass)
                 .replace("<time />", time);
     }
@@ -201,7 +201,7 @@ public class EmailService {
     private String replaceTagsForVerificationEmail(String mailText, String name, String code, int minutesValid, String time) {
         return mailText
                 .replace("<playername />", name)
-                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<servername />", settings.getProperty(CommonSettings.SERVER_NAME))
                 .replace("<generatedcode />", code)
                 .replace("<minutesvalid />", String.valueOf(minutesValid))
                 .replace("<time />", time);
@@ -210,7 +210,7 @@ public class EmailService {
     private String replaceTagsForRecoveryCodeMail(String mailText, String name, String code, int hoursValid, String time) {
         return mailText
                 .replace("<playername />", name)
-                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<servername />", settings.getProperty(CommonSettings.SERVER_NAME))
                 .replace("<recoverycode />", code)
                 .replace("<hoursvalid />", String.valueOf(hoursValid))
                 .replace("<time />", time);
@@ -218,7 +218,7 @@ public class EmailService {
 
     private String replaceTagsForShutDownMail(String mailText, String time) {
         return mailText
-                .replace("<servername />", settings.getProperty(PluginSettings.SERVER_NAME))
+                .replace("<servername />", settings.getProperty(CommonSettings.SERVER_NAME))
                 .replace("<time />", time);
     }
 

@@ -10,6 +10,7 @@ import com.warrenstrange.googleauth.IGoogleAuthenticator;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.initialization.HasCleanup;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import org.bukkit.entity.Player;
 
@@ -68,7 +69,7 @@ public class TotpAuthenticator implements HasCleanup {
     public TotpGenerationResult generateTotpKey(Player player) {
         GoogleAuthenticatorKey credentials = authenticator.createCredentials();
         String qrCodeUrl = GoogleAuthenticatorQRGenerator.getOtpAuthURL(
-            settings.getProperty(PluginSettings.SERVER_NAME), player.getName(), credentials);
+            settings.getProperty(CommonSettings.SERVER_NAME), player.getName(), credentials);
         return new TotpGenerationResult(credentials.getKey(), qrCodeUrl);
     }
 

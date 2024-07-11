@@ -6,6 +6,7 @@ import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.security.HashAlgorithm;
 import fr.xephi.authme.security.crypts.Argon2;
 import fr.xephi.authme.service.BukkitService;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.HooksSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
@@ -54,8 +55,8 @@ public class SettingsWarner {
         }
 
         // Output hint if sessions are enabled that the timeout must be positive
-        if (settings.getProperty(PluginSettings.SESSIONS_ENABLED)
-            && settings.getProperty(PluginSettings.SESSIONS_TIMEOUT) <= 0) {
+        if (settings.getProperty(CommonSettings.SESSIONS_ENABLED)
+            && settings.getProperty(CommonSettings.SESSIONS_TIMEOUT) <= 0) {
             logger.warning("Warning: Session timeout needs to be positive in order to work!");
         }
 

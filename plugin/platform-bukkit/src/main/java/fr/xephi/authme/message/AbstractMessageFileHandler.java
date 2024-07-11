@@ -7,6 +7,7 @@ import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.FileUtils;
 import fr.xephi.authme.util.message.I18NUtils;
@@ -45,7 +46,7 @@ public abstract class AbstractMessageFileHandler implements Reloadable {
     @Override
     @PostConstruct
     public void reload() {
-        String language = settings.getProperty(PluginSettings.MESSAGES_LANGUAGE);
+        String language = getLanguage();
         filename = createFilePath(language);
         File messagesFile = initializeFile(filename);
         configuration = Configuration.loadFromFile(messagesFile);
@@ -53,7 +54,7 @@ public abstract class AbstractMessageFileHandler implements Reloadable {
     }
 
     protected String getLanguage() {
-        return settings.getProperty(PluginSettings.MESSAGES_LANGUAGE);
+        return settings.getProperty(CommonSettings.MESSAGES_LANGUAGE);
     }
 
     protected File getUserLanguageFile() {

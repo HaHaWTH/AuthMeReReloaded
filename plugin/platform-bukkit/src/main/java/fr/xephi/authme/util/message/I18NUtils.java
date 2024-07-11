@@ -1,6 +1,7 @@
 package fr.xephi.authme.util.message;
 
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.Utils;
 import org.bukkit.entity.Player;
@@ -97,6 +98,6 @@ public class I18NUtils {
             return locale;
         }
 
-        return settings.getProperty(PluginSettings.MESSAGES_LANGUAGE);
+        return settings.getProperty(CommonSettings.MESSAGES_LANGUAGE);
     }
 }

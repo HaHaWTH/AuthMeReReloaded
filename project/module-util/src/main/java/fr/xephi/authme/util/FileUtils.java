@@ -1,16 +1,12 @@
 package fr.xephi.authme.util;
 
 import com.google.common.io.Files;
-import fr.xephi.authme.logger.ConsoleLogger;
-import fr.xephi.authme.logger.ConsoleLoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static java.lang.String.format;
 
 /**
  * File utilities.
@@ -19,8 +15,6 @@ public final class FileUtils {
 
     private static final DateTimeFormatter CURRENT_DATE_STRING_FORMATTER =
             DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
-
-    private static ConsoleLogger logger = ConsoleLoggerFactory.get(FileUtils.class);
 
     // Utility class
     private FileUtils() {
@@ -37,21 +31,20 @@ public final class FileUtils {
         if (destinationFile.exists()) {
             return true;
         } else if (!createDirectory(destinationFile.getParentFile())) {
-            logger.warning("Cannot create parent directories for '" + destinationFile + "'");
+            System.out.println("[warning] Cannot create parent directories for '" + destinationFile + "'");
             return false;
         }
 
         try (InputStream is = getResourceFromJar(resourcePath)) {
             if (is == null) {
-                logger.warning(format("Cannot copy resource '%s' to file '%s': cannot load resource",
-                        resourcePath, destinationFile.getPath()));
+                System.out.printf("[warning] Cannot copy resource '%s' to file '%s': cannot load resource%n", resourcePath, destinationFile.getPath());
             } else {
                 java.nio.file.Files.copy(is, destinationFile.toPath());
                 return true;
             }
         } catch (IOException e) {
-            logger.logException(format("Cannot copy resource '%s' to file '%s':",
-                    resourcePath, destinationFile.getPath()), e);
+            System.out.printf("[warning] Cannot copy resource '%s' to file '%s':%n", resourcePath, destinationFile.getPath());
+            e.printStackTrace();
         }
         return false;
     }
@@ -64,7 +57,7 @@ public final class FileUtils {
      */
     public static boolean createDirectory(File dir) {
         if (!dir.exists() && !dir.mkdirs()) {
-            logger.warning("Could not create directory '" + dir + "'");
+            System.out.println("[warning] Could not create directory '" + dir + "'");
             return false;
         }
         return dir.isDirectory();
@@ -121,7 +114,7 @@ public final class FileUtils {
         if (file != null) {
             boolean result = file.delete();
             if (!result) {
-                logger.warning("Could not delete file '" + file + "'");
+                System.out.println("[warning] Could not delete file '" + file + "'");
             }
         }
     }

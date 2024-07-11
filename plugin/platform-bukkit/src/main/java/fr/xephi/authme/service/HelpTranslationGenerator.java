@@ -11,6 +11,7 @@ import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.message.MessagePathHelper;
 import fr.xephi.authme.permission.DefaultPermission;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -49,7 +50,7 @@ public class HelpTranslationGenerator {
      * @throws IOException if the help file cannot be written to
      */
     public File updateHelpFile() throws IOException {
-        String languageCode = settings.getProperty(PluginSettings.MESSAGES_LANGUAGE);
+        String languageCode = settings.getProperty(CommonSettings.MESSAGES_LANGUAGE);
         File helpFile = new File(dataFolder, MessagePathHelper.createHelpMessageFilePath(languageCode));
         Map<String, Object> helpEntries = generateHelpMessageEntries();
 

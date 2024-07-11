@@ -11,6 +11,7 @@ import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.service.SessionService;
 import fr.xephi.authme.service.ValidationService;
 import fr.xephi.authme.settings.SpawnLoader;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.PlayerUtils;
 import org.bukkit.Location;
@@ -97,7 +98,7 @@ public class AsynchronousQuit implements AsynchronousProcess {
         //always update the database when the player quit the game (if sessions are disabled)
         if (wasLoggedIn) {
             database.setUnlogged(name);
-            if (!service.getProperty(PluginSettings.SESSIONS_ENABLED)) {
+            if (!service.getProperty(CommonSettings.SESSIONS_ENABLED)) {
                 sessionService.revokeSession(name);
             }
         }

@@ -4,6 +4,7 @@ import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.logger.LogLevel;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.StringUtils;
@@ -66,7 +67,7 @@ public class SendMailSsl {
         email.setFrom(senderMail, senderName);
         email.setSubject(settings.getProperty(EmailSettings.RECOVERY_MAIL_SUBJECT));
         email.setAuthentication(settings.getProperty(EmailSettings.MAIL_ACCOUNT), mailPassword);
-        if (settings.getProperty(PluginSettings.LOG_LEVEL).includes(LogLevel.DEBUG)) {
+        if (settings.getProperty(CommonSettings.LOG_LEVEL).includes(LogLevel.DEBUG)) {
             email.setDebug(true);
         }
 

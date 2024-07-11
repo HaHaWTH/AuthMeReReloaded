@@ -28,6 +28,7 @@ import fr.xephi.authme.service.bungeecord.BungeeSender;
 import fr.xephi.authme.service.bungeecord.MessageType;
 import fr.xephi.authme.service.velocity.VelocitySender;
 import fr.xephi.authme.settings.Settings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.HooksSettings;
@@ -193,7 +194,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
             return null;
         }
 
-        boolean isAsync = service.getProperty(PluginSettings.USE_ASYNC_TASKS);
+        boolean isAsync = service.getProperty(CommonSettings.USE_ASYNC_TASKS);
         AuthMeAsyncPreLoginEvent event = new AuthMeAsyncPreLoginEvent(player, isAsync);
         bukkitService.callEvent(event);
         if (!event.canLogin()) {

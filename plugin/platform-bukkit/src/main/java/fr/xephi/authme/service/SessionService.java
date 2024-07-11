@@ -7,6 +7,7 @@ import fr.xephi.authme.events.RestoreSessionEvent;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.util.PlayerUtils;
 import org.bukkit.entity.Player;
@@ -78,7 +79,7 @@ public class SessionService implements Reloadable {
         long timeSinceLastLogin = System.currentTimeMillis() - auth.getLastLogin();
 
         if (timeSinceLastLogin > 0
-            && timeSinceLastLogin < service.getProperty(PluginSettings.SESSIONS_TIMEOUT) * MILLIS_PER_MINUTE) {
+            && timeSinceLastLogin < service.getProperty(CommonSettings.SESSIONS_TIMEOUT) * MILLIS_PER_MINUTE) {
             if (PlayerUtils.getPlayerIp(player).equals(auth.getLastIp())) {
                 return SessionState.VALID;
             } else {
@@ -100,6 +101,6 @@ public class SessionService implements Reloadable {
 
     @Override
     public void reload() {
-        this.isEnabled = service.getProperty(PluginSettings.SESSIONS_ENABLED);
+        this.isEnabled = service.getProperty(CommonSettings.SESSIONS_ENABLED);
     }
 }

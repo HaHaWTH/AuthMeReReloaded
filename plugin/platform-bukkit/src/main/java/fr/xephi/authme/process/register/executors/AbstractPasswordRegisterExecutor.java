@@ -8,7 +8,7 @@ import fr.xephi.authme.security.crypts.HashedPassword;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.service.ValidationService;
-import fr.xephi.authme.settings.properties.PluginSettings;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
 import org.bukkit.entity.Player;
 
@@ -21,7 +21,7 @@ import javax.inject.Inject;
  * @param <P> the parameters type
  */
 abstract class AbstractPasswordRegisterExecutor<P extends AbstractPasswordRegisterParams>
-    implements RegistrationExecutor<P> {
+        implements RegistrationExecutor<P> {
 
     /**
      * Number of ticks to wait before running the login action when it is run synchronously.
@@ -51,7 +51,7 @@ abstract class AbstractPasswordRegisterExecutor<P extends AbstractPasswordRegist
     @Override
     public boolean isRegistrationAdmitted(P params) {
         ValidationService.ValidationResult passwordValidation = validationService.validatePassword(
-            params.getPassword(), params.getPlayer().getName());
+                params.getPassword(), params.getPlayer().getName());
         if (passwordValidation.hasError()) {
             commonService.send(params.getPlayer(), passwordValidation.getMessageKey(), passwordValidation.getArgs());
             return false;
@@ -88,7 +88,7 @@ abstract class AbstractPasswordRegisterExecutor<P extends AbstractPasswordRegist
     public void executePostPersistAction(P params) {
         final Player player = params.getPlayer();
         if (performLoginAfterRegister(params)) {
-            if (commonService.getProperty(PluginSettings.USE_ASYNC_TASKS)) {
+            if (commonService.getProperty(CommonSettings.USE_ASYNC_TASKS)) {
                 bukkitService.runTaskAsynchronously(() -> asynchronousLogin.forceLogin(player));
             } else {
                 bukkitService.scheduleSyncDelayedTask(() -> asynchronousLogin.forceLogin(player), SYNC_LOGIN_DELAY);

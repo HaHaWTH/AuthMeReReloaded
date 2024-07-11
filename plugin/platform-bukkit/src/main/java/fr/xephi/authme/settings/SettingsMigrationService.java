@@ -13,6 +13,7 @@ import fr.xephi.authme.logger.LogLevel;
 import fr.xephi.authme.process.register.RegisterSecondaryArgument;
 import fr.xephi.authme.process.register.RegistrationType;
 import fr.xephi.authme.security.HashAlgorithm;
+import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
 import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
@@ -222,7 +223,7 @@ public class SettingsMigrationService extends PlainMigrationService {
     private static boolean changeBooleanSettingToLogLevelProperty(PropertyReader reader,
                                                                   ConfigurationData configData) {
         final String oldPath = "Security.console.noConsoleSpam";
-        final Property<LogLevel> newProperty = PluginSettings.LOG_LEVEL;
+        final Property<LogLevel> newProperty = CommonSettings.LOG_LEVEL;
         if (!newProperty.isValidInResource(reader) && reader.contains(oldPath)) {
             logger.info("Moving '" + oldPath + "' to '" + newProperty.getPath() + "'");
             boolean oldValue = Optional.ofNullable(reader.getBoolean(oldPath)).orElse(false);
