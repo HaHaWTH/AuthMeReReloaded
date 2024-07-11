@@ -21,17 +21,21 @@ subprojects {
 
     dependencies {
         // Modules
-        implementation(project(":project:module-configuration", "shadow"))
-        implementation(project(":project:module-logger", "shadow"))
-        implementation(project(":project:module-util", "shadow"))
-        implementation(project(":project:module-security", "shadow"))
-        implementation(project(":project:module-common", "shadow"))
-        implementation(project(":project:module-message", "shadow"))
-        implementation(project(":project:module-database", "shadow"))
-        implementation(project(":project:module-mail", "shadow"))
+        implementation(project(":project:module-configuration"))
+        implementation(project(":project:module-logger"))
+        implementation(project(":project:module-util"))
+        implementation(project(":project:module-security"))
+        implementation(project(":project:module-common"))
+        implementation(project(":project:module-message"))
+        implementation(project(":project:module-database"))
+        implementation(project(":project:module-mail"))
         // Adventure API
         implementation(rootProject.libs.adventure.text.minimessage)
         implementation(rootProject.libs.adventure.text.serializer.gson)
+        // ConfigMe
+        implementation(rootProject.libs.configme) {
+            exclude("org.yaml", "snakeyaml")
+        }
         // Spigot API, https://www.spigotmc.org/
         compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
         // Java Libraries
@@ -45,14 +49,8 @@ subprojects {
         }
         // Library for tar archives
         implementation("javatar:javatar:2.5")
-        // Log4J Logger (required by the console filter) TODO Remove
-        compileOnly("org.apache.logging.log4j:log4j-core:2.20.0") // Log4J version bundled in 1.12.2
         // Libby
         implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
-        // Database Connection Pool TODO  Remove
-        implementation("com.zaxxer:HikariCP:4.0.3" /* Latest java 8 release */) {
-            exclude("org.slf4j", "slf4j-api")
-        }
         // HikariCP Logger
         implementation("org.slf4j:slf4j-simple:1.7.36") // We can't update to 2.x as long as we use HikariCP for java 8
         // MySQL connector, shaded into the legacy jar
@@ -65,10 +63,6 @@ subprojects {
             exclude("org.checkerframework", "checker-qual")
         }
         implementation("com.google.code.gson:gson:2.10.1")
-        // ConfigMe
-        implementation("ch.jalu:configme:1.3.1") {
-            exclude("org.yaml", "snakeyaml")
-        }
         // Dependencies used by HAProxy feature
 //    implementation("io.netty:netty-codec-haproxy:4.1.104.Final")
 //    compileOnly("commons-validator:commons-validator:1.8.0")
@@ -84,7 +78,6 @@ subprojects {
         compileOnly("net.essentialsx:EssentialsX:2.20.1")
         // XAuth, another authentication plugin, required by the database converter
         compileOnly("de.luricos.bukkit:xAuth:2.6.1-SNAPSHOT")
-        implementation("ch.jalu:datasourcecolumns:0.1.1-SNAPSHOT") // TODO REMOVE
         implementation("org.postgresql:postgresql:42.7.3") {
             exclude("org.checkerframework", "checker-qual")
         }
@@ -139,15 +132,28 @@ subprojects {
             // bStats metrics class
             relocate("org.bstats", "${project.group}.libs.org.bstats")
             relocate("org.mariadb.jdbc", "${project.group}.libs.org.mariadb.jdbc")
-            relocate(
-                "com.github.Anon8281.universalScheduler",
-                "${project.group}.libs.com.github.Anon8281.universalScheduler"
-            )
+            relocate("com.github.Anon8281.universalScheduler", "${project.group}.libs.com.github.Anon8281.universalScheduler")
             relocate("com.mysql", "${project.group}.libs.com.mysql")
             relocate("com.google.protobuf", "${project.group}.libs.com.google.protobuf")
             relocate("io.netty", "${project.group}.libs.io.netty")
             relocate("org.apache.commons.validator", "${project.group}.libs.org.apache.commons.validator")
             relocate("com.alessiodp.libby", "${project.group}.libs.com.alessiodp.libby")
+            // Module-Configuration:
+            // NightConfig
+            relocate("com.electronwill.nightconfig", "com.electronwill.nightconfig_3_6_7")
+            // Snakeyaml
+            relocate("org.yaml.snakeyaml", "org.yaml.snakeyaml_2_2")
+            // Module-Util:
+            relocate("net.ricecode.similarity", "${project.group}.libs.net.ricecode.similarity")
+            // Module-Security:
+            relocate("de.rtner", "${project.group}.libs.de.rtner")
+            relocate("at.favre.lib", "${project.group}.libs.at.favre.lib")
+            relocate("de.mkammerer", "${project.group}.libs.de.mkammerer")
+            // Module-Mail:
+            relocate("org.apache.commons", "${project.group}.libs.org.apache.commons")
+            // Module-Database:
+            relocate("com.zaxxer.hikari", "${project.group}.libs.com.zaxxer.hikari")
+            relocate("ch.jalu", "${project.group}.libs.ch.jalu")
         }
     }
 

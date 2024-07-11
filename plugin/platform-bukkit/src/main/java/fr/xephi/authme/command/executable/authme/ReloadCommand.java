@@ -2,13 +2,13 @@ package fr.xephi.authme.command.executable.authme;
 
 import ch.jalu.injector.factory.SingletonStore;
 import fr.xephi.authme.AuthMe;
-import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.initialization.SettingsDependent;
-import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.SettingsWarner;
@@ -51,7 +51,7 @@ public class ReloadCommand implements ExecutableCommand {
     public void executeCommand(CommandSender sender, List<String> arguments) {
         try {
             settings.reload();
-            ConsoleLoggerFactory.reloadSettings(settings);
+            ConsoleLogger.initialize();
             settingsWarner.logWarningsForMisconfigurations();
 
             // We do not change database type for consistency issues, but we'll output a note in the logs
@@ -69,9 +69,9 @@ public class ReloadCommand implements ExecutableCommand {
 
     private void performReloadOnServices() {
         reloadableStore.retrieveAllOfType()
-            .forEach(r -> r.reload());
+                .forEach(r -> r.reload());
 
         settingsDependentStore.retrieveAllOfType()
-            .forEach(s -> s.reload(settings));
+                .forEach(s -> s.reload(settings));
     }
 }

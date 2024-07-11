@@ -1,10 +1,10 @@
 package fr.xephi.authme.service;
 
-import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSourceType;
 import fr.xephi.authme.initialization.DataFolder;
-import fr.xephi.authme.mail.EmailService;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
+import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.BackupSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
@@ -39,7 +39,7 @@ public class BackupService {
      * Constructor.
      *
      * @param dataFolder the data folder
-     * @param settings the plugin settings
+     * @param settings   the plugin settings
      */
     @Inject
     public BackupService(@DataFolder File dataFolder, Settings settings) {
@@ -60,7 +60,7 @@ public class BackupService {
     /**
      * Performs a backup for the given reason.
      *
-     * @param cause backup reason
+     * @param cause  backup reason
      * @param sender the command sender (nullable)
      */
     public void doBackup(BackupCause cause, CommandSender sender) {
@@ -68,7 +68,7 @@ public class BackupService {
             // Print a warning if the backup was requested via command or by another plugin
             if (cause == BackupCause.COMMAND || cause == BackupCause.OTHER) {
                 logAndSendWarning(sender,
-                    "Can't perform a backup: disabled in configuration. Cause of the backup: " + cause.name());
+                        "Can't perform a backup: disabled in configuration. Cause of the backup: " + cause.name());
             }
             return;
         } else if (BackupCause.START == cause && !settings.getProperty(BackupSettings.ON_SERVER_START)
@@ -80,7 +80,7 @@ public class BackupService {
         // Do backup and check return value!
         if (doBackup()) {
             logAndSendMessage(sender,
-                "A backup has been performed successfully. Cause of the backup: " + cause.name());
+                    "A backup has been performed successfully. Cause of the backup: " + cause.name());
         } else {
             logAndSendWarning(sender, "Error while performing a backup! Cause of the backup: " + cause.name());
         }
@@ -116,8 +116,8 @@ public class BackupService {
         String backupWindowsPath = settings.getProperty(BackupSettings.MYSQL_WINDOWS_PATH);
         boolean isUsingWindows = useWindowsCommand(backupWindowsPath);
         String backupCommand = isUsingWindows
-            ? backupWindowsPath + "\\bin\\mysqldump.exe" + buildMysqlDumpArguments(sqlBackupFile)
-            : "mysqldump" + buildMysqlDumpArguments(sqlBackupFile);
+                ? backupWindowsPath + "\\bin\\mysqldump.exe" + buildMysqlDumpArguments(sqlBackupFile)
+                : "mysqldump" + buildMysqlDumpArguments(sqlBackupFile);
 
         try {
             Process runtimeProcess = Runtime.getRuntime().exec(backupCommand);
@@ -176,11 +176,11 @@ public class BackupService {
     private String buildMysqlDumpArguments(File sqlBackupFile) {
         String dbUsername = settings.getProperty(DatabaseSettings.MYSQL_USERNAME);
         String dbPassword = settings.getProperty(DatabaseSettings.MYSQL_PASSWORD);
-        String dbName     = settings.getProperty(DatabaseSettings.MYSQL_DATABASE);
-        String tableName  = settings.getProperty(DatabaseSettings.MYSQL_TABLE);
+        String dbName = settings.getProperty(DatabaseSettings.MYSQL_DATABASE);
+        String tableName = settings.getProperty(DatabaseSettings.MYSQL_TABLE);
 
         return " -u " + dbUsername + " -p" + dbPassword + " " + dbName
-            + " --tables " + tableName + " -r " + sqlBackupFile.getPath() + ".sql";
+                + " --tables " + tableName + " -r " + sqlBackupFile.getPath() + ".sql";
     }
 
     /**

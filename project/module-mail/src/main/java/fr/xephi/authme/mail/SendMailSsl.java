@@ -148,14 +148,15 @@ public class SendMailSsl {
     }
 
     private static @NotNull Properties getProperties(HtmlEmail email, String oAuth2Token) throws EmailException {
-        Properties mailProperties = email.getMailSession().getProperties();
-        mailProperties.setProperty("mail.smtp.ssl.enable", "true");
-        mailProperties.setProperty("mail.smtp.auth.mechanisms", "XOAUTH2");
-        mailProperties.setProperty("mail.smtp.sasl.enable", "true");
-        mailProperties.setProperty("mail.smtp.sasl.mechanisms", "XOAUTH2");
-        mailProperties.setProperty("mail.smtp.auth.login.disable", "true");
-        mailProperties.setProperty("mail.smtp.auth.plain.disable", "true");
-        mailProperties.setProperty(OAuth2SaslClientFactory.OAUTH_TOKEN_PROP, oAuth2Token);
-        return mailProperties;
+        Properties p = email.getMailSession().getProperties();
+        p.setProperty("mail.smtp.ssl.enable", "true");
+        p.setProperty("mail.smtp.auth.mechanisms", "XOAUTH2");
+        p.setProperty("mail.smtp.sasl.enable", "true");
+        p.setProperty("mail.smtp.sasl.mechanisms", "XOAUTH2");
+        p.setProperty("mail.smtp.auth.login.disable", "true");
+        p.setProperty("mail.smtp.auth.plain.disable", "true");
+        p.setProperty(OAuth2SaslClientFactory.OAUTH_TOKEN_PROP, oAuth2Token);
+        return p;
     }
+
 }
