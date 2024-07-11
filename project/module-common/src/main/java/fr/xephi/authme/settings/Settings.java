@@ -78,12 +78,11 @@ public class Settings extends SettingsManagerImpl {
     }
 
     private void loadSettingsFromFiles() {
-        File emailFolder = new File(pluginFolder, "email-formats");
-        newPasswordEmailMessage = readFile(emailFolder, "new_email.html");
-        passwordEmailMessage = readFile(emailFolder, "email.html");
-        verificationEmailMessage = readFile(emailFolder, "verification_code_email.html");
-        recoveryCodeEmailMessage = readFile(emailFolder, "recovery_code_email.html");
-        shutdownEmailMessage = readFile(emailFolder, "shutdown_email.html");
+        newPasswordEmailMessage = readFile("new_email.html");
+        passwordEmailMessage = readFile("email.html");
+        verificationEmailMessage = readFile("verification_code_email.html");
+        recoveryCodeEmailMessage = readFile("recovery_code_email.html");
+        shutdownEmailMessage = readFile("shutdown_email.html");
         String country = readFile("GeoLite2-Country.mmdb");
     }
 
