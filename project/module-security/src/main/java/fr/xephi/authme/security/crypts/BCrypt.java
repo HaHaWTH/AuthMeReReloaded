@@ -2,7 +2,7 @@ package fr.xephi.authme.security.crypts;
 
 import at.favre.lib.crypto.bcrypt.BCrypt.Version;
 import fr.xephi.authme.settings.Settings;
-import fr.xephi.authme.settings.properties.HooksSettings;
+import fr.xephi.authme.settings.properties.ExternalSettings;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ public class BCrypt extends BCryptBasedHash {
     }
 
     private static BCryptHasher createHasher(Settings settings) {
-        int bCryptLog2Rounds = settings.getProperty(HooksSettings.BCRYPT_LOG2_ROUND);
+        int bCryptLog2Rounds = settings.getProperty(ExternalSettings.BCRYPT_LOG2_ROUND);
         return new BCryptHasher(Version.VERSION_2A, bCryptLog2Rounds);
     }
 }
