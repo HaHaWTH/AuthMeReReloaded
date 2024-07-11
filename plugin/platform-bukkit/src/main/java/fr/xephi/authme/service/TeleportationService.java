@@ -144,7 +144,7 @@ public class TeleportationService implements Reloadable {
             if (settings.getProperty(RestrictionSettings.SAVE_QUIT_LOCATION)) {
                 Location location = buildLocationFromAuth(player, auth);
                 Location playerLoc = player.getLocation();
-                if (location.getX() == playerLoc.getX() && location.getY() == location.getY() && location.getZ() == playerLoc.getZ()
+                if (location.getX() == playerLoc.getX() && location.getY() == playerLoc.getY() && location.getZ() == playerLoc.getZ()
                 && location.getWorld() == playerLoc.getWorld()) return;
                 logger.debug("Teleporting `{0}` after login, based on the player auth", player.getName());
                 teleportBackFromSpawn(player, location);
