@@ -58,8 +58,6 @@ subprojects {
         // MySQL connector, shaded into the legacy jar
         implementation("com.mysql:mysql-connector-j:8.4.0")
         implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
-        // Argon2 implementation
-        implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
         // TOTP client
         implementation("com.warrenstrange:googleauth:1.5.0")
         // Keep in sync with spigot 1.19
@@ -134,7 +132,6 @@ subprojects {
             relocate("org.picketbox", "${project.group}.libs.org.picketbox")
             relocate("org.jboss.crypto", "${project.group}.libs.org.jboss.crypto")
             relocate("org.jboss.security", "${project.group}.libs.org.jboss.security")
-            relocate("de.mkammerer", "${project.group}.libs.de.mkammerer")
             relocate("com.warrenstrange", "${project.group}.libs.com.warrenstrange")
             relocate("javax.inject", "${project.group}.libs.javax.inject")
             relocate("at.favre.lib", "${project.group}.libs.at.favre.lib")
