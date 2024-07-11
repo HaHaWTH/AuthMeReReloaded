@@ -42,6 +42,8 @@ subprojects {
         compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT")
         // Jalu Injector
         implementation(rootProject.libs.jalu.injector)
+        // Log4J Logger (required by the console filter)
+        compileOnly(rootProject.libs.apache.logging.log4j.core) // Log4J version bundled in 1.12.2
         // MaxMind GEO IP with our modifications to use GSON in replacement of the big Jackson dependency
         // GSON is already included and therefore it reduces the file size in comparison to the original version
         implementation("com.maxmind.db:maxmind-db-gson:2.0.3") {

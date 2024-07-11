@@ -2,19 +2,18 @@ package fr.xephi.authme.initialization;
 
 import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import fr.xephi.authme.AuthMe;
-import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
-import fr.xephi.authme.message.MessageKey;
-import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.logger.ConsoleFilter;
+import fr.xephi.authme.logger.ConsoleLogger;
 import fr.xephi.authme.logger.ConsoleLoggerFactory;
 import fr.xephi.authme.logger.Log4JFilter;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.CommonSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
 import fr.xephi.authme.settings.properties.EmailSettings;
-import fr.xephi.authme.settings.properties.PluginSettings;
 import org.apache.logging.log4j.LogManager;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -50,16 +49,16 @@ public class OnStartupTasks {
     /**
      * Sends bstats metrics.
      *
-     * @param plugin the plugin instance
+     * @param plugin   the plugin instance
      * @param settings the settings
      */
     public static void sendMetrics(AuthMe plugin, Settings settings) {
         final Metrics metrics = new Metrics(plugin, 18479);
 
         metrics.addCustomChart(new SimplePie("messages_language",
-            () -> settings.getProperty(CommonSettings.MESSAGES_LANGUAGE)));
+                () -> settings.getProperty(CommonSettings.MESSAGES_LANGUAGE)));
         metrics.addCustomChart(new SimplePie("database_backend",
-            () -> settings.getProperty(DatabaseSettings.BACKEND).toString()));
+                () -> settings.getProperty(DatabaseSettings.BACKEND).toString()));
     }
 
     /**
