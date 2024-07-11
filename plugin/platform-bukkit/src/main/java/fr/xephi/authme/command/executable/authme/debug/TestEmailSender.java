@@ -122,4 +122,5 @@ class TestEmailSender implements DebugSection {
             + server.getName() + ") via /authme debug mail. If you're seeing this, sending emails should be fine.";
         return sendMailSsl.sendEmail(message, htmlEmail);
     }
+
 }

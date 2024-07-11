@@ -49,9 +49,8 @@ public class PasswordSecurity implements Reloadable {
     /**
      * Compute the hash of the configured algorithm for the given password and username.
      *
-     * @param password The password to hash
+     * @param password   The password to hash
      * @param playerName The player's name
-     *
      * @return The password hash
      */
     public HashedPassword computeHash(String password, String playerName) {
@@ -62,9 +61,8 @@ public class PasswordSecurity implements Reloadable {
     /**
      * Check if the given password matches the player's stored password.
      *
-     * @param password The password to check
+     * @param password   The password to check
      * @param playerName The player to check for
-     *
      * @return True if the password is correct, false otherwise
      */
     public boolean comparePassword(String password, String playerName) {
@@ -75,16 +73,15 @@ public class PasswordSecurity implements Reloadable {
     /**
      * Check if the given password matches the given hashed password.
      *
-     * @param password The password to check
+     * @param password       The password to check
      * @param hashedPassword The hashed password to check against
-     * @param playerName The player to check for
-     *
+     * @param playerName     The player to check for
      * @return True if the password matches, false otherwise
      */
     public boolean comparePassword(String password, HashedPassword hashedPassword, String playerName) {
         String playerLowerCase = playerName.toLowerCase(Locale.ROOT);
         return methodMatches(encryptionMethod, password, hashedPassword, playerLowerCase)
-            || compareWithLegacyHashes(password, hashedPassword, playerLowerCase);
+                || compareWithLegacyHashes(password, hashedPassword, playerLowerCase);
     }
 
     /**
@@ -95,7 +92,6 @@ public class PasswordSecurity implements Reloadable {
      * @param password       The clear-text password to check
      * @param hashedPassword The encrypted password to test the clear-text password against
      * @param playerName     The name of the player
-     *
      * @return True if there was a password match with a configured legacy encryption method, false otherwise
      */
     private boolean compareWithLegacyHashes(String password, HashedPassword hashedPassword, String playerName) {
@@ -113,17 +109,16 @@ public class PasswordSecurity implements Reloadable {
      * Verify with the given encryption method whether the password matches the hash after checking that
      * the method can be called safely with the given data.
      *
-     * @param method The encryption method to use
-     * @param password The password to check
+     * @param method         The encryption method to use
+     * @param password       The password to check
      * @param hashedPassword The hash to check against
-     * @param playerName The name of the player
-     *
+     * @param playerName     The name of the player
      * @return True if the password matched, false otherwise
      */
     private static boolean methodMatches(EncryptionMethod method, String password,
                                          HashedPassword hashedPassword, String playerName) {
         return method != null && (!method.hasSeparateSalt() || hashedPassword.getSalt() != null)
-            && method.comparePassword(password, hashedPassword, playerName);
+                && method.comparePassword(password, hashedPassword, playerName);
     }
 
     /**
@@ -131,8 +126,7 @@ public class PasswordSecurity implements Reloadable {
      * {@link PasswordEncryptionEvent}. The encryption method from the event is then returned,
      * which may have been changed by an external listener.
      *
-     * @param algorithm  The algorithm to retrieve the encryption method for
-     *
+     * @param algorithm The algorithm to retrieve the encryption method for
      * @return The encryption method
      */
     private EncryptionMethod initializeEncryptionMethodWithEvent(HashAlgorithm algorithm) {
@@ -146,7 +140,6 @@ public class PasswordSecurity implements Reloadable {
      * Initialize the encryption method associated with the given hash algorithm.
      *
      * @param algorithm The algorithm to retrieve the encryption method for
-     *
      * @return The associated encryption method, or null if CUSTOM / deprecated
      */
     private EncryptionMethod initializeEncryptionMethod(HashAlgorithm algorithm) {

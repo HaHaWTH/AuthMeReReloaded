@@ -7,7 +7,7 @@ dependencies {
     compileOnly(libs.configme)
     compileOnly(libs.jalu.injector)
     // Java Email Library
-    implementation("org.apache.commons:commons-email:1.6.0")
+    implementation(libs.apache.commons.email)
 }
 
 tasks.shadowJar {

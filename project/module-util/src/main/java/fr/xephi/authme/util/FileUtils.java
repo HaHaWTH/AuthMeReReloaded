@@ -1,8 +1,8 @@
 package fr.xephi.authme.util;
 
 import com.google.common.io.Files;
-import fr.xephi.authme.ConsoleLogger;
-import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.logger.ConsoleLogger;
+import fr.xephi.authme.logger.ConsoleLoggerFactory;
 
 import java.io.File;
 import java.io.IOException;

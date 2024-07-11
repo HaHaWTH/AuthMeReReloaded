@@ -16,6 +16,9 @@ dependencies {
     compileOnly("ru.tehkode:PermissionsEx:1.23.5-SNAPSHOT")
     // Hooks - End
 
+    // TODO It's necessary?
+    compileOnly(libs.apache.commons.email)
+
 }
 
 tasks.shadowJar {
