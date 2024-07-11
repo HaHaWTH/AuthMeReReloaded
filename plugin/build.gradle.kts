@@ -55,8 +55,6 @@ subprojects {
         }
         // HikariCP Logger
         implementation("org.slf4j:slf4j-simple:1.7.36") // We can't update to 2.x as long as we use HikariCP for java 8
-        // PBKDF2 implementation
-        implementation("de.rtner:PBKDF2:1.1.4")
         // MySQL connector, shaded into the legacy jar
         implementation("com.mysql:mysql-connector-j:8.4.0")
         implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
@@ -86,8 +84,6 @@ subprojects {
         compileOnly("com.onarandombox.multiversecore:Multiverse-Core:4.3.1")
         // EssentialsX plugin
         compileOnly("net.essentialsx:EssentialsX:2.20.1")
-        // BCrypt implementation
-        implementation("at.favre.lib:bcrypt:0.10.2")
         // XAuth, another authentication plugin, required by the database converter
         compileOnly("de.luricos.bukkit:xAuth:2.6.1-SNAPSHOT")
         implementation("ch.jalu:datasourcecolumns:0.1.1-SNAPSHOT")
@@ -136,7 +132,6 @@ subprojects {
             relocate("org.slf4j", "${project.group}.libs.org.slf4j")
             relocate("com.maxmind.db", "${project.group}.libs.com.maxmind.db")
             relocate("com.ice.tar", "${project.group}.libs.com.icetar.tar")
-            relocate("de.rtner", "${project.group}.libs.de.rtner")
             relocate("org.picketbox", "${project.group}.libs.org.picketbox")
             relocate("org.jboss.crypto", "${project.group}.libs.org.jboss.crypto")
             relocate("org.jboss.security", "${project.group}.libs.org.jboss.security")
