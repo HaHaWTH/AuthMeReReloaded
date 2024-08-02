@@ -9,6 +9,7 @@ import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.SecuritySettings;
 import fr.xephi.authme.util.PlayerUtils;
 import fr.xephi.authme.util.expiring.TimedCounter;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
@@ -106,7 +107,7 @@ public class TempbanManager implements SettingsDependent, HasCleanup {
             bukkitService.runTask(player,() -> { // AuthMeReReloaded - Folia compatibility
                 if (customCommand.isEmpty()) {
                     bukkitService.banIp(ip, reason, expires, "AuthMe");
-                    player.kickPlayer(reason);
+                    MiniMessageUtils.kickPlayer(player, MiniMessageUtils.parseMiniMessage(reason));
                 } else {
                     String command = customCommand
                         .replace("%player%", name)

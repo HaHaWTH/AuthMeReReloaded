@@ -18,6 +18,7 @@ import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import fr.xephi.authme.util.StringUtils;
 import fr.xephi.authme.util.Utils;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -140,7 +141,7 @@ public class OnJoinVerifier implements Reloadable {
         Player nonVipPlayer = generateKickPlayer(onlinePlayers);
         if (nonVipPlayer != null) {
             // AuthMeReReloaded - Folia compatibility
-            bukkitService.runTaskIfFolia(nonVipPlayer, () -> nonVipPlayer.kickPlayer(messages.retrieveSingle(player, MessageKey.KICK_FOR_VIP)));
+            bukkitService.runTaskIfFolia(nonVipPlayer, () -> MiniMessageUtils.kickPlayer(nonVipPlayer, MiniMessageUtils.parseMiniMessage(messages.retrieveSingle(player, MessageKey.KICK_FOR_VIP))));
             event.allow();
             return false;
         } else {

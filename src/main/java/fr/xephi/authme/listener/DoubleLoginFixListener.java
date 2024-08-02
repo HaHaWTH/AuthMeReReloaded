@@ -3,6 +3,7 @@ package fr.xephi.authme.listener;
 
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.service.CommonService;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +27,7 @@ public class DoubleLoginFixListener implements Listener {
         HashSet<String> PlayerSet = new HashSet<String>();
         for (Player ep : PlayerList) {
             if (PlayerSet.contains(ep.getName().toLowerCase())) {
-                ep.kickPlayer(service.retrieveSingleMessage(ep.getPlayer(), MessageKey.DOUBLE_LOGIN_FIX));
+                MiniMessageUtils.kickPlayer(ep, MiniMessageUtils.parseMiniMessage(service.retrieveSingleMessage(ep.getPlayer(), MessageKey.DOUBLE_LOGIN_FIX)));
                 break;
             }
             PlayerSet.add(ep.getName().toLowerCase());
