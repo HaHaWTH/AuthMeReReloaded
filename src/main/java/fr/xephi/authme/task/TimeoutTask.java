@@ -1,6 +1,7 @@
 package fr.xephi.authme.task;
 
 import fr.xephi.authme.data.auth.PlayerCache;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.entity.Player;
 
 /**
@@ -28,7 +29,7 @@ public class TimeoutTask implements Runnable {
     @Override
     public void run() {
         if (!playerCache.isAuthenticated(player.getName())) {
-            player.kickPlayer(message);
+            MiniMessageUtils.kickPlayer(player, MiniMessageUtils.parseMiniMessage(message));
         }
     }
 }

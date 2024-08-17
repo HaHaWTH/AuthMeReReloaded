@@ -12,6 +12,7 @@ import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.service.ValidationService;
 import fr.xephi.authme.service.ValidationService.ValidationResult;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -79,7 +80,7 @@ public class RegisterAdminCommand implements ExecutableCommand {
             if (player != null) {
                 bukkitService.scheduleSyncTaskFromOptionallyAsyncTask(() ->
                     // AuthMeReReloaded - Folia compatibility
-                    bukkitService.runTaskIfFolia(player, () -> player.kickPlayer(commonService.retrieveSingleMessage(player, MessageKey.KICK_FOR_ADMIN_REGISTER))));
+                    bukkitService.runTaskIfFolia(player, () -> MiniMessageUtils.kickPlayer(player, MiniMessageUtils.parseMiniMessage(commonService.retrieveSingleMessage(player, MessageKey.KICK_FOR_ADMIN_REGISTER)))));
             }
         });
     }

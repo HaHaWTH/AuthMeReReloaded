@@ -219,7 +219,7 @@ public class PlayerListener implements Listener {
 
         String customJoinMessage = settings.getProperty(RegistrationSettings.CUSTOM_JOIN_MESSAGE);
         if (!customJoinMessage.isEmpty()) {
-            customJoinMessage = ChatColor.translateAlternateColorCodes('&', MiniMessageUtils.parseMiniMessageToLegacy(customJoinMessage));
+            customJoinMessage = ChatColor.translateAlternateColorCodes('&', customJoinMessage);
             event.setJoinMessage(customJoinMessage
                 .replace("{PLAYERNAME}", player.getName())
                 .replace("{DISPLAYNAME}", player.getDisplayName())
@@ -324,7 +324,7 @@ public class PlayerListener implements Listener {
         final Player player = event.getPlayer();
         if (!quickCommandsProtectionManager.isAllowed(player.getName())) {
             event.setCancelled(true);
-            bukkitService.runTaskIfFolia(player, () -> player.kickPlayer(messages.retrieveSingle(player, MessageKey.QUICK_COMMAND_PROTECTION_KICK)));
+            bukkitService.runTaskIfFolia(player, () -> MiniMessageUtils.kickPlayer(player, MiniMessageUtils.parseMiniMessage(messages.retrieveSingle(player, MessageKey.QUICK_COMMAND_PROTECTION_KICK))));
             // AuthMeReReloaded - Folia compatibility
             return;
         }

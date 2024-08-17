@@ -1,9 +1,11 @@
 package fr.xephi.authme.message;
 
 import com.google.common.collect.ImmutableMap;
+import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.service.AdventureService;
 import fr.xephi.authme.util.expiring.Duration;
 import fr.xephi.authme.util.message.I18NUtils;
 import fr.xephi.authme.util.message.MiniMessageUtils;
@@ -44,6 +46,7 @@ public class Messages {
     private final ConsoleLogger logger = ConsoleLoggerFactory.get(EmailService.class);
 
     private MessagesFileHandler messagesFileHandler;
+    private static final AdventureService adventureService = AuthMe.getAdventureService();
 
     /*
      * Constructor.
@@ -62,7 +65,7 @@ public class Messages {
     public void send(CommandSender sender, MessageKey key) {
         String[] lines = retrieve(key, sender);
         for (String line : lines) {
-            sender.sendMessage(line);
+            adventureService.send(sender, MiniMessageUtils.parseMiniMessage(line));
         }
     }
 
@@ -78,7 +81,7 @@ public class Messages {
     public void send(CommandSender sender, MessageKey key, String... replacements) {
         String message = retrieveSingle(sender, key, replacements);
         for (String line : message.split("\n")) {
-            sender.sendMessage(line);
+            adventureService.send(sender, MiniMessageUtils.parseMiniMessage(line));
         }
     }
 
@@ -131,7 +134,7 @@ public class Messages {
             displayName = ((Player) sender).getDisplayName();
         }
         
-        return ChatColor.translateAlternateColorCodes('&', MiniMessageUtils.parseMiniMessageToLegacy(message))
+        return ChatColor.translateAlternateColorCodes('&', message)
                 .replace(NEWLINE_TAG, "\n")
                 .replace(USERNAME_TAG, sender.getName())
                 .replace(DISPLAYNAME_TAG, displayName);
@@ -147,7 +150,7 @@ public class Messages {
     private String retrieveMessage(MessageKey key, String name) {
         String message = messagesFileHandler.getMessage(key.getKey());
         
-        return ChatColor.translateAlternateColorCodes('&', MiniMessageUtils.parseMiniMessageToLegacy(message))
+        return ChatColor.translateAlternateColorCodes('&', message)
                 .replace(NEWLINE_TAG, "\n")
                 .replace(USERNAME_TAG, name)
                 .replace(DISPLAYNAME_TAG, name);

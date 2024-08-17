@@ -31,6 +31,7 @@ import fr.xephi.authme.listener.ServerListener;
 import fr.xephi.authme.mail.EmailService;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.security.crypts.Sha256;
+import fr.xephi.authme.service.AdventureService;
 import fr.xephi.authme.service.BackupService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.MigrationService;
@@ -81,6 +82,7 @@ public class AuthMe extends JavaPlugin {
     private EmailService emailService;
     private CommandHandler commandHandler;
     private static TaskScheduler scheduler;
+    private static AdventureService adventureService;
     @Inject
     public static Settings settings;
     private DataSource database;
@@ -140,6 +142,13 @@ public class AuthMe extends JavaPlugin {
     }
 
     /**
+     * Get the AdventureService
+     */
+    public static AdventureService getAdventureService() {
+        return adventureService;
+    }
+
+    /**
      * The library manager
      */
     public static BukkitLibraryManager libraryManager;
@@ -153,6 +162,8 @@ public class AuthMe extends JavaPlugin {
         loadPluginInfo(getDescription().getVersion());
         scheduler = UniversalScheduler.getScheduler(this);
         libraryManager = new BukkitLibraryManager(this);
+        adventureService = new AdventureService(this);
+        adventureService.init();
 
         // Set the Logger instance and log file path
         ConsoleLogger.initialize(getLogger(), new File(getDataFolder(), LOG_FILENAME));
@@ -402,6 +413,11 @@ public class AuthMe extends JavaPlugin {
 
         // Wait for tasks and close data source
         new TaskCloser(database).run();
+
+        // Close AdventureService
+        if (adventureService != null) {
+            adventureService.close();
+        }
 
         // Disabled correctly
         Consumer<String> infoLogMethod = logger == null ? getLogger()::info : logger::info;

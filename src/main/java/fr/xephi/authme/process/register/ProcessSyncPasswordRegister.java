@@ -15,6 +15,7 @@ import fr.xephi.authme.settings.commandconfig.CommandManager;
 import fr.xephi.authme.settings.properties.EmailSettings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.util.PlayerUtils;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
@@ -77,7 +78,7 @@ public class ProcessSyncPasswordRegister implements SynchronousProcess {
 
         // Kick Player after Registration is enabled, kick the player
         if (service.getProperty(RegistrationSettings.FORCE_KICK_AFTER_REGISTER)) {
-            player.kickPlayer(service.retrieveSingleMessage(player, MessageKey.REGISTER_SUCCESS));
+            MiniMessageUtils.kickPlayer(player, MiniMessageUtils.parseMiniMessage(service.retrieveSingleMessage(player, MessageKey.REGISTER_SUCCESS)));
             return;
         }
 

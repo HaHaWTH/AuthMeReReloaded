@@ -36,6 +36,7 @@ import fr.xephi.authme.settings.properties.RestrictionSettings;
 import fr.xephi.authme.util.InternetProtocolUtils;
 import fr.xephi.authme.util.PlayerUtils;
 import fr.xephi.authme.util.Utils;
+import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -249,7 +250,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
             tempbanManager.tempbanPlayer(player);
         } else if (service.getProperty(RestrictionSettings.KICK_ON_WRONG_PASSWORD)) {
             bukkitService.scheduleSyncTaskFromOptionallyAsyncTask(
-                () -> player.kickPlayer(service.retrieveSingleMessage(player, MessageKey.WRONG_PASSWORD)));
+                () -> MiniMessageUtils.kickPlayer(player, MiniMessageUtils.parseMiniMessage(service.retrieveSingleMessage(player, MessageKey.WRONG_PASSWORD))));
         } else {
             service.send(player, MessageKey.WRONG_PASSWORD);
 
