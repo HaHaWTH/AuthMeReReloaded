@@ -44,6 +44,7 @@ public class PlayerAuth {
     private float yaw;
     private float pitch;
     private UUID uuid;
+    private boolean emailVerified;
 
     /**
      * Hidden constructor.
@@ -181,6 +182,14 @@ public class PlayerAuth {
         this.uuid = uuid;
     }
 
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PlayerAuth)) {
@@ -205,6 +214,7 @@ public class PlayerAuth {
             + " ! LastLogin : " + lastLogin
             + " ! LastPosition : " + x + "," + y + "," + z + "," + world
             + " ! Email : " + email
+            + " ! EmailVerified : " + emailVerified
             + " ! Password : {" + password.getHash() + ", " + password.getSalt() + "}"
             + " ! UUID : " + uuid;
     }
@@ -224,7 +234,7 @@ public class PlayerAuth {
         private Long lastLogin;
         private String registrationIp;
         private Long registrationDate;
-
+        private boolean emailVerified;
         private double x;
         private double y;
         private double z;
@@ -258,6 +268,7 @@ public class PlayerAuth {
             auth.yaw = yaw;
             auth.pitch = pitch;
             auth.uuid = uuid;
+            auth.emailVerified = emailVerified;
             return auth;
         }
 
@@ -352,6 +363,11 @@ public class PlayerAuth {
 
         public Builder email(String email) {
             this.email = email;
+            return this;
+        }
+
+        public Builder emailVerified(boolean emailVerified) {
+            this.emailVerified = emailVerified;
             return this;
         }
 
