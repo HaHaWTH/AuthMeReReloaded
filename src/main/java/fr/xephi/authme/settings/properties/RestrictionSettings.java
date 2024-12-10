@@ -100,9 +100,9 @@ public final class RestrictionSettings implements SettingsHolder {
     public static final Property<Boolean> KICK_NON_REGISTERED =
         newProperty("settings.restrictions.kickNonRegistered", false);
 
-    @Comment("Should unregistered players be kicked immediately?")
-    public static final Property<Boolean> KICK_NOT_VERIFIED =
-        newProperty("settings.restrictions.kickNotVerified", false);
+    @Comment("Should players without verified email addresses be restricted from accessing the system immediately?")
+    public static final Property<Boolean> KICK_UN_VERIFIED =
+        newProperty("settings.restrictions.kickUnVerified", false);
 
     @Comment("Should players be kicked on wrong password?")
     public static final Property<Boolean> KICK_ON_WRONG_PASSWORD =

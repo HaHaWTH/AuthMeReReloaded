@@ -283,7 +283,7 @@ settings:
     # Should unregistered players be kicked immediately?
     kickNonRegistered: false
     # Should players without verified email addresses be restricted from accessing the system immediately?
-    kickNotVerified: false
+    kickUnVerified: false
     # Should players be kicked on wrong password?
     kickOnWrongPassword: false
     # Should not logged in players be teleported to the spawn?
