@@ -103,6 +103,7 @@ email:
   send_failure: 'The email could not be sent. Please contact an administrator.'
   change_password_expired: 'You cannot change your password using this command anymore.'
   email_cooldown_error: '&cAn email was already sent recently. You must wait %time before you can send a new one.'
+  verified_kick: "&cOnly users with verified email addresses can access this feature! Please check your inbox to verify your email!"
 
 # Password recovery by email
 recovery:

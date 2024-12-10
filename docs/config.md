@@ -59,6 +59,9 @@ DataSource:
   mySQLColumnSalt: ''
   # Column for storing players emails
   mySQLColumnEmail: email
+  # If the kickNotVerified setting is set to true and you want it to work in
+  # integration with your website, you must set the field name here to match the one on your database.
+  mySQLVerifiedField: 'isVerified'
   # Column for storing if a player is logged in or not
   mySQLColumnLogged: isLogged
   # Column for storing if a player has a valid session or not
@@ -279,6 +282,8 @@ settings:
     banUnsafedIP: false
     # Should unregistered players be kicked immediately?
     kickNonRegistered: false
+    # Should players without verified email addresses be restricted from accessing the system immediately?
+    kickNotVerified: false
     # Should players be kicked on wrong password?
     kickOnWrongPassword: false
     # Should not logged in players be teleported to the spawn?

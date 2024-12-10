@@ -97,6 +97,10 @@ public final class DatabaseSettings implements SettingsHolder {
     public static final Property<String> MYSQL_COL_EMAIL =
         newProperty("DataSource.mySQLColumnEmail", "email");
 
+    @Comment("If the kickNotVerified setting is set to true and you want it to work in integration with your website, you must set the field name here to match the one on your database")
+    public static final Property<String> MYSQL_IS_VERIFIED_FIELD =
+        newProperty("DataSource.mySQLVerifiedField", "isVerified");
+
     @Comment("Column for storing if a player is logged in or not")
     public static final Property<String> MYSQL_COL_ISLOGGED =
         newProperty("DataSource.mySQLColumnLogged", "isLogged");

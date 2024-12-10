@@ -282,6 +282,11 @@ public class MySQL extends AbstractSqlDataSource {
                     + col.EMAIL + " VARCHAR(255);");
             }
 
+            if (isColumnMissing(md, col.IS_VERIFIED)) {
+                st.executeUpdate("ALTER TABLE " + tableName + " ADD COLUMN "
+                    + col.IS_VERIFIED + " BIT;");
+            }
+
             if (isColumnMissing(md, col.IS_LOGGED)) {
                 st.executeUpdate("ALTER TABLE " + tableName + " ADD COLUMN "
                     + col.IS_LOGGED + " SMALLINT NOT NULL DEFAULT '0' AFTER " + col.EMAIL);
@@ -509,6 +514,7 @@ public class MySQL extends AbstractSqlDataSource {
             .lastLogin(getNullableLong(row, col.LAST_LOGIN))
             .lastIp(row.getString(col.LAST_IP))
             .email(row.getString(col.EMAIL))
+            .emailVerified(row.getBoolean(col.IS_VERIFIED))
             .registrationDate(row.getLong(col.REGISTRATION_DATE))
             .registrationIp(row.getString(col.REGISTRATION_IP))
             .groupId(group)

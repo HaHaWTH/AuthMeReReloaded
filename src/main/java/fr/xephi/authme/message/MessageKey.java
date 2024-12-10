@@ -122,6 +122,9 @@ public enum MessageKey {
     /** Only registered users can join the server! Please visit http://example.com to register yourself! */
     MUST_REGISTER_MESSAGE("registration.reg_only"),
 
+    /** Only users with verified email addresses can access this feature! Please check your inbox to verify your email! */
+    MUST_VERIFIED_MESSAGE("email.verified_kick"),
+
     /** You're already logged in! */
     ALREADY_LOGGED_IN_ERROR("error.logged_in"),
 

@@ -371,6 +371,7 @@ public class SQLite extends AbstractSqlDataSource {
         return PlayerAuth.builder()
             .name(row.getString(col.NAME))
             .email(row.getString(col.EMAIL))
+            .emailVerified(row.getBoolean(col.IS_VERIFIED))
             .realName(row.getString(col.REAL_NAME))
             .password(row.getString(col.PASSWORD), salt)
             .totpKey(row.getString(col.TOTP_KEY))

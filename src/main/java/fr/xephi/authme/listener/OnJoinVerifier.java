@@ -95,6 +95,18 @@ public class OnJoinVerifier implements Reloadable {
     }
 
     /**
+     * Checks whether email verification is required, and if so, whether the email is verified.
+     *
+     * @param isAuthAvailable whether or not the player's email is verified
+     * @throws FailedVerificationException if the email verification is not completed
+     */
+    public void checkKickNotVerified(boolean isAuthAvailable) throws FailedVerificationException {
+        if (!isAuthAvailable && settings.getProperty(RestrictionSettings.KICK_NOT_VERIFIED)) {
+            throw new FailedVerificationException(MessageKey.MUST_VERIFIED_MESSAGE);
+        }
+    }
+
+    /**
      * Checks that the name adheres to the configured username restrictions.
      *
      * @param name the name to verify

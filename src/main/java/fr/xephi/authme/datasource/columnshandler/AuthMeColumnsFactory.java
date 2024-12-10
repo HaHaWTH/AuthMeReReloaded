@@ -27,6 +27,12 @@ final class AuthMeColumnsFactory {
         return createInternal(StandardTypes.INTEGER, nameProperty, playerAuthGetter, options);
     }
 
+    static PlayerAuthColumn<Boolean> createBoolean(Property<String> nameProperty,
+                                                   Function<PlayerAuth, Boolean> playerAuthGetter,
+                                                   ColumnOptions... options) {
+        return createInternal(StandardTypes.BOOLEAN, nameProperty, playerAuthGetter, options);
+    }
+
     static PlayerAuthColumn<Long> createLong(Property<String> nameProperty,
                                              Function<PlayerAuth, Long> playerAuthGetter,
                                              ColumnOptions... options) {

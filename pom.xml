@@ -631,30 +631,15 @@
 
         <!-- Multiverse Repo -->
         <repository>
-            <id>onarandombox-repo-releases</id>
-            <url>https://repo.onarandombox.com/content/repositories/multiverse/</url>
+            <id>multiverse-multiverse-releases</id>
+            <name>Multiverse Repository</name>
+            <url>https://repo.onarandombox.com/multiverse-releases</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>onarandombox-repo-snapshots</id>
-            <url>https://repo.onarandombox.com/content/repositories/multiverse-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-        <!-- FoliaLib -->
-        <repository>
-            <id>devmart-other</id>
-            <url>https://nexuslite.gcnt.net/repos/other/</url>
         </repository>
 
         <repository>
@@ -739,7 +724,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version> <!-- Log4J version bundled in 1.12.2 -->
+            <version>2.24.2</version> <!-- Log4J version bundled in 1.12.2 -->
             <scope>provided</scope>
         </dependency>
 
@@ -984,8 +969,8 @@
         <!-- Multi World plugin, https://www.spigotmc.org/resources/multiverse-core.390/ -->
         <dependency>
             <groupId>com.onarandombox.multiversecore</groupId>
-            <artifactId>Multiverse-Core</artifactId>
-            <version>4.3.1</version>
+            <artifactId>multiverse-core</artifactId>
+            <version>4.3.14</version>
             <type>jar</type>
             <scope>provided</scope>
             <exclusions>
