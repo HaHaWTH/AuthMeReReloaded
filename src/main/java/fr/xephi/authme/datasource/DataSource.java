@@ -229,6 +229,14 @@ public interface DataSource extends Reloadable {
     DataSourceValue<String> getEmail(String user);
 
     /**
+     * Checks whether the user's email is verified.
+     *
+     * @param user the user whose email verification status is being checked
+     * @return true if the user's email is verified, false if not, or null if the user does not exist
+     */
+    DataSourceValue<Boolean> getVerified(String user);
+
+    /**
      * Return all players of the database.
      *
      * @return List of all players
