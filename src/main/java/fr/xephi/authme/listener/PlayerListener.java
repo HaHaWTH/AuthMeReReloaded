@@ -150,8 +150,9 @@ public class PlayerListener implements Listener {
         // Slow, blocking checks
         try {
             final PlayerAuth auth = dataSource.getAuth(name);
-            final boolean isAuthAvailable = auth != null;
+            final boolean isAuthAvailable = auth != null && auth.isEmailVerified();
             onJoinVerifier.checkKickNonRegistered(isAuthAvailable);
+            onJoinVerifier.checkKickNotVerified(isAuthAvailable);
             onJoinVerifier.checkAntibot(name, isAuthAvailable);
             onJoinVerifier.checkNameCasing(name, auth);
             final String ip = event.getAddress().getHostAddress();
