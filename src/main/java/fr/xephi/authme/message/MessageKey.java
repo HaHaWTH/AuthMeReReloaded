@@ -123,7 +123,7 @@ public enum MessageKey {
     MUST_REGISTER_MESSAGE("registration.reg_only"),
 
     /** Only users with verified email addresses can access this feature! Please check your inbox to verify your email! */
-    MUST_VERIFIED_MESSAGE("email.verified_kick"),
+    MUST_VERIFIED_MESSAGE("email.unverified_kick"),
 
     /** You're already logged in! */
     ALREADY_LOGGED_IN_ERROR("error.logged_in"),
