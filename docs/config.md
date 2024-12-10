@@ -59,6 +59,9 @@ DataSource:
   mySQLColumnSalt: ''
   # Column for storing players emails
   mySQLColumnEmail: email
+  # If the kickNotVerified setting is set to true and you want it to work in
+  # integration with your website, you must set the field name here to match the one on your database.
+  mySQLVerifiedField: 'isVerified'
   # Column for storing if a player is logged in or not
   mySQLColumnLogged: isLogged
   # Column for storing if a player has a valid session or not
