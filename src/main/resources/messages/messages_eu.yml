@@ -103,7 +103,7 @@ email:
     send_failure: 'Ezin izan da mezua bidali. Mesedez, jarri harremanetan administratzaile batekin.'
     change_password_expired: 'Pasahitza aldatzeko denbora iraungi da.'
     email_cooldown_error: '&cMezu bat bidali dizugu duela denbora gutxik. %time itxaron behar duzu berriro bidaltzeko eskatu aurretik.'
-    verified_kick: '&cBaieztatutako helbide elektronikoa duten erabiltzaileek bakarrik sar dezakete funtzio honetan! Egiaztatu zure sarrera-ontzia zure helbide elektronikoa berresteko!'
+    unverified_kick: '&cBaieztatutako helbide elektronikoa duten erabiltzaileek bakarrik sar dezakete funtzio honetan! Egiaztatu zure sarrera-ontzia zure helbide elektronikoa berresteko!'
 
 # Password recovery by email
 recovery:
