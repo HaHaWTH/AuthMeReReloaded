@@ -101,7 +101,7 @@ public class OnJoinVerifier implements Reloadable {
      * @throws FailedVerificationException if the email verification is not completed
      */
     public void checkKickNotVerified(boolean isAuthAvailable) throws FailedVerificationException {
-        if (!isAuthAvailable && settings.getProperty(RestrictionSettings.KICK_NOT_VERIFIED)) {
+        if (!isAuthAvailable && settings.getProperty(RestrictionSettings.KICK_NON_REGISTERED) && settings.getProperty(RestrictionSettings.KICK_NOT_VERIFIED)) {
             throw new FailedVerificationException(MessageKey.MUST_VERIFIED_MESSAGE);
         }
     }
