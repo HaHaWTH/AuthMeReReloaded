@@ -102,6 +102,7 @@ email:
     send_failure: 'Email tidak dapat dikirim. Tolong kontak Administrator.'
     change_password_expired: 'Kamu tidak dapat mengubah password menggunakan perintah ini lagi.'
     email_cooldown_error: '&cSebuah email telah dikirim beberapa waktu lalu. Kamu harus menunggu %time sebelum kamu mengirim yang baru.'
+    unverified_kick: '&cHanya pengguna dengan alamat email yang diverifikasi yang dapat mengakses fitur ini! Silakan periksa kotak masuk Anda untuk memverifikasi email Anda!'
 
 # Password recovery by email
 recovery:

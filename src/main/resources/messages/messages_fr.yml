@@ -106,6 +106,7 @@ email:
     send_failure: '&cLe mail n''a pas pu être envoyé. Veuillez contacter un admin.'
     change_password_expired: 'Vous ne pouvez pas changer votre mot de passe avec cette commande.'
     email_cooldown_error: '&cUn mail de récupération a déjà été envoyé récemment. Veuillez attendre %time pour le demander de nouveau.'
+    unverified_kick: '&cSeuls les utilisateurs avec une adresse e-mail vérifiée peuvent accéder à cette fonctionnalité ! Veuillez vérifier votre boîte de réception pour vérifier votre e-mail !'
 
 # Récupération de mot de passe par mail
 recovery:

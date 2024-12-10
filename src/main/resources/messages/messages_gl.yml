@@ -102,6 +102,7 @@ email:
     send_failure: 'O correo electrónico non puido ser enviado. Por favor, contacta cun administrador.'
     change_password_expired: 'Non podes cambiar o teu contrasinal usando este comando máis.'
     email_cooldown_error: '&cUn correo electrónico xa foi enviado recentemente. Debes agardar %time antes de poder enviar un novo.'
+    unverified_kick: '&cSó os usuarios cun enderezo de correo electrónico verificado poden acceder a esta función! Por favor, comprobe a súa caixa de entrada para verificar o seu correo electrónico!'
 
 # Password recovery by email
 recovery:

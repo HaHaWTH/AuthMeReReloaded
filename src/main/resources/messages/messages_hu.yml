@@ -103,6 +103,7 @@ email:
     send_failure: 'Nem sikerült elküldeni az emailt. Lépj kapcsolatba egy adminnal.'
     change_password_expired: 'Ezzel a paranccsal már nem módosíthatja jelszavát.'
     email_cooldown_error: '&cEgy emailt már kiküldtünk. Következő email küldése előtt várnod kell: %time.'
+    unverified_kick: '&cCsak a megerősített e-mail címmel rendelkező felhasználók férhetnek hozzá ehhez a funkcióhoz! Kérjük, ellenőrizze bejövő leveleit az e-mail címének megerősítéséhez!'
 
 # Password recovery by email
 recovery:

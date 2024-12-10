@@ -103,6 +103,7 @@ email:
     send_failure: 'Meili ei õnnestunud saata. Teata sellest administraatorit.'
     change_password_expired: 'Selle käsklusega ei saa sa enam parooli muuta.'
     email_cooldown_error: '&cMeil on juba saadetud. Sa pead ootama %time enne kui saad küsida uue saatmist.'
+    unverified_kick: '&cAinult kinnitatud e-posti aadressiga kasutajad saavad sellele funktsioonile juurde pääseda! Palun kontrollige oma postkasti, et kinnitada oma e-posti aadress!'
 
 # Password recovery by email
 recovery:

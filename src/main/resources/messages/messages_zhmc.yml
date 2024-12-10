@@ -103,6 +103,7 @@ email:
     send_failure: '&c郵件已被作廢,請檢查您的郵箱是否正常工作.'
     change_password_expired: '&c您不能使用此命令更改密碼'
     email_cooldown_error: '&c您需要等待 %time 後才能再次請求發送'
+    unverified_kick: '&c只有經過驗證的電子郵件地址的用戶才能訪問此功能！請檢查您的收件箱以驗證您的電子郵件！'
 
 # Password recovery by email
 recovery:

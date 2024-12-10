@@ -106,6 +106,7 @@ email:
     send_failure: '&cO e-mail não pôde ser enviado, reporte isso a um administrador!'
     change_password_expired: 'Você não pode mais usar esse comando de recuperação de senha!'
     email_cooldown_error: '&cUm e-mail já foi enviado, espere %time antes de enviar novamente!'
+    unverified_kick: '&cApenas usuários com endereços de e-mail verificados podem acessar este recurso! Por favor, verifique sua caixa de entrada para verificar seu e-mail!'
 
 # Recuperação de senha por e-mail
 recovery:

@@ -103,6 +103,7 @@ email:
     send_failure: 'La retpoŝto ne estis sendita. Bonvolu kontakti administranto.'
     change_password_expired: 'Vi ne povas ŝanĝi vian pasvorton per tiu ĉi komando plu.'
     email_cooldown_error: '&cRetmesaĝon jam sendita lastatempe. Vi devas atendi %time antaŭ vi povas sendi novan.'
+    unverified_kick: '&cNur uzantoj kun konfirmita retpoŝta adreso povas aliri ĉi tiun funkcion! Bonvolu kontroli vian leterkeston por konfirmi vian retpoŝton!'
 
 # Password recovery by email
 recovery:

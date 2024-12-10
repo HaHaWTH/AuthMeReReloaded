@@ -103,7 +103,7 @@ email:
     send_failure: 'Nie można wysłać e-maila. Skontaktuj się z administracją.'
     change_password_expired: 'Nie zmienisz już hasła przy użyciu tej komendy.'
     email_cooldown_error: '&cE-mail został wysłany, musisz poczekać %time przed wysłaniem następnego.'
-
+    unverified_kick: '&cDo tej funkcji mogą uzyskać dostęp tylko użytkownicy z zweryfikowanym adresem e-mail! Sprawdź swoją skrzynkę odbiorczą, aby zweryfikować swój e-mail!'
 # Password recovery by email
 recovery:
     forgot_password_hint: '&cZapomniałeś hasła? Proszę użyj komendy /email recovery <twój_e-mail>'

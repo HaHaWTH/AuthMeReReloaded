@@ -104,6 +104,7 @@ email:
     send_failure: 'Non è stato possibile inviare l''email di recupero. Per favore contatta un amministratore.'
     change_password_expired: 'Non puoi più cambiare la tua password con questo comando.'
     email_cooldown_error: '&cUna email di recupero ti è già stata inviata recentemente. Devi attendere %time prima di poterne richiedere una nuova.'
+    unverified_kick: '&cSolo gli utenti con un indirizzo email verificato possono accedere a questa funzionalità! Controlla la tua casella di posta per verificare la tua email!'
 
 # Password recovery by email
 recovery:

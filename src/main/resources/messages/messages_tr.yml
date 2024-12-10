@@ -103,6 +103,7 @@ email:
     send_failure: 'Eposta gonderilemedi. Yetkili ile iletisime gec.'
     change_password_expired: 'Artik bu komutu kullanarak sifrenizi degistiremezsiniz.'
     email_cooldown_error: '&cKisa bir sure once eposta gonderildi. Yeni bir eposta almak icin %time beklemelisin.'
+    unverified_kick: '&cYalnızca doğrulanmış e-posta adresine sahip kullanıcılar bu özelliğe erişebilir! Lütfen e-posta adresinizi doğrulamak için gelen kutunuzu kontrol edin!'
 
 # Password recovery by email
 recovery:

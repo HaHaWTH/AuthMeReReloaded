@@ -43,6 +43,7 @@ error:
   kick_for_vip: '&3Un VIP a intrat pe server cand era plin!'
   kick_unresolved_hostname: '&cA aparut o eroare: nume gazda nerezolvat!'
   tempban_max_logins: '&cAi fost banat temporar deoarece ai esuat sa te autentifici de prea multe ori.'
+  unverified_kick: '&cDoar utilizatorii cu o adresă de e-mail verificată pot accesa această funcție! Vă rugăm să verificați căsuța de e-mail pentru a vă verifica adresa de e-mail!'
 
 # AntiBot
 antibot:

@@ -109,6 +109,7 @@ email:
     send_failure: 'Email nemohol byť poslaný. Prosím kontaktuj Administrátora.'
     change_password_expired: 'Už nemôžeš zmeniť svoje heslo týmto príkazom.'
     email_cooldown_error: '&cEmail bol nedávno poslaný. Musíš počkať %time predtým ako ti pošleme nový.'
+    unverified_kick: '&cLen používatelia s overenou e-mailovou adresou môžu pristupovať k tejto funkcii! Skontrolujte svoju doručenú poštu, aby ste overili svoju e-mailovú adresu!'
 
 # Password recovery by email
 recovery:

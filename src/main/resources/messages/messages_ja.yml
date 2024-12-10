@@ -103,6 +103,7 @@ email:
   send_failure: 'メールを送信できませんでした。管理者に連絡してください。'
   change_password_expired: 'このコマンドを使用してパスワードを変更することはできません。'
   email_cooldown_error: '&c最近すでにメールが送信されています。新しいメールを送信する前に、%time 待つ必要があります。'
+  unverified_kick: '&c確認済みのメールアドレスを持つユーザーのみがこの機能にアクセスできます！メールアドレスの確認のため、受信トレイを確認してください！'
 
 # Password recovery by email
 recovery:

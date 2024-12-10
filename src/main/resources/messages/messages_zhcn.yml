@@ -111,6 +111,7 @@ email:
     send_failure: '&c邮件已被作废,请检查您的邮箱是否正常工作.'
     change_password_expired: '&c您不能使用此命令更改密码'
     email_cooldown_error: '&c您需要等待 %time 后才能再次请求发送'
+    unverified_kick: '&c只有经过验证的电子邮件地址的用户才能访问此功能！请检查您的收件箱以验证您的电子邮件！'
 
 # Password recovery by email
 recovery:

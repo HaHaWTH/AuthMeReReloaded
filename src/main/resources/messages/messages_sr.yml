@@ -103,6 +103,7 @@ email:
     send_failure: 'Email se nije mogao poslati. Molimo Vas da kontaktirate administratora.'
     change_password_expired: 'Ne možete više promeniti svoju lozinku koristeći ovu komandu.'
     email_cooldown_error: '&cEmail je već poslat. Morate sačekati %time pre nego što možete poslati drugi.'
+    unverified_kick: '&cSamo korisnici sa potvrđenom e-mail adresom mogu pristupiti ovoj funkciji! Molimo proverite svoj inbox da biste potvrdili svoj e-mail!'
 
 # Password recovery by email
 recovery:

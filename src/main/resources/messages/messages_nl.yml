@@ -103,6 +103,7 @@ email:
     send_failure: 'De e-mail kon niet verzonden worden. Neem contact op met een administrator.'
     change_password_expired: 'Je kunt je wachtwoord niet meer veranderen met dit commando.'
     email_cooldown_error: '&cEr is recent al een e-mail verzonden. Je moet %time wachten voordat je een nieuw bericht kunt versturen.'
+    unverified_kick: '&cAlleen gebruikers met een geverifieerd e-mailadres kunnen toegang krijgen tot deze functie! Controleer je inbox om je e-mailadres te verifiëren!'
 
 # Password recovery by email
 recovery:

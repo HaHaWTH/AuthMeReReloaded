@@ -103,6 +103,7 @@ email:
     send_failure: 'Sähköpostia ei voitu lähettää. Ota yhteyttä järjestelmänvalvojaan.'
     change_password_expired: 'Et voi enää vaihtaa salasanaa tällä komennolla.'
     email_cooldown_error: '&cSähköpostia on jo lähetetty äskettäin. Sinun on odotettava %time ennen kuin voit lähettää uuden.'
+    verified_kick: '&cVain vahvistetulla sähköpostiosoitteella olevat käyttäjät voivat käyttää tätä ominaisuutta! Tarkista postilaatikkosi vahvistaaksesi sähköpostiosoitteesi!'
 
 # Password recovery by email
 recovery:
