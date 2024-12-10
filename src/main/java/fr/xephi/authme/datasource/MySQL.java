@@ -514,6 +514,7 @@ public class MySQL extends AbstractSqlDataSource {
             .lastLogin(getNullableLong(row, col.LAST_LOGIN))
             .lastIp(row.getString(col.LAST_IP))
             .email(row.getString(col.EMAIL))
+            .emailVerified(row.getBoolean(col.IS_VERIFIED))
             .registrationDate(row.getLong(col.REGISTRATION_DATE))
             .registrationIp(row.getString(col.REGISTRATION_IP))
             .groupId(group)

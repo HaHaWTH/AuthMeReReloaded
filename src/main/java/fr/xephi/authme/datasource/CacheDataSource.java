@@ -282,6 +282,13 @@ public class CacheDataSource implements DataSource {
     }
 
     @Override
+    public DataSourceValue<Boolean> getVerified(String user) {
+        return cachedAuths.getUnchecked(user)
+            .map(auth -> DataSourceValueImpl.of(auth.isEmailVerified()))
+            .orElse(DataSourceValueImpl.unknownRow());
+    }
+
+    @Override
     public List<PlayerAuth> getAllAuths() {
         return source.getAllAuths();
     }

@@ -168,5 +168,15 @@ public abstract class AbstractSqlDataSource implements DataSource {
         }
     }
 
+    @Override
+    public DataSourceValue<Boolean> getVerified(String user) {
+        try {
+            return columnsHandler.retrieve(user, AuthMeColumns.IS_VERIFIED);
+        } catch (SQLException e) {
+            logSqlException(e);
+            return DataSourceValueImpl.unknownRow();
+        }
+    }
+
     abstract String getJdbcUrl(String host, String port, String database);
 }
