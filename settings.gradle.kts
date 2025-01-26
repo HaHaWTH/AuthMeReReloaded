@@ -1,1 +1,1 @@
-rootProject.name = "authme"
+rootProject.name = "AuthMeReReloaded"

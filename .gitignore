@@ -1,4 +1,16 @@
-.gradle
+# Mac filesystem dust
+.DS_Store/
+.DS_Store
+
+# Linux temp files
+*~
+
+# IntelliJ
+*.iml
 .idea
+
+# Gradle
+!gradle/wrapper/gradle-wrapper.jar
+.gradle
 build
 outs

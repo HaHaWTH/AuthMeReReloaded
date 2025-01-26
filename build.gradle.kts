@@ -101,7 +101,9 @@ dependencies {
     // Multi World plugin, https://www.spigotmc.org/resources/multiverse-core.390/
     compileOnly("com.onarandombox.multiversecore:multiverse-core:4.3.14")
     // EssentialsX plugin
-    compileOnly("net.essentialsx:EssentialsX:2.20.1")
+    compileOnly("net.essentialsx:EssentialsX:2.20.1") {
+        exclude("io.papermc", "paperlib")
+    }
     // BCrypt implementation
     implementation("at.favre.lib:bcrypt:0.10.2")
     // PlaceholderAPI
@@ -113,11 +115,11 @@ dependencies {
         exclude("org.checkerframework", "checker-qual")
     }
     // Required to mock the LuckPerms API
-    testImplementation("org.checkerframework:checker-qual:3.40.0")
+    testImplementation("org.checkerframework:checker-qual:3.48.0")
     // Universal Scheduler
     implementation("com.github.Anon8281:UniversalScheduler:0.1.6")
     // JDBC drivers for datasource integration tests
-    testImplementation("org.xerial:sqlite-jdbc:3.46.0.0")
+    testImplementation("org.xerial:sqlite-jdbc:3.47.1.0")
     compileOnly("com.h2database:h2:2.2.224")
 }
 
@@ -127,14 +129,15 @@ tasks {
             expand(project.properties)
         }
     }
+
     build { dependsOn(shadowJar) }
+
     // ShadowJar Config
     shadowJar {
         // Options
-        archiveAppendix.set("")
-        archiveClassifier.set("")
-        archiveBaseName.set("AuthMe")
+        archiveFileName = "AuthMe-${project.version}.${archiveExtension.get()}"
         destinationDirectory.set(file("$rootDir/outs"))
+        exclude("META-INF/**")
         // Libraries Relocate
         relocate("org.apache.http", "fr.xephi.authme.libs.org.apache.http")
         relocate("org.apache.commons", "fr.xephi.authme.libs.org.apache.commons")

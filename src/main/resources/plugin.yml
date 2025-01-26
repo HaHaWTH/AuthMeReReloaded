@@ -3,7 +3,7 @@ name: ${project.name}
 # noinspection YAMLSchemaValidation
 authors: ${project.authors}
 website: https://github.com/HaHaWTH/AuthMeReReloaded/
-description: A fork of AuthMeReloaded that contains bug fixes
+description: ${project.description}
 # noinspection YAMLSchemaValidation
 main: ${project.mainClass}
 folia-supported: true
