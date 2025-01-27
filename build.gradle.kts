@@ -137,7 +137,6 @@ tasks {
         // Options
         archiveFileName = "AuthMe-${project.version}.${archiveExtension.get()}"
         destinationDirectory.set(file("$rootDir/outs"))
-        exclude("META-INF/**")
         // Libraries Relocate
         relocate("org.apache.http", "fr.xephi.authme.libs.org.apache.http")
         relocate("org.apache.commons", "fr.xephi.authme.libs.org.apache.commons")
