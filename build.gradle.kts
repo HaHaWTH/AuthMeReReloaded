@@ -37,57 +37,57 @@ repositories {
 dependencies {
     // Spigot API, https://www.spigotmc.org/
     compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
+    // Adventure API
+    implementation(libs.adventure.text.minimessage)
+    implementation(libs.adventure.platform.bukkit)
+    implementation(libs.adventure.text.serializer.gson)
     // Java Libraries
     compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT")
     // Jalu Injector
-    implementation("ch.jalu:injector:1.0")
+    implementation(libs.injector)
     // String comparison library. Used for dynamic help system.
-    implementation("net.ricecode:string-similarity:1.0.0")
+    implementation(libs.string.similarity)
     // MaxMind GEO IP with our modifications to use GSON in replacement of the big Jackson dependency
     // GSON is already included and therefore it reduces the file size in comparison to the original version
-    implementation("com.maxmind.db:maxmind-db-gson:2.0.3") {
+    implementation(libs.maxmind.db.gson) {
         exclude("com.google.code.gson", "gson")
     }
     // Library for tar archives
-    implementation("javatar:javatar:2.5")
+    implementation(libs.javatar)
     // Java Email Library
-    implementation("org.apache.commons:commons-email:1.6-SNAPSHOT")
+    implementation(libs.commons.email)
     // Log4J Logger (required by the console filter)
-    compileOnly("org.apache.logging.log4j:log4j-core:2.20.0") // Log4J version bundled in 1.12.2
+    compileOnly(libs.log4j.core) // Log4J version bundled in 1.12.2
     // Libby
-    implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
+    implementation(libs.libby.bukkit)
     // Database Connection Pool
-    implementation("com.zaxxer:HikariCP:4.0.3" /* Latest java 8 release */) {
+    implementation(libs.hikaricp) {
         exclude("org.slf4j", "slf4j-api")
     }
     // HikariCP Logger
-    implementation("org.slf4j:slf4j-simple:1.7.36") // We can't update to 2.x as long as we use HikariCP for java 8
+    implementation(libs.slf4j.simple) // We can't update to 2.x as long as we use HikariCP for java 8
     // PBKDF2 implementation
-    implementation("de.rtner:PBKDF2:1.1.4")
+    implementation(libs.pbkdf2)
     // MySQL connector, shaded into the legacy jar
-    implementation("com.mysql:mysql-connector-j:9.1.0")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.1")
+    implementation(libs.mysql.connector.j)
+    implementation(libs.mariadb.java.client)
     // Argon2 implementation
-    implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
+    implementation(libs.argon2.jvm.nolibs)
     // TOTP client
-    implementation("com.warrenstrange:googleauth:1.5.0")
+    implementation(libs.googleauth)
     // Keep in sync with spigot 1.19
-    implementation("com.google.guava:guava:33.2.1-jre") {
+    implementation(libs.guava) {
         exclude("org.checkerframework", "checker-qual")
     }
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.gson)
     // ConfigMe
-    implementation("ch.jalu:configme:1.3.1") {
+    implementation(libs.configme) {
         exclude("org.yaml", "snakeyaml")
     }
     // bStats metrics
     implementation("org.bstats:bstats-bukkit:3.0.2")
     // ProtocolLib
     compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
-    // Adventure API
-    implementation("net.kyori:adventure-text-minimessage:4.18.0")
-    implementation("net.kyori:adventure-platform-bukkit:4.3.4")
-    implementation("net.kyori:adventure-text-serializer-gson:4.18.0")
     // LuckPerms plugin
     compileOnly("net.luckperms:api:5.4")
     // PermissionsEx plugin
@@ -105,22 +105,22 @@ dependencies {
         exclude("io.papermc", "paperlib")
     }
     // BCrypt implementation
-    implementation("at.favre.lib:bcrypt:0.10.2")
+    implementation(libs.bcrypt)
     // PlaceholderAPI
     compileOnly("me.clip:placeholderapi:2.11.6")
     // XAuth, another authentication plugin, required by the database converter
     compileOnly("de.luricos.bukkit:xAuth:2.6.1-SNAPSHOT")
-    implementation("ch.jalu:datasourcecolumns:0.1.1-SNAPSHOT")
-    implementation("org.postgresql:postgresql:42.7.4") {
+    implementation(libs.datasourcecolumns)
+    implementation(libs.postgresql) {
         exclude("org.checkerframework", "checker-qual")
     }
     // Required to mock the LuckPerms API
-    testImplementation("org.checkerframework:checker-qual:3.48.0")
+    testImplementation(libs.checker.qual)
     // Universal Scheduler
-    implementation("com.github.Anon8281:UniversalScheduler:0.1.6")
+    implementation(libs.universalscheduler)
     // JDBC drivers for datasource integration tests
-    testImplementation("org.xerial:sqlite-jdbc:3.47.1.0")
-    compileOnly("com.h2database:h2:2.2.224")
+    testImplementation(libs.sqlite.jdbc)
+    compileOnly(libs.h2)
 }
 
 tasks {
