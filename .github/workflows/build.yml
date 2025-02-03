@@ -14,18 +14,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Cache Gradle Packages
-        uses: actions/cache@v4
-        with:
-          key: ${{ runner.os }}-Build-Cache
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
           java-version: 21
+          distribution: temurin
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
       - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
       - name: Build

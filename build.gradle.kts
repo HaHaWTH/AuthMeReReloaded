@@ -65,8 +65,8 @@ dependencies {
     // PBKDF2 implementation
     implementation("de.rtner:PBKDF2:1.1.4")
     // MySQL connector, shaded into the legacy jar
-    implementation("com.mysql:mysql-connector-j:8.4.0")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
+    implementation("com.mysql:mysql-connector-j:9.1.0")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.1")
     // Argon2 implementation
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
     // TOTP client
@@ -83,11 +83,11 @@ dependencies {
     // bStats metrics
     implementation("org.bstats:bstats-bukkit:3.0.2")
     // ProtocolLib
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
     // Adventure API
-    implementation("net.kyori:adventure-text-minimessage:4.17.0")
-    implementation("net.kyori:adventure-platform-bukkit:4.3.2")
-    implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
+    implementation("net.kyori:adventure-text-minimessage:4.18.0")
+    implementation("net.kyori:adventure-platform-bukkit:4.3.4")
+    implementation("net.kyori:adventure-text-serializer-gson:4.18.0")
     // LuckPerms plugin
     compileOnly("net.luckperms:api:5.4")
     // PermissionsEx plugin
@@ -111,7 +111,7 @@ dependencies {
     // XAuth, another authentication plugin, required by the database converter
     compileOnly("de.luricos.bukkit:xAuth:2.6.1-SNAPSHOT")
     implementation("ch.jalu:datasourcecolumns:0.1.1-SNAPSHOT")
-    implementation("org.postgresql:postgresql:42.7.3") {
+    implementation("org.postgresql:postgresql:42.7.4") {
         exclude("org.checkerframework", "checker-qual")
     }
     // Required to mock the LuckPerms API
@@ -169,10 +169,7 @@ tasks {
         // bStats metrics class
         relocate("org.bstats", "fr.xephi.authme.libs.org.bstats")
         relocate("org.mariadb.jdbc", "fr.xephi.authme.libs.org.mariadb.jdbc")
-        relocate(
-            "com.github.Anon8281.universalScheduler",
-            "fr.xephi.authme.libs.com.github.Anon8281.universalScheduler"
-        )
+        relocate("com.github.Anon8281.universalScheduler", "fr.xephi.authme.libs.com.github.Anon8281.universalScheduler")
         relocate("com.mysql", "fr.xephi.authme.libs.com.mysql")
         relocate("com.google.protobuf", "fr.xephi.authme.libs.com.google.protobuf")
         relocate("io.netty", "fr.xephi.authme.libs.io.netty")
