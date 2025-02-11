@@ -1,13 +1,13 @@
 # noinspection YAMLSchemaValidation
-name: ${pluginDescription.name}
+name: ${project.name}
 # noinspection YAMLSchemaValidation
-authors: [${pluginDescription.authors}]
+authors: ${project.authors}
 website: https://github.com/HaHaWTH/AuthMeReReloaded/
-description: A fork of AuthMeReloaded that contains bug fixes
+description: ${project.description}
 # noinspection YAMLSchemaValidation
-main: ${pluginDescription.main}
+main: ${project.mainClass}
 folia-supported: true
-version: 5.7.0-FORK-b53
+version: ${project.version}
 api-version: 1.13
 softdepend:
     - Vault

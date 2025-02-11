@@ -1,0 +1,56 @@
+[versions]
+adventureApi = "4.18.0"
+adventurePlatform = "4.3.4"
+injector = "1.0"
+string-similarity = "1.0.0"
+maxmind-db-gson = "2.0.3"
+javatar = "2.5"
+commons-email = "1.6-SNAPSHOT"
+log4j-core = "2.20.0"
+libby-bukkit = "2.0.0-SNAPSHOT"
+hikaricp = "4.0.3"
+slf4j-simple = "1.7.36"
+pbkdf2 = "1.1.4"
+mysql-connector-j = "9.1.0"
+mariadb-java-client = "3.5.1"
+argon2-jvm-nolibs = "2.11"
+googleauth = "1.5.0"
+guava = "33.2.1-jre"
+gson = "2.10.1"
+configme = "1.3.1"
+bcrypt = "0.10.2"
+datasourcecolumns = "0.1.1-SNAPSHOT"
+postgresql = "42.7.4"
+checker-qual = "3.48.0"
+universalscheduler = "0.1.6"
+sqlite-jdbc = "3.47.1.0"
+h2 = "2.2.224"
+
+[libraries]
+adventure-text-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventureApi" }
+adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventurePlatform" }
+adventure-text-serializer-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventureApi" }
+injector = { group = "ch.jalu", name = "injector", version.ref = "injector" }
+string-similarity = { group = "net.ricecode", name = "string-similarity", version.ref = "string-similarity" }
+maxmind-db-gson = { group = "com.maxmind.db", name = "maxmind-db-gson", version.ref = "maxmind-db-gson" }
+javatar = { group = "javatar", name = "javatar", version.ref = "javatar" }
+commons-email = { group = "org.apache.commons", name = "commons-email", version.ref = "commons-email" }
+log4j-core = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "log4j-core" }
+libby-bukkit = { group = "com.alessiodp.libby", name = "libby-bukkit", version.ref = "libby-bukkit" }
+hikaricp = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikaricp" }
+slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j-simple" }
+pbkdf2 = { group = "de.rtner", name = "PBKDF2", version.ref = "pbkdf2" }
+mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql-connector-j" }
+mariadb-java-client = { group = "org.mariadb.jdbc", name = "mariadb-java-client", version.ref = "mariadb-java-client" }
+argon2-jvm-nolibs = { group = "de.mkammerer", name = "argon2-jvm-nolibs", version.ref = "argon2-jvm-nolibs" }
+googleauth = { group = "com.warrenstrange", name = "googleauth", version.ref = "googleauth" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+configme = { group = "ch.jalu", name = "configme", version.ref = "configme" }
+bcrypt = { group = "at.favre.lib", name = "bcrypt", version.ref = "bcrypt" }
+datasourcecolumns = { group = "ch.jalu", name = "datasourcecolumns", version.ref = "datasourcecolumns" }
+postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
+checker-qual = { group = "org.checkerframework", name = "checker-qual", version.ref = "checker-qual" }
+universalscheduler = { group = "com.github.Anon8281", name = "UniversalScheduler", version.ref = "universalscheduler" }
+sqlite-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqlite-jdbc" }
+h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
