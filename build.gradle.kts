@@ -18,7 +18,6 @@ tasks.withType<JavaCompile> {
 
 repositories {
     mavenCentral()
-    // PaperMC
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.opencollab.dev/main/")
     maven("https://repo.opencollab.dev/maven-snapshots/")
@@ -56,11 +55,7 @@ dependencies {
     // Libby
     implementation(libs.libby.bukkit)
     // Database Connection Pool
-    implementation(libs.hikaricp) {
-        exclude("org.slf4j", "slf4j-api")
-    }
-    // HikariCP Logger
-    implementation(libs.slf4j.simple) // We can't update to 2.x as long as we use HikariCP for java 8
+    implementation(libs.hikaricp)
     // PBKDF2 implementation
     implementation(libs.pbkdf2)
     // MySQL connector, shaded into the legacy jar
@@ -70,40 +65,36 @@ dependencies {
     implementation(libs.argon2.jvm.nolibs)
     // TOTP client
     implementation(libs.googleauth)
-    // Keep in sync with spigot 1.19
-    implementation(libs.guava) {
-        exclude("org.checkerframework", "checker-qual")
-    }
     // ConfigMe
     implementation(libs.configme) {
         exclude("org.yaml", "snakeyaml")
     }
     // bStats metrics
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation(libs.bstats)
     // ProtocolLib
-    compileOnly("net.dmulloy2:ProtocolLib:5.4.0")
+    compileOnly(libs.protocollib)
     // LuckPerms plugin
-    compileOnly("net.luckperms:api:5.4")
+    compileOnly(libs.luckperms)
     // PermissionsEx plugin
-    compileOnly("ru.tehkode:PermissionsEx:1.23.5-SNAPSHOT")
+    compileOnly(libs.pex)
     // zPermissions plugin
-    compileOnly("org.tyrannyofheaven.bukkit:zPermissions:1.4.3-SNAPSHOT") {
+    compileOnly(libs.zpermissions) {
         exclude("org.avaje", "ebean")
     }
-    // Vault, https://dev.bukkit.org/bukkit-plugins/vault/
-    compileOnly("net.milkbowl.vault:VaultAPI:1.7")
-    // Multi World plugin, https://www.spigotmc.org/resources/multiverse-core.390/
-    compileOnly("com.onarandombox.multiversecore:multiverse-core:4.3.14")
+    // Vault
+    compileOnly(libs.vault)
+    // Multi World plugin
+    compileOnly(libs.multiverse)
     // EssentialsX plugin
-    compileOnly("net.essentialsx:EssentialsX:2.20.1") {
+    compileOnly(libs.essentialsx) {
         exclude("io.papermc", "paperlib")
     }
     // BCrypt implementation
     implementation(libs.bcrypt)
     // PlaceholderAPI
-    compileOnly("me.clip:placeholderapi:2.11.6")
-    // XAuth, another authentication plugin, required by the database converter
-    compileOnly("de.luricos.bukkit:xAuth:2.6.1-SNAPSHOT")
+    compileOnly(libs.placeholderapi)
+    // XAuth plugin
+    compileOnly(libs.xauth)
     implementation(libs.datasourcecolumns)
     implementation(libs.postgresql) {
         exclude("org.checkerframework", "checker-qual")
@@ -169,9 +160,6 @@ tasks {
         relocate("io.netty", "fr.xephi.authme.libs.io.netty")
         relocate("org.apache.commons.validator", "fr.xephi.authme.libs.org.apache.commons.validator")
         relocate("com.alessiodp.libby", "fr.xephi.authme.libs.com.alessiodp.libby")
-        relocate("net.kyori.adventure", "fr.xephi.authme.libs.net.kyori.adventure")
-        relocate("net.kyori.examination", "fr.xephi.authme.libs.net.kyori.examination")
-        relocate("net.kyori.option", "fr.xephi.authme.libs.net.kyori.option")
     }
 }
 
