@@ -1,14 +1,17 @@
 plugins {
+    java
     `java-library`
     `maven-publish`
-    id("com.gradleup.shadow") version "9.0.0-beta4"
+    id("com.gradleup.shadow") version "9.0.2"
 }
 
 description = "Fork of the first authentication plugin for the Bukkit API!"
 
 java {
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    //sourceCompatibility = JavaVersion.VERSION_1_8
+    //targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType<JavaCompile> {
@@ -17,7 +20,7 @@ tasks.withType<JavaCompile> {
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    //mavenLocal()
     // PaperMC
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://repo.opencollab.dev/main/")
@@ -36,13 +39,13 @@ repositories {
 
 dependencies {
     // Spigot API, https://www.spigotmc.org/
-    compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT")
     // Adventure API
     implementation(libs.adventure.text.minimessage)
     implementation(libs.adventure.platform.bukkit)
     implementation(libs.adventure.text.serializer.gson)
     // Java Libraries
-    compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT")
+    compileOnly("org.geysermc.floodgate:api:2.2.4-SNAPSHOT")
     // Jalu Injector
     implementation(libs.injector)
     // String comparison library. Used for dynamic help system.
@@ -87,7 +90,7 @@ dependencies {
     // bStats metrics
     implementation("org.bstats:bstats-bukkit:3.0.2")
     // ProtocolLib
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
+    compileOnly("net.dmulloy2:ProtocolLib:5.4.0")
     // LuckPerms plugin
     compileOnly("net.luckperms:api:5.4")
     // PermissionsEx plugin
