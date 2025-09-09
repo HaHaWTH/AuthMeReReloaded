@@ -10,8 +10,6 @@ description = "Fork of the first authentication plugin for the Bukkit API!"
 java {
     withSourcesJar()
     toolchain.languageVersion = JavaLanguageVersion.of(17)
-    //sourceCompatibility = JavaVersion.VERSION_1_8
-    //targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType<JavaCompile> {
@@ -20,14 +18,12 @@ tasks.withType<JavaCompile> {
 
 repositories {
     mavenCentral()
-    //mavenLocal()
     // PaperMC
-    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.opencollab.dev/main/")
     maven("https://repo.opencollab.dev/maven-snapshots/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repository.apache.org/content/repositories/snapshots/")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
     maven("https://repo.codemc.io/repository/maven-public/")
     maven("https://repo.essentialsx.net/releases/")
     maven("https://repo.dmulloy2.net/nexus/repository/releases/")
@@ -38,14 +34,10 @@ repositories {
 }
 
 dependencies {
-    // Spigot API, https://www.spigotmc.org/
-    compileOnly("org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT")
-    // Adventure API
-    implementation(libs.adventure.text.minimessage)
-    implementation(libs.adventure.platform.bukkit)
-    implementation(libs.adventure.text.serializer.gson)
-    // Java Libraries
-    compileOnly("org.geysermc.floodgate:api:2.2.4-SNAPSHOT")
+    // Paper API, https://papermc.io/
+    compileOnly(libs.paper.api)
+    // Floodgate
+    compileOnly(libs.floodgate)
     // Jalu Injector
     implementation(libs.injector)
     // String comparison library. Used for dynamic help system.
@@ -82,7 +74,6 @@ dependencies {
     implementation(libs.guava) {
         exclude("org.checkerframework", "checker-qual")
     }
-    implementation(libs.gson)
     // ConfigMe
     implementation(libs.configme) {
         exclude("org.yaml", "snakeyaml")

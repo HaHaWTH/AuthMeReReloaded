@@ -1,6 +1,6 @@
 [versions]
-adventureApi = "4.18.0"
-adventurePlatform = "4.3.4"
+paper-api = "1.20.4-R0.1-SNAPSHOT"
+floodgate = "2.2.4-SNAPSHOT"
 injector = "1.0"
 string-similarity = "1.0.0"
 maxmind-db-gson = "2.0.3"
@@ -27,9 +27,8 @@ sqlite-jdbc = "3.47.1.0"
 h2 = "2.2.224"
 
 [libraries]
-adventure-text-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventureApi" }
-adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventurePlatform" }
-adventure-text-serializer-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventureApi" }
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper-api" }
+floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
 injector = { group = "ch.jalu", name = "injector", version.ref = "injector" }
 string-similarity = { group = "net.ricecode", name = "string-similarity", version.ref = "string-similarity" }
 maxmind-db-gson = { group = "com.maxmind.db", name = "maxmind-db-gson", version.ref = "maxmind-db-gson" }
