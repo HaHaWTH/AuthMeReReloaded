@@ -39,6 +39,9 @@ libraries:
   - com.warrenstrange:googleauth:${dependencies.googleauth.version}
   - ch.jalu:configme:${dependencies.configme.version}
   - org.bstats:bstats-bukkit:${dependencies.bstats.version}
+  - net.kyori:adventure-text-minimessage:${dependencies.adventure.version}
+  - net.kyori:adventure-platform-bukkit:${dependencies.adventure-platform.version}
+  - net.kyori:adventure-text-serializer-gson:${dependencies.adventure.version}
 commands:
   authme:
     description: AuthMe op commands

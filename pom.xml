@@ -100,6 +100,10 @@
         <dependencies.log4j-core.version>2.20.0</dependencies.log4j-core.version> <!-- TODO: check this, version bundled 1.16.5 -->
         <!-- Spigot libraries -->
         <dependencies.bstats.version>3.0.2</dependencies.bstats.version>
+        <!-- AuthMeReReloaded libraries -->
+        <dependencies.adventure.version>4.17.0</dependencies.adventure.version>
+        <dependencies.adventure-platform.version>4.3.4</dependencies.adventure-platform.version>
+
     </properties>
 
 
@@ -339,28 +343,8 @@
                             <shadedPattern>fr.xephi.authme.libs.com.github.Anon8281.universalScheduler</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>io.netty</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.io.netty</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache.commons.validator</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.apache.commons.validator</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>com.alessiodp.libby</pattern>
                             <shadedPattern>fr.xephi.authme.libs.com.alessiodp.libby</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori.adventure</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.net.kyori.adventure</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori.examination</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.net.kyori.examination</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori.option</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.net.kyori.option</shadedPattern>
                         </relocation>
                     </relocations>
 
@@ -796,17 +780,20 @@
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.17.0</version>
+            <version>${dependencies.adventure.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bukkit</artifactId>
-            <version>4.3.4</version>
+            <version>${dependencies.adventure-platform.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-gson</artifactId>
-            <version>4.17.0</version>
+            <version>${dependencies.adventure.version}</version>
+            <scope>provided</scope>
         </dependency>
              
         <!-- LuckPerms plugin -->
