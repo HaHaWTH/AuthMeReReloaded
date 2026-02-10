@@ -96,8 +96,8 @@
         <dependencies.googleauth.version>1.5.0</dependencies.googleauth.version>
         <dependencies.configme.version>1.3.1</dependencies.configme.version>
         <!-- Spigot -->
-        <dependencies.spigot.version>1.16.5-R0.1-SNAPSHOT</dependencies.spigot.version>
-        <dependencies.log4j-core.version>2.8.1</dependencies.log4j-core.version> <!-- version bundled 1.16.5 -->
+        <dependencies.spigot.version>1.21.1-R0.1-SNAPSHOT</dependencies.spigot.version>
+        <dependencies.log4j-core.version>2.20.0</dependencies.log4j-core.version> <!-- TODO: check this, version bundled 1.16.5 -->
         <!-- Spigot libraries -->
         <dependencies.bstats.version>3.0.2</dependencies.bstats.version>
     </properties>
@@ -278,15 +278,48 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
                 <executions>
-                    <!-- Disable, we aren't using shading atm
                     <execution>
                         <id>shaded-jar</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <finalName>${project.finalNameBase}-Lite</finalName>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.benmanes.caffeine</pattern>
+                                    <shadedPattern>fr.xephi.authme.libs.com.github.benmanes.caffeine</shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
-                    -->
+                    <execution>
+                        <id>shaded-jar-relocate</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>${project.finalNameBase}-Universal</finalName>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.benmanes.caffeine</pattern>
+                                    <shadedPattern>fr.xephi.authme.libs.com.github.benmanes.caffeine</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <!-- Don't create the reduced pom file, as we don't deploy the shaded jar -->
