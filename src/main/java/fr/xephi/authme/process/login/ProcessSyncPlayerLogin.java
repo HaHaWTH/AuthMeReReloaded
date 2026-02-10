@@ -93,11 +93,9 @@ public class ProcessSyncPlayerLogin implements SynchronousProcess {
 
         final PlayerAuth auth = playerCache.getAuth(name);
 
-        // AuthMeReReloaded start - Fix #57
-        if (isFirstLogin) {
+        if (isFirstLogin) { // Save quit location before login teleport
             auth.setQuitLocation(player.getLocation());
         }
-        // AuthMeReReloaded end - Fix #57
 
         teleportationService.teleportOnLogin(player, auth, limbo);
 
