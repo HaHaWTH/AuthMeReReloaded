@@ -28,9 +28,6 @@ public class ProcessSyncPlayerQuit implements SynchronousProcess {
             commandManager.runCommandsOnLogout(player);
         } else {
             limboService.restoreData(player);
-            if (!UniversalScheduler.isFolia) { // AuthMeReReloaded - Fix #146 (Very stupid solution, but works)
-                // player.saveData(); // #1238: Speed is sometimes not restored properly
-            }
         }
         player.leaveVehicle();
     }

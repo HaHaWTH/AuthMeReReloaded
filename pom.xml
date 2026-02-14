@@ -60,14 +60,11 @@
         <!-- Environment properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.source>1.8</java.source>
-        <java.target>1.8</java.target>
-        <java.apiVersion>8</java.apiVersion>
-        <java.compiler.minimumVersion>11</java.compiler.minimumVersion>
-        <maven.minimumVersion>3.6.3</maven.minimumVersion>
-
-        <!-- Dependencies versions -->
-        <spigot.version>1.21.1-R0.1-SNAPSHOT</spigot.version>
+        <java.source>17</java.source>
+        <java.target>17</java.target>
+        <java.apiVersion>17</java.apiVersion>
+        <java.compiler.minimumVersion>17</java.compiler.minimumVersion>
+        <maven.minimumVersion>3.8.8</maven.minimumVersion>
 
         <!-- Versioning properties -->
         <project.outputName>AuthMe</project.outputName>
@@ -80,13 +77,43 @@
         <pluginDescription.version>${project.versionCode}</pluginDescription.version>
         <pluginDescription.main>${project.groupId}.${project.artifactId}.${pluginDescription.name}</pluginDescription.main>
         <pluginDescription.authors>sgdc3, games647, Hex3l, krusic22</pluginDescription.authors>
+
+        <!-- Java libraries -->
+        <dependencies.injector.version>1.0</dependencies.injector.version>
+        <dependencies.string-similarity.version>1.0.0</dependencies.string-similarity.version>
+        <dependencies.geoip2.version>4.2.0</dependencies.geoip2.version>
+        <dependencies.javatar.version>2.5</dependencies.javatar.version>
+        <dependencies.commons-email.version>1.6.0</dependencies.commons-email.version>
+        <dependencies.hikaricp.version>5.1.0</dependencies.hikaricp.version>
+        <dependencies.slf4j.version>2.0.13</dependencies.slf4j.version>
+        <dependencies.datasourcecolumns.version>0.1.2</dependencies.datasourcecolumns.version>
+        <dependencies.mysql-connector-j.version>8.4.0</dependencies.mysql-connector-j.version>
+        <dependencies.mariadb-java-client.version>3.4.0</dependencies.mariadb-java-client.version>
+        <dependencies.postgresql.version>42.7.3</dependencies.postgresql.version>
+        <dependencies.pbkdf2.version>1.1.4</dependencies.pbkdf2.version>
+        <dependencies.argon2-jvm-nolibs.version>2.11</dependencies.argon2-jvm-nolibs.version>
+        <dependencies.bcrypt.version>0.10.2</dependencies.bcrypt.version>
+        <dependencies.googleauth.version>1.5.0</dependencies.googleauth.version>
+        <dependencies.configme.version>1.3.1</dependencies.configme.version>
+        <!-- Spigot -->
+        <dependencies.spigot.version>1.21.1-R0.1-SNAPSHOT</dependencies.spigot.version>
+        <dependencies.log4j-core.version>2.20.0</dependencies.log4j-core.version> <!-- TODO: check this, version bundled 1.16.5 -->
+        <!-- Spigot libraries -->
+        <dependencies.bstats.version>3.0.2</dependencies.bstats.version>
+        <!-- AuthMeReReloaded libraries -->
+        <dependencies.adventure.version>4.17.0</dependencies.adventure.version>
+        <dependencies.adventure-platform.version>4.3.4</dependencies.adventure-platform.version>
+
     </properties>
 
 
     <build>
         <defaultGoal>clean package</defaultGoal>
-        <!-- Little hack to make the shade plugin output a file with the right name -->
+        <!-- Little hack to make the shade plugin output a file with the right name
+        Disable, we aren't using shading atm
         <finalName>${project.finalNameBase}-noshade</finalName>
+        -->
+
         <resources>
             <resource>
                 <directory>.</directory>
@@ -139,7 +166,7 @@
                                     <version>${maven.minimumVersion}</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[17,)</version>
+                                    <version>[${java.compiler.minimumVersion},)</version>
                                 </requireJavaVersion>
                             </rules>
                             <fail>true</fail>
@@ -180,6 +207,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
+                <configuration>
+                    <includes>
+                        <include>fr/xephi/authme/*</include>
+                        <include>fr/xephi/authme/**/*</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -215,7 +248,7 @@
                 <configuration>
                     <finalName>${project.finalNameBase}</finalName>
                     <!-- In sync with the source/target properties of the maven-compiler-plugin -->
-                    <source>8</source>
+                    <source>${java.source}</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -257,31 +290,7 @@
                         </goals>
                         <configuration>
                             <finalName>${project.finalNameBase}-Lite</finalName>
-                            <artifactSet>
-                                <excludes>
-                                    <!-- Guava -->
-                                    <exclude>com.google.guava:guava</exclude>
-                                    <exclude>com.google.guava:failureaccess</exclude>
-                                    <exclude>com.google.guava:listenablefuture</exclude>
-                                    <exclude>com.google.errorprone:error_prone_annotations</exclude>
-                                    <exclude>com.google.j2objc:j2objc-annotations</exclude>
-                                    <!-- Gson -->
-                                    <exclude>com.google.code.gson:gson</exclude>
-                               </excludes>
-                            </artifactSet>
                             <relocations>
-                                <relocation>
-                                    <pattern>org.apache.http</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.org.apache.http</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.org.apache.commons</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>waffle</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.waffle</shadedPattern>
-                                </relocation>
                                 <relocation>
                                     <pattern>com.github.benmanes.caffeine</pattern>
                                     <shadedPattern>fr.xephi.authme.libs.com.github.benmanes.caffeine</shadedPattern>
@@ -309,38 +318,6 @@
                             <finalName>${project.finalNameBase}-Universal</finalName>
                             <relocations>
                                 <relocation>
-                                    <pattern>com.google.common</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.com.google.common</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.thirdparty</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.com.google.thirdparty</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.j2objc</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.com.google.j2objc</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.errorprone</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.com.google.errorprone</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.com.google.gson</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.http</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.org.apache.http</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.org.apache.commons</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>waffle</pattern>
-                                    <shadedPattern>fr.xephi.authme.libs.waffle</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>com.github.benmanes.caffeine</pattern>
                                     <shadedPattern>fr.xephi.authme.libs.com.github.benmanes.caffeine</shadedPattern>
                                 </relocation>
@@ -362,109 +339,12 @@
                     -->
                     <relocations combine.children="append">
                         <relocation>
-                            <pattern>ch.jalu</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.ch.jalu</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.zaxxer.hikari</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.com.zaxxer.hikari</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.slf4j</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.slf4j</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.maxmind.db</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.com.maxmind.db</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.ice.tar</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.com.icetar.tar</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.ricecode.similarity</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.ricecode.net.ricecode.similarity</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.rtner</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.de.rtner</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.picketbox</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.picketbox</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.jboss.crypto</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.jboss.crypto</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.jboss.security</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.jboss.security</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.mkammerer</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.de.mkammerer</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.warrenstrange</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.com.warrenstrange</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>javax.inject</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.javax.inject</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>at.favre.lib</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.at.favre.lib</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.postgresql</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.postgresql</shadedPattern>
-                        </relocation>
-                        <!-- bStats metrics class -->
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.mariadb.jdbc</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.mariadb.jdbc</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>com.github.Anon8281.universalScheduler</pattern>
                             <shadedPattern>fr.xephi.authme.libs.com.github.Anon8281.universalScheduler</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>com.mysql</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.com.mysql</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.google.protobuf</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.com.google.protobuf</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>io.netty</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.io.netty</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache.commons.validator</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.org.apache.commons.validator</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>com.alessiodp.libby</pattern>
                             <shadedPattern>fr.xephi.authme.libs.com.alessiodp.libby</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori.adventure</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.net.kyori.adventure</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori.examination</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.net.kyori.examination</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori.option</pattern>
-                            <shadedPattern>fr.xephi.authme.libs.net.kyori.option</shadedPattern>
                         </relocation>
                     </relocations>
 
@@ -642,6 +522,13 @@
             </snapshots>
         </repository>
 
+        <!-- AlessioDP's Libby fork Repo -->
+        <repository>
+            <id>alessiodp-repo-snapshots</id>
+            <name>AlessioDP Maven Repository</name>
+            <url>https://repo.alessiodp.com/snapshots</url>
+        </repository>
+
         <repository>
             <id>opencollab-snapshot</id>
             <url>https://repo.opencollab.dev/maven-snapshots/</url>
@@ -685,46 +572,31 @@
         <dependency>
             <groupId>net.ricecode</groupId>
             <artifactId>string-similarity</artifactId>
-            <version>1.0.0</version>
-            <optional>true</optional>
+            <version>${dependencies.string-similarity.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-        <!-- MaxMind GEO IP with our modifications to use GSON in replacement of the big Jackson dependency -->
-        <!-- GSON is already included, and therefore it reduces the file size in comparison to the original version -->
+        <!-- MaxMind GEO IP -->
         <dependency>
-            <groupId>com.maxmind.db</groupId>
-            <artifactId>maxmind-db-gson</artifactId>
-            <version>2.0.3</version>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>${dependencies.geoip2.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Library for tar archives -->
         <dependency>
             <groupId>javatar</groupId>
             <artifactId>javatar</artifactId>
-            <version>2.5</version>
-            <optional>true</optional>
+            <version>${dependencies.javatar.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Java Email Library -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
-            <version>1.6-SNAPSHOT</version>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Log4J Logger (required by the console filter) -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version> <!-- Log4J version bundled in 1.12.2 -->
+            <version>${dependencies.commons-email.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -740,84 +612,60 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>4.0.3</version> <!-- Latest java 8 release -->
-            <optional>true</optional>
+            <version>${dependencies.hikaricp.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- HikariCP Logger -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.36</version> <!-- We can't update to 2.x as long as we use HikariCP for java 8 -->
-            <optional>true</optional>
+            <version>${dependencies.slf4j.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-        <!-- PBKDF2 implementation -->
+        <!-- Data source columns -->
         <dependency>
-            <groupId>de.rtner</groupId>
-            <artifactId>PBKDF2</artifactId>
-            <version>1.1.4</version>
-            <optional>true</optional>
+            <groupId>ch.jalu</groupId>
+            <artifactId>datasourcecolumns</artifactId>
+            <version>${dependencies.datasourcecolumns.version}</version>
+            <scope>provided</scope>
         </dependency>
 
-        <!-- MySQL connector, shaded into the legacy jar -->
+        <!-- MySQL connector -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.33</version>
-            <optional>true</optional>
+            <version>${dependencies.mysql-connector-j.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>3.3.3</version>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Argon2 implementation -->
-        <dependency>
-            <groupId>de.mkammerer</groupId>
-            <artifactId>argon2-jvm-nolibs</artifactId>
-            <version>2.11</version>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- TOTP client -->
-        <dependency>
-            <groupId>com.warrenstrange</groupId>
-            <artifactId>googleauth</artifactId>
-            <version>1.5.0</version>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- Spigot API, https://www.spigotmc.org/ -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
+            <version>${dependencies.mariadb-java-client.version}</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>junit</artifactId>
-                    <groupId>junit</groupId>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker-qual</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.googlecode.json-simple</groupId>
-                    <artifactId>json-simple</artifactId>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>error_prone_annotations</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--  Keep in sync with spigot 1.19  -->
+
+        <!-- PostgreSQL -->
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
-            <optional>true</optional>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${dependencies.postgresql.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.checkerframework</groupId>
@@ -825,20 +673,45 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--  Keep in sync with spigot 1.19  -->
+
+        <!-- PBKDF2 implementation -->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-            <optional>true</optional>
+            <groupId>de.rtner</groupId>
+            <artifactId>PBKDF2</artifactId>
+            <version>${dependencies.pbkdf2.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Argon2 implementation -->
+        <dependency>
+            <groupId>de.mkammerer</groupId>
+            <artifactId>argon2-jvm-nolibs</artifactId>
+            <version>${dependencies.argon2-jvm-nolibs.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- BCrypt implementation -->
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>${dependencies.bcrypt.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- TOTP client -->
+        <dependency>
+            <groupId>com.warrenstrange</groupId>
+            <artifactId>googleauth</artifactId>
+            <version>${dependencies.googleauth.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- ConfigMe -->
         <dependency>
             <groupId>ch.jalu</groupId>
             <artifactId>configme</artifactId>
-            <version>1.3.1</version>
-            <optional>true</optional>
+            <version>${dependencies.configme.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.yaml</groupId>
@@ -847,19 +720,45 @@
             </exclusions>
         </dependency>
 
+        <!-- Spigot API, https://www.spigotmc.org/ -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${dependencies.spigot.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.joml</groupId>
+                    <artifactId>joml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.md-5</groupId>
+                    <artifactId>bungeecord-chat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${dependencies.log4j-core.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Bukkit Libraries  -->
+
         <!-- bStats metrics  -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
-            <optional>true</optional>
+            <version>${dependencies.bstats.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- ProtocolLib -->
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
+            <groupId>net.dmulloy2</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>5.1.0</version>
+            <version>5.4.0</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -881,17 +780,20 @@
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.17.0</version>
+            <version>${dependencies.adventure.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bukkit</artifactId>
-            <version>4.3.4</version>
+            <version>${dependencies.adventure-platform.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-gson</artifactId>
-            <version>4.17.0</version>
+            <version>${dependencies.adventure.version}</version>
+            <scope>provided</scope>
         </dependency>
              
         <!-- LuckPerms plugin -->
@@ -970,7 +872,7 @@
         <dependency>
             <groupId>com.onarandombox.multiversecore</groupId>
             <artifactId>multiverse-core</artifactId>
-            <version>4.3.14</version>
+            <version>4.3.16</version>
             <type>jar</type>
             <scope>provided</scope>
             <exclusions>
@@ -1087,40 +989,12 @@
             </exclusions>
         </dependency>
 
-        <!-- BCrypt implementation -->
-        <dependency>
-            <groupId>at.favre.lib</groupId>
-            <artifactId>bcrypt</artifactId>
-            <version>0.10.2</version>
-            <optional>true</optional>
-        </dependency>
-
         <!-- XAuth, another authentication plugin, required by the database converter -->
         <dependency>
             <groupId>de.luricos.bukkit</groupId>
             <artifactId>xAuth</artifactId>
             <version>2.6.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.jalu</groupId>
-            <artifactId>datasourcecolumns</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.checkerframework</groupId>
-                    <artifactId>checker-qual</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- Required to mock the LuckPerms API-->
@@ -1145,6 +1019,12 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.47.1.0</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
