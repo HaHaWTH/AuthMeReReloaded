@@ -13,21 +13,21 @@ jobs:
         jdkversion: [ 21 ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
         with:
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-version: ${{ matrix.jdkversion }}
           cache: 'maven'
       - name: Build
         run: mvn -V -B clean package --file pom.xml
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: Download
-          path: ./target/AuthMe-*-FORK-Universal.jar
+          path: target/AuthMe-*-FORK-Universal.jar
+          archive: false
   runtime-test:
-    name: Plugin Runtime Test 
+    name: Plugin Runtime Test
     needs: [Build]
     runs-on: ubuntu-latest
     strategy:
@@ -43,7 +43,7 @@ jobs:
             javaVersion: '21'
           - mcVersion: '1.21.1'
             javaVersion: '21'
-    steps:        
+    steps:
       - uses: HaHaWTH/minecraft-plugin-runtime-test@paper
         with:
           server-version: ${{ matrix.mcVersion }}
