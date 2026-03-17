@@ -129,6 +129,9 @@ public class MySQL extends AbstractSqlDataSource {
      * Sets up the connection arguments to the database.
      */
     private void setConnectionArguments() {
+        System.setProperty("fr.xephi.authme.libs.org.slf4j.simpleLogger.defaultLogLevel", "warn");
+        logger.info("AuthMeMYSQLPool - Starting...");
+
         ds = new HikariDataSource();
         ds.setPoolName("AuthMeMYSQLPool");
 
