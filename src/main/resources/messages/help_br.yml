@@ -1,6 +1,9 @@
 # Tradução da ajuda do AuthMe (/authme help, /authme help <comando>)
 # Baseado em help_en.yml — revisão e chaves novas alinhadas ao EN
 # Créditos anteriores: Frani (PotterCraft_), RenanYudi
+#
+# Chaves em falta usam o texto definido no código (inglês). Para /authme help em PT-BR,
+# defina aqui cada comando sob commands.authme.<subcomando>.
 
 # -------------------------------------------------------
 # Textos comuns da ajuda
@@ -33,10 +36,16 @@ section:
   children: 'Comandos'
 
 # -------------------------------------------------------
-# Tradução por comando: ex. authme.reload para /authme reload, login para /login
-# Use arg1, arg2... para argumentos. Chaves em falta usam o idioma padrão.
-# Coloque comandos pai (ex.: authme) antes dos filhos (ex.: authme.reload).
 commands:
+  authme:
+    description: 'Comandos admin do AuthMe'
+    detailedDescription: 'Comando principal do AuthMeReloaded. Raiz de todos os comandos de administração.'
+  authme.help:
+    description: 'Ver ajuda'
+    detailedDescription: 'Mostra a ajuda detalhada dos comandos /authme.'
+    arg1:
+      label: 'consulta'
+      description: 'Comando ou termo para ver na ajuda'
   authme.register:
     description: 'Registrar um jogador'
     detailedDescription: 'Registra o jogador indicado com a senha indicada.'
@@ -46,3 +55,144 @@ commands:
     arg2:
       label: 'senha'
       description: 'Senha'
+  authme.unregister:
+    description: 'Remover registro de um jogador'
+    detailedDescription: 'Remove o registro do jogador indicado.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+  authme.forcelogin:
+    description: 'Forçar login do jogador'
+    detailedDescription: 'Força o jogador indicado a fazer login.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador (online)'
+  authme.password:
+    description: 'Alterar senha de um jogador'
+    detailedDescription: 'Altera a senha de um jogador.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+    arg2:
+      label: 'senha'
+      description: 'Nova senha'
+  authme.lastlogin:
+    description: 'Último login do jogador'
+    detailedDescription: 'Mostra a data do último login do jogador indicado.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+  authme.accounts:
+    description: 'Listar contas do jogador'
+    detailedDescription: 'Lista todas as contas de um jogador pelo nome ou IP.'
+    arg1:
+      label: 'jogador ou IP'
+      description: 'Nome do jogador ou endereço IP'
+  authme.email:
+    description: 'Ver e-mail do jogador'
+    detailedDescription: 'Mostra o e-mail do jogador, se estiver definido.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+  authme.setemail:
+    description: 'Alterar e-mail do jogador'
+    detailedDescription: 'Altera o endereço de e-mail do jogador indicado.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+    arg2:
+      label: 'email'
+      description: 'E-mail do jogador'
+  authme.getip:
+    description: 'Obter IP do jogador'
+    detailedDescription: 'Obtém o endereço IP do jogador online indicado.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+  authme.totp:
+    description: 'Ver se o jogador usa TOTP'
+    detailedDescription: 'Indica se o jogador tem autenticação em dois fatores (2FA) ativa.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+  authme.disabletotp:
+    description: 'Remover TOTP do jogador'
+    detailedDescription: 'Desativa a autenticação em dois fatores para o jogador.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+  authme.spawn:
+    description: 'Teleportar para o spawn'
+    detailedDescription: 'Teleporta para o spawn.'
+  authme.setspawn:
+    description: 'Alterar o spawn'
+    detailedDescription: 'Define o spawn do jogador na sua posição atual.'
+  authme.firstspawn:
+    description: 'Teleportar ao primeiro spawn'
+    detailedDescription: 'Teleporta para o primeiro spawn.'
+  authme.setfirstspawn:
+    description: 'Alterar o primeiro spawn'
+    detailedDescription: 'Define o primeiro spawn do jogador na sua posição atual.'
+  authme.purge:
+    description: 'Expurgar dados antigos'
+    detailedDescription: 'Remove dados do AuthMe mais antigos que o número de dias indicado.'
+    arg1:
+      label: 'dias'
+      description: 'Número de dias'
+  authme.purgeplayer:
+    description: 'Expurgar dados de um jogador'
+    detailedDescription: 'Remove os dados do jogador indicado.'
+    arg1:
+      label: 'jogador'
+      description: 'Jogador a expurgar'
+    arg2:
+      label: 'opções'
+      description: '''force'' para executar sem verificar se está registrado'
+  authme.backup:
+    description: 'Fazer backup'
+    detailedDescription: 'Cria um backup dos usuários registrados.'
+  authme.resetpos:
+    description: 'Limpar última posição'
+    detailedDescription: 'Remove a última posição conhecida do jogador ou de todos (*).'
+    arg1:
+      label: 'jogador/*'
+      description: 'Nome do jogador ou * para todos'
+  authme.purgebannedplayers:
+    description: 'Expurgar dados de jogadores banidos'
+    detailedDescription: 'Remove todos os dados AuthMe de jogadores banidos.'
+  authme.switchantibot:
+    description: 'Alternar modo AntiBot'
+    detailedDescription: 'Ativa ou desativa o modo AntiBot.'
+    arg1:
+      label: 'modo'
+      description: 'ON / OFF'
+  authme.reload:
+    description: 'Recarregar o plugin'
+    detailedDescription: 'Recarrega o plugin AuthMeReloaded.'
+  authme.version:
+    description: 'Informação da versão'
+    detailedDescription: 'Mostra informações sobre a versão instalada, desenvolvedores, contribuidores e licença.'
+  authme.converter:
+    description: 'Comando de conversão'
+    detailedDescription: 'Conversor para AuthMeReloaded.'
+    arg1:
+      label: 'tarefa'
+      description: 'Trabalho de conversão: xauth / crazylogin / rakamak / royalauth / vauth / sqliteToSql / mysqlToSqlite / loginsecurity'
+  authme.messages:
+    description: 'Adicionar textos de ajuda em falta'
+    detailedDescription: 'Adiciona textos em falta ao arquivo de mensagens de ajuda atual.'
+  authme.recent:
+    description: 'Jogadores que entraram recentemente'
+    detailedDescription: 'Mostra os últimos jogadores que fizeram login.'
+  authme.debug:
+    description: 'Funções de debug'
+    detailedDescription: 'Permite várias operações para depuração.'
+    arg1:
+      label: 'subcomando'
+      description: 'Subcomando a executar'
+    arg2:
+      label: 'arg'
+      description: 'Argumento (depende da seção de debug)'
+    arg3:
+      label: 'arg'
+      description: 'Argumento (depende da seção de debug)'
