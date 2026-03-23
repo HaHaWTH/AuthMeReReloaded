@@ -4,6 +4,8 @@ import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.DataFolder;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.ConverterSettings;
@@ -26,12 +28,14 @@ public class CrazyLoginConverter implements Converter {
     private final DataSource database;
     private final Settings settings;
     private final File dataFolder;
+    private final Messages messages;
 
     @Inject
-    CrazyLoginConverter(@DataFolder File dataFolder, DataSource dataSource, Settings settings) {
+    CrazyLoginConverter(@DataFolder File dataFolder, DataSource dataSource, Settings settings, Messages messages) {
         this.dataFolder = dataFolder;
         this.database = dataSource;
         this.settings = settings;
+        this.messages = messages;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class CrazyLoginConverter implements Converter {
         String fileName = settings.getProperty(ConverterSettings.CRAZYLOGIN_FILE_NAME);
         File source = new File(dataFolder, fileName);
         if (!source.exists()) {
-            sender.sendMessage("CrazyLogin file not found, please put " + fileName + " in AuthMe folder!");
+            messages.send(sender, MessageKey.CONVERTER_CRAZYLOGIN_FILE_NOT_FOUND, fileName);
             return;
         }
 

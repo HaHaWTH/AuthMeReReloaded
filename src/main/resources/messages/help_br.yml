@@ -1,46 +1,48 @@
-# Arquivo de tradução da ajuda do AuthMe (comando /authme help)
-# Tradução por Frani (PotterCraft_) e RenanYudi
+# Tradução da ajuda do AuthMe (/authme help, /authme help <comando>)
+# Baseado em help_en.yml — revisão e chaves novas alinhadas ao EN
+# Créditos anteriores: Frani (PotterCraft_), RenanYudi
 
 # -------------------------------------------------------
-# Lista de textos usados na seção de ajuda:
+# Textos comuns da ajuda
 common:
-    header: '==========[ Ajuda AuthMeReloaded ]=========='
-    optional: 'Opcional'
-    hasPermission: 'Você tem permissão'
-    noPermission: 'Sem permissão'
-    default: 'Padrão'
-    result: 'Resultado'
-    defaultPermissions:
-        notAllowed: 'Sem permissão'
-        opOnly: 'Apenas jogadores com OP'
-        allowed: 'Todos tem permissão'
+  header: '==========[ Ajuda AuthMeReloaded ]=========='
+  optional: 'Opcional'
+  hasPermission: 'Você tem permissão'
+  noPermission: 'Sem permissão'
+  default: 'Padrão'
+  result: 'Resultado'
+  defaultPermissions:
+    notAllowed: 'Sem permissão'
+    opOnly: 'Apenas OP'
+    allowed: 'Todos podem usar'
+  helpFailedRetrieveInfo: '&4Não foi possível obter informações de ajuda!'
+  helpMissingBaseCommand: '&4Não foi possível obter o comando base'
+  helpUnknownCommand: '&4Comando desconhecido'
+  helpAssumingCommand: '&6Assumindo &f%command%'
 
 # -------------------------------------------------------
-# Títulos das seções individuais de ajuda
-# Deixe o texto traduzido vazio para desativá-lo/esconde-lo
-#   alternatives: ''
+# Títulos das seções de ajuda
+# Texto vazio desativa a seção (ex.: alternatives: '')
 section:
-    command: 'Comando'
-    description: 'Descrição breve'
-    detailedDescription: 'Descrição detalhada'
-    arguments: 'Argumentos'
-    permissions: 'Permissões'
-    alternatives: 'Alternativas'
-    children: 'Comandos'
+  command: 'Comando'
+  description: 'Descrição breve'
+  detailedDescription: 'Descrição detalhada'
+  arguments: 'Argumentos'
+  permissions: 'Permissões'
+  alternatives: 'Alternativas'
+  children: 'Comandos'
 
 # -------------------------------------------------------
-# Você pode traduzir o help de qualquer comando usando o padrão abaixo
-# Por exemplo, para traduzir /authme reload, crie uma seção "authme.reload", ou "login" para /login
-# Se o comando usa argumentos, você pode usar arg1 para traduzir o primeiro argumento e assim em diante, como exemplificado abaixo
-# As traduções não precisam ser completas, qualquer parte faltante será obtida da configuração padrão.
-# OBS: Coloque os comandos principais, como "authme" antes de seus subcomandos (como "authme.reload")
+# Tradução por comando: ex. authme.reload para /authme reload, login para /login
+# Use arg1, arg2... para argumentos. Chaves em falta usam o idioma padrão.
+# Coloque comandos pai (ex.: authme) antes dos filhos (ex.: authme.reload).
 commands:
-    authme.register:
-        description: 'Registra um jogador'
-        detailedDescription: 'Registra um jogador específico com uma senha específica.'
-        arg1:
-            label: 'player'
-            description: 'Nome do jogador'
-        arg2:
-            label: 'password'
-            description: 'Senha'
+  authme.register:
+    description: 'Registrar um jogador'
+    detailedDescription: 'Registra o jogador indicado com a senha indicada.'
+    arg1:
+      label: 'jogador'
+      description: 'Nome do jogador'
+    arg2:
+      label: 'senha'
+      description: 'Senha'

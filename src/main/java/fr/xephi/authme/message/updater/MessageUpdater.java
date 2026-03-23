@@ -152,6 +152,9 @@ public class MessageUpdater {
             .put("bedrock_auto_login", "3rd party features: Bedrock Auto Login")
             .put("login_location_fix", "3rd party features: Login Location Fix")
             .put("double_login_fix", "3rd party features: Double Login Fix")
+            .put("about", "/authme about")
+            .put("debug", "/authme debug")
+            .put("admin", "Staff command feedback (/authme, console)")
             .build();
 
         Set<String> addedKeys = new HashSet<>();

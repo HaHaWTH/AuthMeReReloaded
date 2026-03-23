@@ -16,7 +16,19 @@ public enum HelpMessage {
 
     DEFAULT("default"),
 
-    RESULT("result");
+    RESULT("result"),
+
+    /** Shown when help output cannot be built because the command description is missing */
+    HELP_FAILED_RETRIEVE_INFO("helpFailedRetrieveInfo"),
+
+    /** Shown when the help command cannot resolve the base command */
+    HELP_MISSING_BASE_COMMAND("helpMissingBaseCommand"),
+
+    /** Shown when the user requests help for an unknown command label */
+    HELP_UNKNOWN_COMMAND("helpUnknownCommand"),
+
+    /** Shown when the command mapper corrects a typo; %command% is the resolved command path */
+    HELP_ASSUMING_COMMAND("helpAssumingCommand");
 
     private static final String PREFIX = "common.";
     private final String key;

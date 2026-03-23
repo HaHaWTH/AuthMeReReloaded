@@ -2,12 +2,13 @@ package fr.xephi.authme.command.executable.authme.debug;
 
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import fr.xephi.authme.service.GeoIpService;
 import fr.xephi.authme.service.ValidationService;
 import fr.xephi.authme.settings.properties.ProtectionSettings;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -30,6 +31,9 @@ class CountryLookup implements DebugSection {
     @Inject
     private ValidationService validationService;
 
+    @Inject
+    private Messages messages;
+
     @Override
     public String getName() {
         return "cty";
@@ -42,10 +46,10 @@ class CountryLookup implements DebugSection {
 
     @Override
     public void execute(CommandSender sender, List<String> arguments) {
-        sender.sendMessage(ChatColor.BLUE + "AuthMe country lookup");
+        messages.send(sender, MessageKey.DEBUG_CTY_TITLE);
         if (arguments.isEmpty()) {
-            sender.sendMessage("Check player: /authme debug cty Bobby");
-            sender.sendMessage("Check IP address: /authme debug cty 127.123.45.67");
+            messages.send(sender, MessageKey.DEBUG_CTY_USAGE_PLAYER);
+            messages.send(sender, MessageKey.DEBUG_CTY_USAGE_IP);
             return;
         }
 
@@ -63,25 +67,25 @@ class CountryLookup implements DebugSection {
     }
 
     private void outputInfoForIpAddr(CommandSender sender, String ipAddr) {
-        sender.sendMessage("IP '" + ipAddr + "' maps to country '" + geoIpService.getCountryCode(ipAddr)
-            + "' (" + geoIpService.getCountryName(ipAddr) + ")");
+        messages.send(sender, MessageKey.DEBUG_CTY_IP_INFO, ipAddr,
+            geoIpService.getCountryCode(ipAddr), geoIpService.getCountryName(ipAddr));
         if (validationService.isCountryAdmitted(ipAddr)) {
-            sender.sendMessage(ChatColor.DARK_GREEN + "This IP address' country is not blocked");
+            messages.send(sender, MessageKey.DEBUG_CTY_NOT_BLOCKED);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "This IP address' country is blocked from the server");
+            messages.send(sender, MessageKey.DEBUG_CTY_BLOCKED);
         }
-        sender.sendMessage("Note: if " + ProtectionSettings.ENABLE_PROTECTION + " is false no country is blocked");
+        messages.send(sender, MessageKey.DEBUG_CTY_NOTE, ProtectionSettings.ENABLE_PROTECTION.getPath());
     }
 
     // TODO #1366: Extend with registration IP?
     private void outputInfoForPlayer(CommandSender sender, String name) {
         PlayerAuth auth = dataSource.getAuth(name);
         if (auth == null) {
-            sender.sendMessage("No player with name '" + name + "'");
+            messages.send(sender, MessageKey.DEBUG_CTY_NO_PLAYER, name);
         } else if (auth.getLastIp() == null) {
-            sender.sendMessage("No last IP address known for '" + name + "'");
+            messages.send(sender, MessageKey.DEBUG_CTY_NO_IP, name);
         } else {
-            sender.sendMessage("Player '" + name + "' has IP address " + auth.getLastIp());
+            messages.send(sender, MessageKey.DEBUG_CTY_PLAYER_IP, name, auth.getLastIp());
             outputInfoForIpAddr(sender, auth.getLastIp());
         }
     }

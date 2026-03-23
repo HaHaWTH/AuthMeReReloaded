@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import static org.bukkit.ChatColor.translateAlternateColorCodes;
+
 import static fr.xephi.authme.command.help.HelpSection.DETAILED_DESCRIPTION;
 import static fr.xephi.authme.command.help.HelpSection.SHORT_DESCRIPTION;
 import static java.util.Collections.singletonList;
@@ -68,7 +70,8 @@ public class HelpProvider implements Reloadable {
      */
     private List<String> buildHelpOutput(CommandSender sender, FoundCommandResult result, int options) {
         if (result.getCommandDescription() == null) {
-            return singletonList(ChatColor.DARK_RED + "Failed to retrieve any help information!");
+            return singletonList(translateAlternateColorCodes('&',
+                helpMessagesService.getMessage(HelpMessage.HELP_FAILED_RETRIEVE_INFO)));
         }
 
         List<String> lines = new ArrayList<>();

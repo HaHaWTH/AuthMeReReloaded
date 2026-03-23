@@ -35,22 +35,26 @@ public class LastLoginCommand implements ExecutableCommand {
 
         // Get the last login date
         final Long lastLogin = auth.getLastLogin();
-        final String lastLoginDate = lastLogin == null ? "never" : new Date(lastLogin).toString();
+        final String lastLoginDate = lastLogin == null
+            ? commonService.retrieveSingleMessage(sender, MessageKey.ADMIN_LAST_LOGIN_NEVER)
+            : new Date(lastLogin).toString();
 
         // Show the player status
-        sender.sendMessage("[AuthMe] " + playerName + " last login: " + lastLoginDate);
+        commonService.send(sender, MessageKey.ADMIN_LAST_LOGIN, playerName, lastLoginDate);
         if (lastLogin != null) {
-            sender.sendMessage("[AuthMe] The player " + playerName + " last logged in "
-                + createLastLoginIntervalMessage(lastLogin) + " ago");
+            String interval = createLastLoginIntervalMessage(sender, lastLogin);
+            commonService.send(sender, MessageKey.ADMIN_LAST_LOGIN_INTERVAL, playerName, interval);
         }
-        sender.sendMessage("[AuthMe] Last player's IP: " + auth.getLastIp());
+        commonService.send(sender, MessageKey.ADMIN_LAST_LOGIN_IP, String.valueOf(auth.getLastIp()));
     }
 
-    private static String createLastLoginIntervalMessage(long lastLogin) {
+    private String createLastLoginIntervalMessage(CommandSender sender, long lastLogin) {
         final long diff = System.currentTimeMillis() - lastLogin;
-        return (int) (diff / 86400000) + " days "
-            + (int) (diff / 3600000 % 24) + " hours "
-            + (int) (diff / 60000 % 60) + " mins "
-            + (int) (diff / 1000 % 60) + " secs";
+        int days = (int) (diff / 86400000);
+        int hours = (int) (diff / 3600000 % 24);
+        int mins = (int) (diff / 60000 % 60);
+        int secs = (int) (diff / 1000 % 60);
+        return commonService.retrieveSingleMessage(sender, MessageKey.ADMIN_LAST_LOGIN_INTERVAL_PARTS,
+            String.valueOf(days), String.valueOf(hours), String.valueOf(mins), String.valueOf(secs));
     }
 }

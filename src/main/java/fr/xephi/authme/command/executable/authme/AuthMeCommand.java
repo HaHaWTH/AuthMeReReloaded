@@ -2,9 +2,11 @@ package fr.xephi.authme.command.executable.authme;
 
 import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.command.ExecutableCommand;
-import org.bukkit.ChatColor;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import org.bukkit.command.CommandSender;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -12,13 +14,16 @@ import java.util.List;
  */
 public class AuthMeCommand implements ExecutableCommand {
 
+    @Inject
+    private Messages messages;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
-        sender.sendMessage(ChatColor.GREEN + "This server is running " + AuthMe.getPluginName() + " v"
-            + AuthMe.getPluginVersion() + " b" + AuthMe.getPluginBuildNumber()+ "! " + ChatColor.RED + "<3");
-        sender.sendMessage(ChatColor.YELLOW + "Use the command " + ChatColor.GOLD + "/authme help" + ChatColor.YELLOW
-            + " to view help.");
-        sender.sendMessage(ChatColor.YELLOW + "Use the command " + ChatColor.GOLD + "/authme about" + ChatColor.YELLOW
-            + " to view about.");
+        messages.send(sender, MessageKey.AUTHME_INFO_RUNNING,
+            AuthMe.getPluginName(),
+            AuthMe.getPluginVersion(),
+            String.valueOf(AuthMe.getPluginBuildNumber()));
+        messages.send(sender, MessageKey.AUTHME_INFO_HELP);
+        messages.send(sender, MessageKey.AUTHME_INFO_ABOUT);
     }
 }

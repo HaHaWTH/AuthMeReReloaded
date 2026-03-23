@@ -1,12 +1,13 @@
 package fr.xephi.authme.command.executable.authme.debug;
 
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.SpawnLoader;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,6 +31,8 @@ class SpawnLocationViewer implements DebugSection {
     @Inject
     private BukkitService bukkitService;
 
+    @Inject
+    private Messages messages;
 
     @Override
     public String getName() {
@@ -43,7 +46,7 @@ class SpawnLocationViewer implements DebugSection {
 
     @Override
     public void execute(CommandSender sender, List<String> arguments) {
-        sender.sendMessage(ChatColor.BLUE + "AuthMe spawn location viewer");
+        messages.send(sender, MessageKey.DEBUG_SPAWN_TITLE);
         if (arguments.isEmpty()) {
             showGeneralInfo(sender);
         } else if ("?".equals(arguments.get(0))) {
@@ -59,29 +62,29 @@ class SpawnLocationViewer implements DebugSection {
     }
 
     private void showGeneralInfo(CommandSender sender) {
-        sender.sendMessage("Spawn priority: "
-            + String.join(", ", settings.getProperty(RestrictionSettings.SPAWN_PRIORITY)));
-        sender.sendMessage("AuthMe spawn location: " + formatLocation(spawnLoader.getSpawn()));
-        sender.sendMessage("AuthMe first spawn location: " + formatLocation(spawnLoader.getFirstSpawn()));
-        sender.sendMessage("AuthMe (first)spawn are only used depending on the configured priority!");
-        sender.sendMessage("Use '/authme debug spawn ?' for further help");
+        messages.send(sender, MessageKey.DEBUG_SPAWN_PRIORITY,
+            String.join(", ", settings.getProperty(RestrictionSettings.SPAWN_PRIORITY)));
+        messages.send(sender, MessageKey.DEBUG_SPAWN_LOCATION, formatLocation(spawnLoader.getSpawn()));
+        messages.send(sender, MessageKey.DEBUG_SPAWN_FIRST_LOCATION, formatLocation(spawnLoader.getFirstSpawn()));
+        messages.send(sender, MessageKey.DEBUG_SPAWN_PRIORITY_NOTE);
+        messages.send(sender, MessageKey.DEBUG_SPAWN_HELP_HINT);
     }
 
     private void showHelp(CommandSender sender) {
-        sender.sendMessage("Use /authme spawn and /authme firstspawn to teleport to the spawns.");
-        sender.sendMessage("/authme set(first)spawn sets the (first) spawn to your current location.");
-        sender.sendMessage("Use /authme debug spawn <player> to view where a player would be teleported to.");
-        sender.sendMessage("Read more at https://github.com/AuthMe/AuthMeReloaded/wiki/Spawn-Handling");
+        messages.send(sender, MessageKey.DEBUG_SPAWN_HELP_TELEPORT);
+        messages.send(sender, MessageKey.DEBUG_SPAWN_HELP_SET);
+        messages.send(sender, MessageKey.DEBUG_SPAWN_HELP_PLAYER);
+        messages.send(sender, MessageKey.DEBUG_SPAWN_HELP_WIKI);
     }
 
     private void showPlayerSpawn(CommandSender sender, String playerName) {
         Player player = bukkitService.getPlayerExact(playerName);
         if (player == null) {
-            sender.sendMessage("Player '" + playerName + "' is not online!");
+            messages.send(sender, MessageKey.DEBUG_SPAWN_PLAYER_OFFLINE, playerName);
         } else {
             Location spawn = spawnLoader.getSpawnLocation(player);
-            sender.sendMessage("Player '" + playerName + "' has spawn location: " + formatLocation(spawn));
-            sender.sendMessage("Note: this check excludes the AuthMe firstspawn.");
+            messages.send(sender, MessageKey.DEBUG_SPAWN_PLAYER_LOCATION, playerName, formatLocation(spawn));
+            messages.send(sender, MessageKey.DEBUG_SPAWN_PLAYER_NOTE);
         }
     }
 }

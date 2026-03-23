@@ -31,7 +31,7 @@ public class PurgeLastPositionCommand implements ExecutableCommand {
                 dataSource.updateQuitLoc(auth);
                 // TODO: send an update when a messaging service will be implemented (QUITLOC)
             }
-            sender.sendMessage("All players last position locations are now reset");
+            commonService.send(sender, MessageKey.ADMIN_PURGE_LASTPOS_ALL);
         } else {
             // Get the user auth and make sure the user exists
             PlayerAuth auth = dataSource.getAuth(playerName);
@@ -43,7 +43,7 @@ public class PurgeLastPositionCommand implements ExecutableCommand {
             resetLastPosition(auth);
             dataSource.updateQuitLoc(auth);
             // TODO: send an update when a messaging service will be implemented (QUITLOC)
-            sender.sendMessage(playerName + "'s last position location is now reset");
+            commonService.send(sender, MessageKey.ADMIN_PURGE_LASTPOS_ONE, playerName);
         }
     }
 

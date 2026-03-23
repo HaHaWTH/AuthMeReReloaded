@@ -2,8 +2,9 @@ package fr.xephi.authme.command.executable.authme;
 
 import com.google.common.primitives.Ints;
 import fr.xephi.authme.command.ExecutableCommand;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.task.purge.PurgeService;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -21,6 +22,9 @@ public class PurgeCommand implements ExecutableCommand {
     @Inject
     private PurgeService purgeService;
 
+    @Inject
+    private CommonService commonService;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
         // Get the days parameter
@@ -29,14 +33,13 @@ public class PurgeCommand implements ExecutableCommand {
         // Convert the days string to an integer value, and make sure it's valid
         Integer days = Ints.tryParse(daysStr);
         if (days == null) {
-            sender.sendMessage(ChatColor.RED + "The value you've entered is invalid!");
+            commonService.send(sender, MessageKey.PURGE_INVALID_VALUE);
             return;
         }
 
         // Validate the value
         if (days < MINIMUM_LAST_SEEN_DAYS) {
-            sender.sendMessage(ChatColor.RED + "You can only purge data older than "
-                + MINIMUM_LAST_SEEN_DAYS + " days");
+            commonService.send(sender, MessageKey.PURGE_MINIMUM_DAYS, String.valueOf(MINIMUM_LAST_SEEN_DAYS));
             return;
         }
 

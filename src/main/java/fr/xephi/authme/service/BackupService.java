@@ -4,11 +4,14 @@ import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSourceType;
 import fr.xephi.authme.initialization.DataFolder;
 import fr.xephi.authme.mail.EmailService;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.BackupSettings;
 import fr.xephi.authme.settings.properties.DatabaseSettings;
 import fr.xephi.authme.util.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -33,6 +36,7 @@ public class BackupService {
     private final File dataFolder;
     private final File backupFolder;
     private final Settings settings;
+    private final Messages messages;
 
 
     /**
@@ -42,10 +46,11 @@ public class BackupService {
      * @param settings the plugin settings
      */
     @Inject
-    public BackupService(@DataFolder File dataFolder, Settings settings) {
+    public BackupService(@DataFolder File dataFolder, Settings settings, Messages messages) {
         this.dataFolder = dataFolder;
         this.backupFolder = new File(dataFolder, "backups");
         this.settings = settings;
+        this.messages = messages;
     }
 
     /**
@@ -67,8 +72,9 @@ public class BackupService {
         if (!settings.getProperty(BackupSettings.ENABLED)) {
             // Print a warning if the backup was requested via command or by another plugin
             if (cause == BackupCause.COMMAND || cause == BackupCause.OTHER) {
+                CommandSender audience = sender != null ? sender : Bukkit.getConsoleSender();
                 logAndSendWarning(sender,
-                    "Can't perform a backup: disabled in configuration. Cause of the backup: " + cause.name());
+                    messages.retrieveSingle(audience, MessageKey.BACKUP_DISABLED, cause.name()));
             }
             return;
         } else if (BackupCause.START == cause && !settings.getProperty(BackupSettings.ON_SERVER_START)
@@ -78,11 +84,13 @@ public class BackupService {
         }
 
         // Do backup and check return value!
+        CommandSender audience = sender != null ? sender : Bukkit.getConsoleSender();
         if (doBackup()) {
             logAndSendMessage(sender,
-                "A backup has been performed successfully. Cause of the backup: " + cause.name());
+                messages.retrieveSingle(audience, MessageKey.BACKUP_SUCCESS, cause.name()));
         } else {
-            logAndSendWarning(sender, "Error while performing a backup! Cause of the backup: " + cause.name());
+            logAndSendWarning(sender,
+                messages.retrieveSingle(audience, MessageKey.BACKUP_FAILED, cause.name()));
         }
     }
 

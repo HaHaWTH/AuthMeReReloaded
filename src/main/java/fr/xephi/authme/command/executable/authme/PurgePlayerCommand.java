@@ -2,7 +2,9 @@ package fr.xephi.authme.command.executable.authme;
 
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.datasource.DataSource;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.service.BukkitService;
+import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.task.purge.PurgeExecutor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -27,6 +29,9 @@ public class PurgePlayerCommand implements ExecutableCommand {
     @Inject
     private DataSource dataSource;
 
+    @Inject
+    private CommonService commonService;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
         String option = arguments.size() > 1 ? arguments.get(1) : null;
@@ -38,10 +43,9 @@ public class PurgePlayerCommand implements ExecutableCommand {
         if ("force".equals(option) || !dataSource.isAuthAvailable(name)) {
             OfflinePlayer offlinePlayer = bukkitService.getOfflinePlayer(name);
             purgeExecutor.executePurge(singletonList(offlinePlayer), singletonList(name.toLowerCase(Locale.ROOT)));
-            sender.sendMessage("Purged data for player " + name);
+            commonService.send(sender, MessageKey.ADMIN_PURGE_PLAYER_SUCCESS, name);
         } else {
-            sender.sendMessage("This player is still registered! Are you sure you want to proceed? "
-                + "Use '/authme purgeplayer " + name + " force' to run the command anyway");
+            commonService.send(sender, MessageKey.ADMIN_PURGE_PLAYER_CONFIRM, name);
         }
     }
 }

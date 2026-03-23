@@ -2,12 +2,12 @@ package fr.xephi.authme.command.executable.authme.debug;
 
 import fr.xephi.authme.listener.FailedVerificationException;
 import fr.xephi.authme.listener.OnJoinVerifier;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import fr.xephi.authme.service.ValidationService;
 import fr.xephi.authme.service.ValidationService.ValidationResult;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -68,40 +68,38 @@ class InputValidator implements DebugSection {
     }
 
     private void displayUsageHint(CommandSender sender) {
-        sender.sendMessage(ChatColor.BLUE + "Validation tests");
-        sender.sendMessage("You can define forbidden emails and passwords in your config.yml."
-            + " You can test your settings with this command.");
-        final String command = ChatColor.GOLD + "/authme debug valid";
-        sender.sendMessage(" Use " + command + " pass <pass>" + ChatColor.RESET + " to check a password");
-        sender.sendMessage(" Use " + command + " mail <mail>" + ChatColor.RESET + " to check an email");
-        sender.sendMessage(" Use " + command + " name <name>" + ChatColor.RESET + " to check a username");
+        messages.send(sender, MessageKey.DEBUG_VALID_TITLE);
+        messages.send(sender, MessageKey.DEBUG_VALID_INTRO);
+        messages.send(sender, MessageKey.DEBUG_VALID_PASS_USAGE);
+        messages.send(sender, MessageKey.DEBUG_VALID_MAIL_USAGE);
+        messages.send(sender, MessageKey.DEBUG_VALID_NAME_USAGE);
     }
 
     private void validatePassword(CommandSender sender, String password) {
         ValidationResult validationResult = validationService.validatePassword(password, "");
-        sender.sendMessage(ChatColor.BLUE + "Validation of password '" + password + "'");
+        messages.send(sender, MessageKey.DEBUG_VALID_VALIDATE_PASSWORD, password);
         if (validationResult.hasError()) {
             messages.send(sender, validationResult.getMessageKey(), validationResult.getArgs());
         } else {
-            sender.sendMessage(ChatColor.DARK_GREEN + "Valid password!");
+            messages.send(sender, MessageKey.DEBUG_VALID_VALID_PASSWORD);
         }
     }
 
     private void validateEmail(CommandSender sender, String email) {
         boolean isValidEmail = validationService.validateEmail(email);
-        sender.sendMessage(ChatColor.BLUE + "Validation of email '" + email + "'");
+        messages.send(sender, MessageKey.DEBUG_VALID_VALIDATE_EMAIL, email);
         if (isValidEmail) {
-            sender.sendMessage(ChatColor.DARK_GREEN + "Valid email!");
+            messages.send(sender, MessageKey.DEBUG_VALID_VALID_EMAIL);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "Email is not valid!");
+            messages.send(sender, MessageKey.DEBUG_VALID_INVALID_EMAIL);
         }
     }
 
     private void validateUsername(CommandSender sender, String username) {
-        sender.sendMessage(ChatColor.BLUE + "Validation of username '" + username + "'");
+        messages.send(sender, MessageKey.DEBUG_VALID_VALIDATE_NAME, username);
         try {
             onJoinVerifier.checkIsValidName(username);
-            sender.sendMessage("Valid username!");
+            messages.send(sender, MessageKey.DEBUG_VALID_VALID_NAME);
         } catch (FailedVerificationException failedVerificationEx) {
             messages.send(sender, failedVerificationEx.getReason(), failedVerificationEx.getArgs());
         }

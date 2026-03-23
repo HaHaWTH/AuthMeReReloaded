@@ -56,12 +56,13 @@ public class ReloadCommand implements ExecutableCommand {
 
             // We do not change database type for consistency issues, but we'll output a note in the logs
             if (!settings.getProperty(DatabaseSettings.BACKEND).equals(dataSource.getType())) {
-                Utils.logAndSendMessage(sender, "Note: cannot change database type during /authme reload");
+                Utils.logAndSendMessage(sender,
+                    commonService.retrieveSingleMessage(sender, MessageKey.RELOAD_DATABASE_TYPE_NOTE));
             }
             performReloadOnServices();
             commonService.send(sender, MessageKey.CONFIG_RELOAD_SUCCESS);
         } catch (Exception e) {
-            sender.sendMessage("Error occurred during reload of AuthMe: aborting");
+            commonService.send(sender, MessageKey.RELOAD_ABORT_ERROR);
             logger.logException("Aborting! Encountered exception during reload of AuthMe:", e);
             plugin.stopOrUnload();
         }

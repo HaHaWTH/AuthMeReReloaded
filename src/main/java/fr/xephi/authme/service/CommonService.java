@@ -72,6 +72,18 @@ public class CommonService {
     }
 
     /**
+     * Retrieves a message in one piece with tag replacements.
+     *
+     * @param sender the command sender (for locale-aware messages)
+     * @param key the message key
+     * @param replacements replacements for the message tags
+     * @return the message
+     */
+    public String retrieveSingleMessage(CommandSender sender, MessageKey key, String... replacements) {
+        return messages.retrieveSingle(sender, key, replacements);
+    }
+
+    /**
      * Checks whether the player has the given permission.
      *
      * @param player the player

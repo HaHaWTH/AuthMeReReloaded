@@ -1,6 +1,8 @@
 package fr.xephi.authme.command.executable.authme.debug;
 
 import com.google.common.collect.ImmutableList;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.AdminPermission;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.DefaultPermission;
@@ -10,7 +12,6 @@ import fr.xephi.authme.permission.PlayerPermission;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import fr.xephi.authme.service.BukkitService;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,6 +36,9 @@ class HasPermissionChecker implements DebugSection {
     @Inject
     private BukkitService bukkitService;
 
+    @Inject
+    private Messages messages;
+
     @Override
     public String getName() {
         return "perm";
@@ -47,11 +51,12 @@ class HasPermissionChecker implements DebugSection {
 
     @Override
     public void execute(CommandSender sender, List<String> arguments) {
-        sender.sendMessage(ChatColor.BLUE + "AuthMe permission check");
+        messages.send(sender, MessageKey.DEBUG_PERM_TITLE);
         if (arguments.size() < 2) {
-            sender.sendMessage("Check if a player has permission:");
-            sender.sendMessage("Example: /authme debug perm bobby my.perm.node");
-            sender.sendMessage("Permission system type used: " + permissionsManager.getPermissionSystem());
+            messages.send(sender, MessageKey.DEBUG_PERM_USAGE_LINE1);
+            messages.send(sender, MessageKey.DEBUG_PERM_USAGE_EXAMPLE);
+            messages.send(sender, MessageKey.DEBUG_PERM_SYSTEM,
+                String.valueOf(permissionsManager.getPermissionSystem()));
             return;
         }
 
@@ -62,9 +67,9 @@ class HasPermissionChecker implements DebugSection {
         if (player == null) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
             if (offlinePlayer == null) {
-                sender.sendMessage(ChatColor.DARK_RED + "Player '" + playerName + "' does not exist");
+                messages.send(sender, MessageKey.DEBUG_PERM_PLAYER_NOT_EXIST, playerName);
             } else {
-                sender.sendMessage("Player '" + playerName + "' not online; checking with offline player");
+                messages.send(sender, MessageKey.DEBUG_PERM_OFFLINE_CHECK, playerName);
                 performPermissionCheck(offlinePlayer, permissionNode, permissionsManager::hasPermissionOffline, sender);
             }
         } else {
@@ -87,16 +92,14 @@ class HasPermissionChecker implements DebugSection {
      * @param sender the sender to inform of the result
      * @param <P> the player type
      */
-    private static <P extends OfflinePlayer> void performPermissionCheck(
+    private <P extends OfflinePlayer> void performPermissionCheck(
         P player, String node, BiFunction<P, PermissionNode, Boolean> permissionChecker, CommandSender sender) {
 
         PermissionNode permNode = getPermissionNode(sender, node);
         if (permissionChecker.apply(player, permNode)) {
-            sender.sendMessage(ChatColor.DARK_GREEN + "Success: player '" + player.getName()
-                + "' has permission '" + node + "'");
+            messages.send(sender, MessageKey.DEBUG_PERM_SUCCESS, player.getName(), node);
         } else {
-            sender.sendMessage(ChatColor.DARK_RED + "Check failed: player '" + player.getName()
-                + "' does NOT have permission '" + node + "'");
+            messages.send(sender, MessageKey.DEBUG_PERM_FAIL, player.getName(), node);
         }
     }
 
@@ -108,7 +111,7 @@ class HasPermissionChecker implements DebugSection {
      * @param node the node to search for
      * @return the node as {@link PermissionNode} object
      */
-    private static PermissionNode getPermissionNode(CommandSender sender, String node) {
+    private PermissionNode getPermissionNode(CommandSender sender, String node) {
         Optional<? extends PermissionNode> permNode = PERMISSION_NODE_CLASSES.stream()
             .map(Class::getEnumConstants)
             .flatMap(Arrays::stream)
@@ -117,7 +120,7 @@ class HasPermissionChecker implements DebugSection {
         if (permNode.isPresent()) {
             return permNode.get();
         } else {
-            sender.sendMessage("Did not detect AuthMe permission; using default permission = DENIED");
+            messages.send(sender, MessageKey.DEBUG_PERM_DEFAULT_DENIED);
             return createPermNode(node);
         }
     }

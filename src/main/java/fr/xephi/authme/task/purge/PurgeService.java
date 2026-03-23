@@ -2,12 +2,15 @@ package fr.xephi.authme.task.purge;
 
 import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.PurgeSettings;
 import fr.xephi.authme.util.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -39,6 +42,9 @@ public class PurgeService {
 
     @Inject
     private PurgeExecutor purgeExecutor;
+
+    @Inject
+    private Messages messages;
 
     /** Keeps track of whether a purge task is currently running. */
     private boolean isPurging = false;
@@ -77,7 +83,8 @@ public class PurgeService {
         //todo: note this should may run async because it may executes a SQL-Query
         Set<String> toPurge = dataSource.getRecordsToPurge(until);
         if (Utils.isCollectionEmpty(toPurge)) {
-            logAndSendMessage(sender, "No players to purge");
+            logAndSendMessage(sender,
+                messages.retrieveSingle(resolveSender(sender), MessageKey.PURGE_NO_PLAYERS));
             return;
         }
 
@@ -93,12 +100,13 @@ public class PurgeService {
      */
     public void purgePlayers(CommandSender sender, Set<String> names, OfflinePlayer[] players) {
         if (isPurging) {
-            logAndSendMessage(sender, "Purge is already in progress! Aborting purge request");
+            logAndSendMessage(sender,
+                messages.retrieveSingle(resolveSender(sender), MessageKey.PURGE_ALREADY_RUNNING));
             return;
         }
 
         isPurging = true;
-        PurgeTask purgeTask = new PurgeTask(this, permissionsManager, sender, names, players);
+        PurgeTask purgeTask = new PurgeTask(this, permissionsManager, sender, names, players, messages);
         bukkitService.runTaskTimerAsynchronously(purgeTask, 0, 1);
     }
 
@@ -107,6 +115,10 @@ public class PurgeService {
      *
      * @param purging True if purging.
      */
+    private static CommandSender resolveSender(CommandSender sender) {
+        return sender != null ? sender : Bukkit.getConsoleSender();
+    }
+
     void setPurging(boolean purging) {
         this.isPurging = purging;
     }

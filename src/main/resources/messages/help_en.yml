@@ -13,6 +13,10 @@ common:
         notAllowed: 'No permission'
         opOnly: 'OP''s only'
         allowed: 'Everyone allowed'
+    helpFailedRetrieveInfo: '&4Failed to retrieve any help information!'
+    helpMissingBaseCommand: '&4Could not get base command'
+    helpUnknownCommand: '&4Unknown command'
+    helpAssumingCommand: '&6Assuming &f%command%'
 
 # -------------------------------------------------------
 # Titles of the individual help sections

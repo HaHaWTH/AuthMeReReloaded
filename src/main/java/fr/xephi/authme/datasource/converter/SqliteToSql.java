@@ -4,6 +4,7 @@ import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.datasource.DataSourceType;
 import fr.xephi.authme.datasource.SQLite;
 import fr.xephi.authme.initialization.DataFolder;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.settings.Settings;
 
 import javax.inject.Inject;
@@ -19,8 +20,8 @@ public class SqliteToSql extends AbstractDataSourceConverter<SQLite> {
     private final File dataFolder;
 
     @Inject
-    SqliteToSql(Settings settings, DataSource dataSource, @DataFolder File dataFolder) {
-        super(dataSource, DataSourceType.MYSQL);
+    SqliteToSql(Settings settings, DataSource dataSource, @DataFolder File dataFolder, Messages messages) {
+        super(dataSource, DataSourceType.MYSQL, messages);
         this.settings = settings;
         this.dataFolder = dataFolder;
     }

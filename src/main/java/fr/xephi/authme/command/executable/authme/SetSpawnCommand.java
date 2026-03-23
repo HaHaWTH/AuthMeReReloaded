@@ -1,6 +1,7 @@
 package fr.xephi.authme.command.executable.authme;
 
 import fr.xephi.authme.command.PlayerCommand;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.settings.SpawnLoader;
 import org.bukkit.entity.Player;
 
@@ -15,9 +16,9 @@ public class SetSpawnCommand extends PlayerCommand {
     @Override
     public void runCommand(Player player, List<String> arguments) {
         if (spawnLoader.setSpawn(player.getLocation())) {
-            player.sendMessage("[AuthMe] Correctly defined new spawn point");
+            commonService.send(player, MessageKey.ADMIN_SET_SPAWN_SUCCESS);
         } else {
-            player.sendMessage("[AuthMe] SetSpawn has failed, please retry");
+            commonService.send(player, MessageKey.ADMIN_SET_SPAWN_FAILED);
         }
     }
 }

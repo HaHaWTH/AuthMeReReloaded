@@ -5,6 +5,8 @@ import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.DataFolder;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.ConverterSettings;
@@ -41,11 +43,13 @@ public class LoginSecurityConverter implements Converter {
     private final String mySqlDatabase;
     private final String mySqlUser;
     private final String mySqlPassword;
+    private final Messages messages;
 
     @Inject
-    LoginSecurityConverter(@DataFolder File dataFolder, DataSource dataSource, Settings settings) {
+    LoginSecurityConverter(@DataFolder File dataFolder, DataSource dataSource, Settings settings, Messages messages) {
         this.dataFolder = dataFolder;
         this.dataSource = dataSource;
+        this.messages = messages;
 
         useSqlite = settings.getProperty(ConverterSettings.LOGINSECURITY_USE_SQLITE);
         mySqlHost = settings.getProperty(ConverterSettings.LOGINSECURITY_MYSQL_HOST);
@@ -63,7 +67,7 @@ public class LoginSecurityConverter implements Converter {
                     + "in your configuration file!");
             }
         } catch (SQLException e) {
-            sender.sendMessage("Failed to convert from SQLite. Please see the log for more info");
+            messages.send(sender, MessageKey.CONVERTER_LOGINSECURITY_FAILED);
             logger.logException("Could not fetch or migrate data:", e);
         }
     }
@@ -106,10 +110,12 @@ public class LoginSecurityConverter implements Converter {
             }
         }
 
-        logAndSendMessage(sender, "Migrated " + successfulSaves + " accounts successfully from LoginSecurity");
+        logAndSendMessage(sender,
+            messages.retrieveSingle(sender, MessageKey.CONVERTER_LOGINSECURITY_MIGRATED, String.valueOf(successfulSaves)));
         if (!skippedPlayers.isEmpty()) {
-            logAndSendMessage(sender, "Skipped conversion for players which were already in AuthMe: "
-                + String.join(", ", skippedPlayers));
+            logAndSendMessage(sender,
+                messages.retrieveSingle(sender, MessageKey.CONVERTER_LOGINSECURITY_SKIPPED,
+                    String.join(", ", skippedPlayers)));
         }
     }
 
@@ -155,21 +161,20 @@ public class LoginSecurityConverter implements Converter {
         if (useSqlite) {
             File sqliteDatabase = new File(dataFolder.getParentFile(), "LoginSecurity/LoginSecurity.db");
             if (!sqliteDatabase.exists()) {
-                sender.sendMessage("The file '" + sqliteDatabase.getPath() + "' does not exist");
+                messages.send(sender, MessageKey.CONVERTER_LOGINSECURITY_FILE_MISSING, sqliteDatabase.getPath());
                 return null;
             }
             connection = createSqliteConnection("plugins/LoginSecurity/LoginSecurity.db");
         } else {
             if (mySqlDatabase.isEmpty() || mySqlUser.isEmpty()) {
-                sender.sendMessage("The LoginSecurity database or username is not configured in AuthMe's config.yml");
+                messages.send(sender, MessageKey.CONVERTER_LOGINSECURITY_MYSQL_UNCONFIGURED);
                 return null;
             }
             connection = createMySqlConnection();
         }
 
         if (connection == null) {
-            sender.sendMessage("Could not connect to LoginSecurity using Sqlite = "
-                + useSqlite + ", see log for more info");
+            messages.send(sender, MessageKey.CONVERTER_LOGINSECURITY_CONNECT_FAILED, String.valueOf(useSqlite));
             return null;
         }
         return connection;

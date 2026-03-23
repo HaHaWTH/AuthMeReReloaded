@@ -1,6 +1,7 @@
 package fr.xephi.authme.command.executable.authme;
 
 import fr.xephi.authme.command.PlayerCommand;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.SpawnLoader;
 import fr.xephi.authme.util.TeleportUtils;
@@ -19,7 +20,7 @@ public class SpawnCommand extends PlayerCommand {
     @Override
     public void runCommand(Player player, List<String> arguments) {
         if (spawnLoader.getSpawn() == null) {
-            player.sendMessage("[AuthMe] Spawn has failed, please try to define the spawn");
+            commonService.send(player, MessageKey.ADMIN_SPAWN_FAILED);
         } else {
             bukkitService.runTaskIfFolia(player, () -> TeleportUtils.teleport(player, spawnLoader.getSpawn()));
         }

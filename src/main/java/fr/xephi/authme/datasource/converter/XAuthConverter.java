@@ -6,6 +6,8 @@ import de.luricos.bukkit.xAuth.xAuth;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.DataFolder;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -32,6 +34,9 @@ public class XAuthConverter implements Converter {
     @Inject
     private PluginManager pluginManager;
 
+    @Inject
+    private Messages messages;
+
     XAuthConverter() {
     }
 
@@ -41,26 +46,26 @@ public class XAuthConverter implements Converter {
             Class.forName("de.luricos.bukkit.xAuth.xAuth");
             convert(sender);
         } catch (ClassNotFoundException ce) {
-            sender.sendMessage("xAuth has not been found, please put xAuth.jar in your plugin folder and restart!");
+            messages.send(sender, MessageKey.CONVERTER_XAUTH_CLASS_NOT_FOUND);
         }
     }
 
     private void convert(CommandSender sender) {
         if (pluginManager.getPlugin("xAuth") == null) {
-            sender.sendMessage("[AuthMe] xAuth plugin not found");
+            messages.send(sender, MessageKey.CONVERTER_XAUTH_PLUGIN_NOT_FOUND);
             return;
         }
         //TODO ljacqu 20160702: xAuthDb is not used except for the existence check -- is this intended?
         File xAuthDb = new File(dataFolder.getParent(), makePath("xAuth", "xAuth.h2.db"));
         if (!xAuthDb.exists()) {
-            sender.sendMessage("[AuthMe] xAuth H2 database not found, checking for MySQL or SQLite data...");
+            messages.send(sender, MessageKey.CONVERTER_XAUTH_H2_MISSING);
         }
         List<Integer> players = getXAuthPlayers();
         if (Utils.isCollectionEmpty(players)) {
-            sender.sendMessage("[AuthMe] Error while importing xAuthPlayers: did not find any players");
+            messages.send(sender, MessageKey.CONVERTER_XAUTH_NO_PLAYERS);
             return;
         }
-        sender.sendMessage("[AuthMe] Starting import...");
+        messages.send(sender, MessageKey.CONVERTER_XAUTH_STARTING);
 
         for (int id : players) {
             String pl = getIdPlayer(id);
@@ -73,7 +78,7 @@ public class XAuthConverter implements Converter {
                 database.saveAuth(auth);
             }
         }
-        sender.sendMessage("[AuthMe] Successfully converted from xAuth database");
+        messages.send(sender, MessageKey.CONVERTER_XAUTH_SUCCESS);
     }
 
     private String getIdPlayer(int id) {

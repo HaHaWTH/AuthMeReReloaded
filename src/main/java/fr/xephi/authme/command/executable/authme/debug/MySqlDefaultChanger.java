@@ -5,6 +5,8 @@ import com.google.common.annotations.VisibleForTesting;
 import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.datasource.MySQL;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
@@ -52,6 +54,9 @@ class MySqlDefaultChanger implements DebugSection {
     @Inject
     private DataSource dataSource;
 
+    @Inject
+    private Messages messages;
+
     private MySQL mySql;
 
     @PostConstruct
@@ -77,7 +82,7 @@ class MySqlDefaultChanger implements DebugSection {
     @Override
     public void execute(CommandSender sender, List<String> arguments) {
         if (mySql == null) {
-            sender.sendMessage("Defaults can be changed for the MySQL data source only.");
+            messages.send(sender, MessageKey.DEBUG_MYSQL_NON_MYSQL);
             return;
         }
 
@@ -88,7 +93,7 @@ class MySqlDefaultChanger implements DebugSection {
         } else if (operation == null || column == null) {
             displayUsageHints(sender);
         } else {
-            sender.sendMessage(ChatColor.BLUE + "[AuthMe] MySQL change '" + column + "'");
+            messages.send(sender, MessageKey.DEBUG_MYSQL_CHANGE_HEADER, column.name());
             try (Connection con = getConnection(mySql)) {
                 switch (operation) {
                     case ADD:
@@ -127,13 +132,13 @@ class MySqlDefaultChanger implements DebugSection {
             pst.setObject(1, column.getDefaultValue());
             updatedRows = pst.executeUpdate();
         }
-        sender.sendMessage("Replaced NULLs with default value ('" + column.getDefaultValue()
-            + "'), modifying " + updatedRows + " entries");
+        messages.send(sender, MessageKey.DEBUG_MYSQL_REPLACED_NULLS,
+            String.valueOf(column.getDefaultValue()), String.valueOf(updatedRows));
 
         // Change column definition to NOT NULL version
         try (Statement st = con.createStatement()) {
             st.execute(format("ALTER TABLE %s MODIFY %s %s", tableName, columnName, column.getNotNullDefinition()));
-            sender.sendMessage("Changed column '" + columnName + "' to have NOT NULL constraint");
+            messages.send(sender, MessageKey.DEBUG_MYSQL_NOT_NULL_SET, columnName);
         }
 
         // Log success message
@@ -157,7 +162,7 @@ class MySqlDefaultChanger implements DebugSection {
         // Change column definition to nullable version
         try (Statement st = con.createStatement()) {
             st.execute(format("ALTER TABLE %s MODIFY %s %s", tableName, columnName, column.getNullableDefinition()));
-            sender.sendMessage("Changed column '" + columnName + "' to allow nulls");
+            messages.send(sender, MessageKey.DEBUG_MYSQL_ALLOW_NULLS, columnName);
         }
 
         // Replace old default value with NULL
@@ -167,8 +172,8 @@ class MySqlDefaultChanger implements DebugSection {
             pst.setObject(1, column.getDefaultValue());
             updatedRows = pst.executeUpdate();
         }
-        sender.sendMessage("Replaced default value ('" + column.getDefaultValue()
-            + "') to be NULL, modifying " + updatedRows + " entries");
+        messages.send(sender, MessageKey.DEBUG_MYSQL_REPLACED_DEFAULT_NULL,
+            String.valueOf(column.getDefaultValue()), String.valueOf(updatedRows));
 
         // Log success message
         logger.info("Changed MySQL column '" + columnName + "' to allow NULL, as initiated by '"
@@ -181,21 +186,27 @@ class MySqlDefaultChanger implements DebugSection {
      * @param sender command sender to output the data to
      */
     private void showColumnDetails(CommandSender sender) {
-        sender.sendMessage(ChatColor.BLUE + "MySQL column details");
+        messages.send(sender, MessageKey.DEBUG_MYSQL_DETAILS_TITLE);
         final String tableName = settings.getProperty(DatabaseSettings.MYSQL_TABLE);
         try (Connection con = getConnection(mySql)) {
             final DatabaseMetaData metaData = con.getMetaData();
             for (Columns col : Columns.values()) {
                 String columnName = settings.getProperty(col.getColumnNameProperty());
-                String isNullText = isNotNullColumn(metaData, tableName, columnName) ? "NOT NULL" : "nullable";
+                boolean notNull = isNotNullColumn(metaData, tableName, columnName);
+                String isNullText = notNull
+                    ? messages.retrieveSingle(sender, MessageKey.DEBUG_MYSQL_COL_STATE_NOT_NULL)
+                    : messages.retrieveSingle(sender, MessageKey.DEBUG_MYSQL_COL_STATE_NULLABLE);
                 Object defaultValue = getColumnDefaultValue(metaData, tableName, columnName);
-                String defaultText = defaultValue == null ? "no default" : "default: '" + defaultValue + "'";
-                sender.sendMessage(formatColumnWithMetadata(col, metaData, tableName)
-                    + " (" + columnName + "): " + isNullText + ", " + defaultText);
+                String defaultClause = defaultValue == null
+                    ? messages.retrieveSingle(sender, MessageKey.DEBUG_MYSQL_COL_NO_DEFAULT)
+                    : messages.retrieveSingle(sender, MessageKey.DEBUG_MYSQL_COL_DEFAULT, String.valueOf(defaultValue));
+                String prefix = formatColumnWithMetadata(col, metaData, tableName);
+                sender.sendMessage(messages.retrieveSingle(sender, MessageKey.DEBUG_MYSQL_COL_ROW,
+                    prefix, columnName, isNullText, defaultClause));
             }
         } catch (SQLException e) {
             logger.logException("Failed while showing column details:", e);
-            sender.sendMessage("Failed while showing column details. See log for info");
+            messages.send(sender, MessageKey.DEBUG_MYSQL_DETAILS_FAILED);
         }
 
     }
@@ -206,21 +217,20 @@ class MySqlDefaultChanger implements DebugSection {
      * @param sender the sender issuing the command
      */
     private void displayUsageHints(CommandSender sender) {
-        sender.sendMessage(ChatColor.BLUE + "MySQL column changer");
-        sender.sendMessage("Adds or removes a NOT NULL constraint for a column.");
-        sender.sendMessage("Examples: add a NOT NULL constraint with");
-        sender.sendMessage(" /authme debug mysqldef add <column>");
-        sender.sendMessage("Remove one with /authme debug mysqldef remove <column>");
+        messages.send(sender, MessageKey.DEBUG_MYSQL_USAGE_TITLE);
+        messages.send(sender, MessageKey.DEBUG_MYSQL_USAGE_INTRO);
+        messages.send(sender, MessageKey.DEBUG_MYSQL_USAGE_EXAMPLE_ADD);
+        messages.send(sender, MessageKey.DEBUG_MYSQL_USAGE_EXAMPLE_ADD_CMD);
+        messages.send(sender, MessageKey.DEBUG_MYSQL_USAGE_EXAMPLE_REMOVE);
 
-        sender.sendMessage("Available columns: " + constructColumnListWithMetadata());
-        sender.sendMessage(" " + NOT_NULL_SUFFIX + ": not-null, " + DEFAULT_VALUE_SUFFIX
-            + ": has default. See /authme debug mysqldef details");
+        messages.send(sender, MessageKey.DEBUG_MYSQL_AVAILABLE_COLS, constructColumnListWithMetadata(sender));
+        messages.send(sender, MessageKey.DEBUG_MYSQL_LEGEND);
     }
 
     /**
      * @return list of {@link Columns} we can toggle with suffixes indicating their NOT NULL and default value status
      */
-    private String constructColumnListWithMetadata() {
+    private String constructColumnListWithMetadata(CommandSender sender) {
         try (Connection con = getConnection(mySql)) {
             final DatabaseMetaData metaData = con.getMetaData();
             final String tableName = settings.getProperty(DatabaseSettings.MYSQL_TABLE);
@@ -232,7 +242,7 @@ class MySqlDefaultChanger implements DebugSection {
             return String.join(ChatColor.RESET + ", ", formattedColumns);
         } catch (SQLException e) {
             logger.logException("Failed to construct column list:", e);
-            return ChatColor.RED + "An error occurred! Please see the console for details.";
+            return messages.retrieveSingle(sender, MessageKey.DEBUG_MYSQL_COL_LIST_ERROR);
         }
     }
 

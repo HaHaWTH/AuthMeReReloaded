@@ -2,11 +2,12 @@ package fr.xephi.authme.task.purge;
 
 import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ class PurgeTask extends UniversalRunnable {
 
     private final OfflinePlayer[] offlinePlayers;
     private final int totalPurgeCount;
+    private final Messages messages;
 
     private int currentPage = 0;
 
@@ -42,9 +44,10 @@ class PurgeTask extends UniversalRunnable {
      * @param offlinePlayers offline players to map to the names
      */
     PurgeTask(PurgeService service, PermissionsManager permissionsManager, CommandSender sender,
-              Set<String> toPurge, OfflinePlayer[] offlinePlayers) {
+              Set<String> toPurge, OfflinePlayer[] offlinePlayers, Messages messages) {
         this.purgeService = service;
         this.permissionsManager = permissionsManager;
+        this.messages = messages;
 
         if (sender instanceof Player) {
             this.sender = ((Player) sender).getUniqueId();
@@ -103,7 +106,8 @@ class PurgeTask extends UniversalRunnable {
         purgeService.executePurge(playerPortion, namePortion);
         if (currentPage % 20 == 0) {
             int completed = totalPurgeCount - toPurge.size();
-            sendMessage("[AuthMe] Purge progress " + completed + '/' + totalPurgeCount);
+            sendMessage(messages.retrieveSingle(resolveSender(), MessageKey.PURGE_PROGRESS,
+                String.valueOf(completed), String.valueOf(totalPurgeCount)));
         }
     }
 
@@ -111,17 +115,25 @@ class PurgeTask extends UniversalRunnable {
         cancel();
 
         // Show a status message
-        sendMessage(ChatColor.GREEN + "[AuthMe] Database has been purged successfully");
+        sendMessage(messages.retrieveSingle(resolveSender(), MessageKey.PURGE_DATABASE_SUCCESS));
 
         logger.info("Purge finished!");
         purgeService.setPurging(false);
     }
 
-    private void sendMessage(String message) {
+    private CommandSender resolveSender() {
         if (sender == null) {
+            return Bukkit.getConsoleSender();
+        }
+        Player player = Bukkit.getPlayer(sender);
+        return player != null ? player : Bukkit.getConsoleSender();
+    }
+
+    private void sendMessage(String message) {
+        if (this.sender == null) {
             Bukkit.getConsoleSender().sendMessage(message);
         } else {
-            Player player = Bukkit.getPlayer(sender);
+            Player player = Bukkit.getPlayer(this.sender);
             if (player != null) {
                 player.sendMessage(message);
             }

@@ -5,13 +5,14 @@ import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.mail.SendMailSsl;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
 import fr.xephi.authme.util.StringUtils;
 import fr.xephi.authme.util.Utils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 
@@ -34,6 +35,8 @@ class TestEmailSender implements DebugSection {
     @Inject
     private Server server;
 
+    @Inject
+    private Messages messages;
 
     @Override
     public String getName() {
@@ -47,10 +50,9 @@ class TestEmailSender implements DebugSection {
 
     @Override
     public void execute(CommandSender sender, List<String> arguments) {
-        sender.sendMessage(ChatColor.BLUE + "AuthMe test email sender");
+        messages.send(sender, MessageKey.DEBUG_MAIL_TITLE);
         if (!sendMailSsl.hasAllInformation()) {
-            sender.sendMessage(ChatColor.RED + "You haven't set all required configurations in config.yml "
-                + "for sending emails. Please check your config.yml");
+            messages.send(sender, MessageKey.DEBUG_MAIL_CONFIG_INCOMPLETE);
             return;
         }
 
@@ -58,11 +60,11 @@ class TestEmailSender implements DebugSection {
 
         // getEmail() takes care of informing the sender of the error if email == null
         if (email != null) {
-            boolean sendMail = sendTestEmail(email);
+            boolean sendMail = sendTestEmail(sender, email);
             if (sendMail) {
-                sender.sendMessage("Test email sent to " + email + " with success");
+                messages.send(sender, MessageKey.DEBUG_MAIL_SENT, email);
             } else {
-                sender.sendMessage(ChatColor.RED + "Failed to send test mail to " + email + "; please check your logs");
+                messages.send(sender, MessageKey.DEBUG_MAIL_FAILED, email);
             }
         }
     }
@@ -87,14 +89,12 @@ class TestEmailSender implements DebugSection {
         if (arguments.isEmpty()) {
             DataSourceValue<String> emailResult = dataSource.getEmail(sender.getName());
             if (!emailResult.rowExists()) {
-                sender.sendMessage(ChatColor.RED + "Please provide an email address, "
-                    + "e.g. /authme debug mail test@example.com");
+                messages.send(sender, MessageKey.DEBUG_MAIL_PROVIDE_ADDRESS);
                 return null;
             }
             final String email = emailResult.getValue();
             if (Utils.isEmailEmpty(email)) {
-                sender.sendMessage(ChatColor.RED + "No email set for your account!"
-                    + " Please use /authme debug mail <email>");
+                messages.send(sender, MessageKey.DEBUG_MAIL_NO_ACCOUNT_EMAIL);
                 return null;
             }
             return email;
@@ -103,12 +103,12 @@ class TestEmailSender implements DebugSection {
             if (StringUtils.isInsideString('@', email)) {
                 return email;
             }
-            sender.sendMessage(ChatColor.RED + "Invalid email! Usage: /authme debug mail test@example.com");
+            messages.send(sender, MessageKey.DEBUG_MAIL_INVALID);
             return null;
         }
     }
 
-    private boolean sendTestEmail(String email) {
+    private boolean sendTestEmail(CommandSender sender, String email) {
         HtmlEmail htmlEmail;
         try {
             htmlEmail = sendMailSsl.initializeMail(email);
@@ -117,9 +117,8 @@ class TestEmailSender implements DebugSection {
             return false;
         }
 
-        htmlEmail.setSubject("AuthMe test email");
-        String message = "Hello there!<br />This is a sample email sent to you from a Minecraft server ("
-            + server.getName() + ") via /authme debug mail. If you're seeing this, sending emails should be fine.";
+        htmlEmail.setSubject(messages.retrieveSingle(sender, MessageKey.DEBUG_MAIL_SUBJECT));
+        String message = messages.retrieveSingle(sender, MessageKey.DEBUG_MAIL_BODY, server.getName());
         return sendMailSsl.sendEmail(message, htmlEmail);
     }
 }

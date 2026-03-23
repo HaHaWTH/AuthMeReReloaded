@@ -4,6 +4,7 @@ import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.datasource.DataSourceType;
 import fr.xephi.authme.datasource.SQLite;
 import fr.xephi.authme.initialization.DataFolder;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.settings.Settings;
 
 import javax.inject.Inject;
@@ -20,8 +21,8 @@ public class SqliteToH2 extends AbstractDataSourceConverter<SQLite>{
     private final File dataFolder;
 
     @Inject
-    SqliteToH2(Settings settings, DataSource dataSource, @DataFolder File dataFolder) {
-        super(dataSource, DataSourceType.H2);
+    SqliteToH2(Settings settings, DataSource dataSource, @DataFolder File dataFolder, Messages messages) {
+        super(dataSource, DataSourceType.H2, messages);
         this.settings = settings;
         this.dataFolder = dataFolder;
     }
