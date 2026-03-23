@@ -12,7 +12,7 @@
     <description>Fork of the first authentication plugin for the Bukkit API!</description>
     <inceptionYear>2013</inceptionYear>
     <!-- Fork: build uses only local src/main/resources — Maven repos do not overwrite messages YAML -->
-    <url>https://github.com/cl3i550n/AuthMeReReloaded</url>
+    <url>https://github.com/AuthMe/AuthMeReloaded</url>
 
     <organization>
         <name>AuthMe-Team</name>
@@ -20,19 +20,19 @@
     </organization>
 
     <scm>
-        <connection>scm:git:https://github.com/cl3i550n/AuthMeReReloaded.git</connection>
-        <developerConnection>scm:git:git@github.com:cl3i550n/AuthMeReReloaded.git</developerConnection>
-        <url>https://github.com/cl3i550n/AuthMeReReloaded</url>
+        <connection>scm:git:https://github.com/AuthMe/AuthMeReloaded.git</connection>
+        <developerConnection>scm:git:git@github.com:AuthMe/AuthMeReloaded.git</developerConnection>
+        <url>https://github.com/AuthMe/AuthMeReloaded</url>
     </scm>
 
     <ciManagement>
-        <system>GitHub Actions</system>
-        <url>https://github.com/cl3i550n/AuthMeReReloaded/actions</url>
+        <system>jenkins</system>
+        <url>https://ci.codemc.io/job/AuthMe/job/AuthMeReReloaded/</url>
     </ciManagement>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/cl3i550n/AuthMeReReloaded/issues</url>
+        <url>https://github.com/AuthMe/AuthMeReloaded/issues</url>
     </issueManagement>
 
     <distributionManagement>
