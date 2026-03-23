@@ -60,10 +60,11 @@
         <!-- Environment properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.source>17</java.source>
-        <java.target>17</java.target>
-        <java.apiVersion>17</java.apiVersion>
-        <java.compiler.minimumVersion>17</java.compiler.minimumVersion>
+        <!-- Java 21: Paper API 1.21.11+ ships class file version 65 (JDK 21) -->
+        <java.source>21</java.source>
+        <java.target>21</java.target>
+        <java.apiVersion>21</java.apiVersion>
+        <java.compiler.minimumVersion>21</java.compiler.minimumVersion>
         <maven.minimumVersion>3.8.8</maven.minimumVersion>
 
         <!-- Versioning properties -->
