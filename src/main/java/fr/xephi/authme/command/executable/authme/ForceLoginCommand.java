@@ -2,8 +2,10 @@ package fr.xephi.authme.command.executable.authme;
 
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.permission.PermissionsManager;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.process.Management;
 import fr.xephi.authme.service.BukkitService;
+import fr.xephi.authme.service.CommonService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,6 +28,9 @@ public class ForceLoginCommand implements ExecutableCommand {
     @Inject
     private BukkitService bukkitService;
 
+    @Inject
+    private CommonService commonService;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
         // Get the player query
@@ -33,12 +38,12 @@ public class ForceLoginCommand implements ExecutableCommand {
 
         Player player = bukkitService.getPlayerExact(playerName);
         if (player == null || !player.isOnline()) {
-            sender.sendMessage("Player needs to be online!");
+            commonService.send(sender, MessageKey.ADMIN_FORCE_LOGIN_OFFLINE);
         } else if (!permissionsManager.hasPermission(player, CAN_LOGIN_BE_FORCED)) {
-            sender.sendMessage("You cannot force login the player " + playerName + "!");
+            commonService.send(sender, MessageKey.ADMIN_FORCE_LOGIN_DENIED, playerName);
         } else {
             management.forceLogin(player);
-            sender.sendMessage("Force login for " + playerName + " performed!");
+            commonService.send(sender, MessageKey.ADMIN_FORCE_LOGIN_SUCCESS, playerName);
         }
     }
 }

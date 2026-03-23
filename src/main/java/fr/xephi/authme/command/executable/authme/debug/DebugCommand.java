@@ -3,8 +3,9 @@ package fr.xephi.authme.command.executable.authme.debug;
 import ch.jalu.injector.factory.Factory;
 import com.google.common.collect.ImmutableSet;
 import fr.xephi.authme.command.ExecutableCommand;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.PermissionsManager;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -30,6 +31,9 @@ public class DebugCommand implements ExecutableCommand {
     @Inject
     private PermissionsManager permissionsManager;
 
+    @Inject
+    private Messages messages;
+
     private Map<String, DebugSection> sections;
 
     @Override
@@ -50,15 +54,15 @@ public class DebugCommand implements ExecutableCommand {
     }
 
     private void sendAvailableSections(CommandSender sender) {
-        sender.sendMessage(ChatColor.BLUE + "AuthMe debug utils");
-        sender.sendMessage("Sections available to you:");
+        messages.send(sender, MessageKey.DEBUG_COMMAND_TITLE);
+        messages.send(sender, MessageKey.DEBUG_COMMAND_SECTIONS_AVAILABLE);
         long availableSections = getSections().values().stream()
             .filter(section -> permissionsManager.hasPermission(sender, section.getRequiredPermission()))
-            .peek(e -> sender.sendMessage("- " + e.getName() + ": " + e.getDescription()))
+            .peek(e -> messages.send(sender, MessageKey.DEBUG_COMMAND_SECTION_LINE, e.getName(), e.getDescription()))
             .count();
 
         if (availableSections == 0) {
-            sender.sendMessage(ChatColor.RED + "You don't have permission to view any debug section");
+            messages.send(sender, MessageKey.DEBUG_COMMAND_NO_PERM_ANY);
         }
     }
 
@@ -66,7 +70,7 @@ public class DebugCommand implements ExecutableCommand {
         if (permissionsManager.hasPermission(sender, section.getRequiredPermission())) {
             section.execute(sender, arguments.subList(1, arguments.size()));
         } else {
-            sender.sendMessage(ChatColor.RED + "You don't have permission for this section. See /authme debug");
+            messages.send(sender, MessageKey.DEBUG_COMMAND_NO_PERM_SECTION);
         }
     }
 

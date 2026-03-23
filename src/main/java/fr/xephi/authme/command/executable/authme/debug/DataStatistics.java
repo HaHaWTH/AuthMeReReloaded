@@ -8,17 +8,15 @@ import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.HasCleanup;
 import fr.xephi.authme.initialization.Reloadable;
 import fr.xephi.authme.initialization.SettingsDependent;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.DebugSectionPermissions;
 import fr.xephi.authme.permission.PermissionNode;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
-
-import static fr.xephi.authme.command.executable.authme.debug.DebugSectionUtils.applyToLimboPlayersMap;
 
 /**
  * Fetches various statistics, particularly regarding in-memory data that is stored.
@@ -37,6 +35,9 @@ class DataStatistics implements DebugSection {
     @Inject
     private SingletonStore<Object> singletonStore;
 
+    @Inject
+    private Messages messages;
+
     @Override
     public String getName() {
         return "stats";
@@ -49,13 +50,16 @@ class DataStatistics implements DebugSection {
 
     @Override
     public void execute(CommandSender sender, List<String> arguments) {
-        sender.sendMessage(ChatColor.BLUE + "AuthMe statistics");
-        sender.sendMessage("LimboPlayers in memory: " + applyToLimboPlayersMap(limboService, Map::size));
-        sender.sendMessage("PlayerCache size: " + playerCache.getLogged() + " (= logged in players)");
+        messages.send(sender, MessageKey.DEBUG_STATS_TITLE);
+        Integer limboCount = DebugSectionUtils.<Integer>applyToLimboPlayersMap(limboService,
+            map -> map == null ? 0 : map.size());
+        messages.send(sender, MessageKey.DEBUG_STATS_LIMBO, String.valueOf(limboCount != null ? limboCount : 0));
+        messages.send(sender, MessageKey.DEBUG_STATS_CACHE, String.valueOf(playerCache.getLogged()));
 
         outputDatabaseStats(sender);
         outputInjectorStats(sender);
-        sender.sendMessage("Total logger instances: " + ConsoleLoggerFactory.getTotalLoggers());
+        messages.send(sender, MessageKey.DEBUG_STATS_LOGGERS,
+            String.valueOf(ConsoleLoggerFactory.getTotalLoggers()));
     }
 
     @Override
@@ -64,18 +68,20 @@ class DataStatistics implements DebugSection {
     }
 
     private void outputDatabaseStats(CommandSender sender) {
-        sender.sendMessage("Total players in DB: " + dataSource.getAccountsRegistered());
+        messages.send(sender, MessageKey.DEBUG_STATS_DB_TOTAL, String.valueOf(dataSource.getAccountsRegistered()));
         if (dataSource instanceof CacheDataSource) {
             CacheDataSource cacheDataSource = (CacheDataSource) this.dataSource;
-            sender.sendMessage("Cached PlayerAuth objects: " + cacheDataSource.getCachedAuths().size());
+            messages.send(sender, MessageKey.DEBUG_STATS_CACHE_OBJS,
+                String.valueOf(cacheDataSource.getCachedAuths().size()));
         }
     }
 
     private void outputInjectorStats(CommandSender sender) {
-        sender.sendMessage("Singleton Java classes: " + singletonStore.retrieveAllOfType().size());
-        sender.sendMessage(String.format("(Reloadable: %d / SettingsDependent: %d / HasCleanup: %d)",
-            singletonStore.retrieveAllOfType(Reloadable.class).size(),
-            singletonStore.retrieveAllOfType(SettingsDependent.class).size(),
-            singletonStore.retrieveAllOfType(HasCleanup.class).size()));
+        messages.send(sender, MessageKey.DEBUG_STATS_SINGLETONS,
+            String.valueOf(singletonStore.retrieveAllOfType().size()));
+        messages.send(sender, MessageKey.DEBUG_STATS_INJECTOR_BREAKDOWN,
+            String.valueOf(singletonStore.retrieveAllOfType(Reloadable.class).size()),
+            String.valueOf(singletonStore.retrieveAllOfType(SettingsDependent.class).size()),
+            String.valueOf(singletonStore.retrieveAllOfType(HasCleanup.class).size()));
     }
 }

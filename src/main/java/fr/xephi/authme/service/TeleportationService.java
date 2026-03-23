@@ -74,25 +74,38 @@ public class TeleportationService implements Reloadable {
     }
 
     /**
-     * Returns the player's custom on join location.
+     * Returns the player's custom on-join spawn location during the join configuration phase.
+     * <p>
+     * Prefer this overload when the {@link Player} entity must not be used (Paper
+     * {@code AsyncPlayerSpawnLocationEvent}): use the connection profile name and the vanilla spawn
+     * from the event as world context.
      *
-     * @param player the player to process
-     *
-     * @return the custom spawn location, null if the player should spawn at the original location
+     * @param playerName case-sensitive name from profile / safe join APIs
+     * @param vanillaSpawnLocation server default spawn for this join (world context); not null
+     * @return custom spawn, or null to keep vanilla spawn
      */
-    public Location prepareOnJoinSpawnLocation(final Player player) {
+    public Location prepareOnJoinSpawnLocation(String playerName, Location vanillaSpawnLocation) {
         if (!settings.getProperty(RestrictionSettings.NO_TELEPORT)
             && settings.getProperty(TELEPORT_UNAUTHED_TO_SPAWN)) {
-            final Location location = spawnLoader.getSpawnLocation(player);
-
-            SpawnTeleportEvent event = new SpawnTeleportEvent(player, location,
-                playerCache.isAuthenticated(player.getName()));
-            bukkitService.callEvent(event);
-            if (!isEventValid(event)) {
+            if (playerName == null || vanillaSpawnLocation == null || vanillaSpawnLocation.getWorld() == null) {
+                return null;
+            }
+            final Location location = spawnLoader.getSpawnLocationForWorld(vanillaSpawnLocation.getWorld());
+            if (location == null) {
                 return null;
             }
 
-            logger.debug("Returning custom location for >1.9 join event for player `{0}`", player.getName());
+            Player player = bukkitService.getPlayerExact(playerName);
+            if (player != null) {
+                SpawnTeleportEvent event = new SpawnTeleportEvent(player, location,
+                    playerCache.isAuthenticated(playerName));
+                bukkitService.callEvent(event);
+                if (!isEventValid(event)) {
+                    return null;
+                }
+            }
+
+            logger.debug("Returning custom location for join spawn event for player `{0}`", playerName);
             return location;
         }
         return null;

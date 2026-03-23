@@ -5,7 +5,6 @@ import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -30,9 +29,9 @@ public class TotpViewStatusCommand implements ExecutableCommand {
         if (auth == null) {
             messages.send(sender, MessageKey.UNKNOWN_USER);
         } else if (auth.getTotpKey() == null) {
-            sender.sendMessage(ChatColor.RED + "Player '" + player + "' does NOT have two-factor auth enabled");
+            messages.send(sender, MessageKey.ADMIN_TOTP_VIEW_DISABLED, player);
         } else {
-            sender.sendMessage(ChatColor.DARK_GREEN + "Player '" + player + "' has enabled two-factor authentication");
+            messages.send(sender, MessageKey.ADMIN_TOTP_VIEW_ENABLED, player);
         }
     }
 }

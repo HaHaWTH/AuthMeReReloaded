@@ -3,7 +3,9 @@ package fr.xephi.authme.command.executable.authme;
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
+import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.service.BukkitService;
+import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.util.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,6 +21,9 @@ public class GetIpCommand implements ExecutableCommand {
     @Inject
     private DataSource dataSource;
 
+    @Inject
+    private CommonService commonService;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
         String playerName = arguments.get(0);
@@ -26,16 +31,16 @@ public class GetIpCommand implements ExecutableCommand {
         PlayerAuth auth = dataSource.getAuth(playerName);
 
         if (player != null) {
-            sender.sendMessage("Current IP of " + player.getName() + " is " + PlayerUtils.getPlayerIp(player)
-                + ":" + player.getAddress().getPort());
+            commonService.send(sender, MessageKey.ADMIN_GET_IP_CURRENT, player.getName(),
+                PlayerUtils.getPlayerIp(player), String.valueOf(player.getAddress().getPort()));
         }
 
         if (auth == null) {
             String displayName = player == null ? playerName : player.getName();
-            sender.sendMessage(displayName + " is not registered in the database");
+            commonService.send(sender, MessageKey.ADMIN_GET_IP_NOT_REGISTERED, displayName);
         } else {
-            sender.sendMessage("Database: last IP: " + auth.getLastIp() + ", registration IP: "
-                + auth.getRegistrationIp());
+            commonService.send(sender, MessageKey.ADMIN_GET_IP_DATABASE,
+                String.valueOf(auth.getLastIp()), String.valueOf(auth.getRegistrationIp()));
         }
     }
 }

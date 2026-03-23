@@ -48,7 +48,8 @@ public class ConverterCommand implements ExecutableCommand {
     public void executeCommand(CommandSender sender, List<String> arguments) {
         Class<? extends Converter> converterClass = getConverterClassFromArgs(arguments);
         if (converterClass == null) {
-            sender.sendMessage("Converters: " + String.join(", ", CONVERTERS.keySet()));
+            commonService.send(sender, MessageKey.ADMIN_CONVERTER_LIST,
+                String.join(", ", CONVERTERS.keySet()));
             return;
         }
 
@@ -66,7 +67,7 @@ public class ConverterCommand implements ExecutableCommand {
         });
 
         // Show a status message
-        sender.sendMessage("[AuthMe] Successfully started " + arguments.get(0));
+        commonService.send(sender, MessageKey.ADMIN_CONVERTER_STARTED, arguments.get(0));
     }
 
     private static Class<? extends Converter> getConverterClassFromArgs(List<String> arguments) {

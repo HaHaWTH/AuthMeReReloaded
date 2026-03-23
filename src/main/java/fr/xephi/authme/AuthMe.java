@@ -25,6 +25,7 @@ import fr.xephi.authme.listener.PlayerListener;
 import fr.xephi.authme.listener.PlayerListener111;
 import fr.xephi.authme.listener.PlayerListener19;
 import fr.xephi.authme.listener.PlayerListener19Spigot;
+import fr.xephi.authme.listener.PlayerListenerPaperAsyncSpawn;
 import fr.xephi.authme.listener.PlayerListenerHigherThan18;
 import fr.xephi.authme.listener.PurgeListener;
 import fr.xephi.authme.listener.ServerListener;
@@ -335,8 +336,10 @@ public class AuthMe extends JavaPlugin {
 //            pluginManager.registerEvents(injector.getSingleton(PlayerListener19.class), this);
 //        }
 
-        // Try to register 1.9 spigot player listeners
-        if (isClassLoaded("org.spigotmc.event.player.PlayerSpawnLocationEvent")) {
+        // Join spawn: Paper 1.21.9+ uses AsyncPlayerSpawnLocationEvent; Spigot event is deprecated there
+        if (isClassLoaded("io.papermc.paper.event.player.AsyncPlayerSpawnLocationEvent")) {
+            pluginManager.registerEvents(injector.getSingleton(PlayerListenerPaperAsyncSpawn.class), this);
+        } else if (isClassLoaded("org.spigotmc.event.player.PlayerSpawnLocationEvent")) {
             pluginManager.registerEvents(injector.getSingleton(PlayerListener19Spigot.class), this);
         }
 

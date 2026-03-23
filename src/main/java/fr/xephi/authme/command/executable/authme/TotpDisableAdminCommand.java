@@ -8,7 +8,7 @@ import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.service.BukkitService;
-import org.bukkit.ChatColor;
+import fr.xephi.authme.service.CommonService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -31,6 +31,9 @@ public class TotpDisableAdminCommand implements ExecutableCommand {
     @Inject
     private BukkitService bukkitService;
 
+    @Inject
+    private CommonService commonService;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
         String player = arguments.get(0);
@@ -39,7 +42,7 @@ public class TotpDisableAdminCommand implements ExecutableCommand {
         if (auth == null) {
             messages.send(sender, MessageKey.UNKNOWN_USER);
         } else if (auth.getTotpKey() == null) {
-            sender.sendMessage(ChatColor.RED + "Player '" + player + "' does not have two-factor auth enabled");
+            commonService.send(sender, MessageKey.ADMIN_TOTP_NOT_ENABLED, player);
         } else {
             removeTotpKey(sender, player);
         }
@@ -47,7 +50,7 @@ public class TotpDisableAdminCommand implements ExecutableCommand {
 
     private void removeTotpKey(CommandSender sender, String player) {
         if (dataSource.removeTotpKey(player)) {
-            sender.sendMessage("Disabled two-factor authentication successfully for '" + player + "'");
+            commonService.send(sender, MessageKey.ADMIN_TOTP_DISABLED_SUCCESS, player);
             logger.info(sender.getName() + " disable two-factor authentication for '" + player + "'");
 
             Player onlinePlayer = bukkitService.getPlayerExact(player);

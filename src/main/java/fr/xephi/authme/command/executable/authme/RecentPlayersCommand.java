@@ -4,7 +4,8 @@ import com.google.common.annotations.VisibleForTesting;
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.data.auth.PlayerAuth;
 import fr.xephi.authme.datasource.DataSource;
-import org.bukkit.ChatColor;
+import fr.xephi.authme.message.MessageKey;
+import fr.xephi.authme.service.CommonService;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -26,13 +27,19 @@ public class RecentPlayersCommand implements ExecutableCommand {
     @Inject
     private DataSource dataSource;
 
+    @Inject
+    private CommonService commonService;
+
     @Override
     public void executeCommand(CommandSender sender, List<String> arguments) {
         List<PlayerAuth> recentPlayers = dataSource.getRecentlyLoggedInPlayers();
 
-        sender.sendMessage(ChatColor.BLUE + "[AuthMe] Recently logged in players");
+        commonService.send(sender, MessageKey.RECENT_PLAYERS_HEADER);
         for (PlayerAuth auth : recentPlayers) {
-            sender.sendMessage(formatPlayerMessage(auth));
+            commonService.send(sender, MessageKey.RECENT_PLAYER_LINE,
+                auth.getRealName(),
+                formatLastLoginText(sender, auth),
+                String.valueOf(auth.getLastIp()));
         }
     }
 
@@ -41,15 +48,11 @@ public class RecentPlayersCommand implements ExecutableCommand {
         return ZoneId.systemDefault();
     }
 
-    private String formatPlayerMessage(PlayerAuth auth) {
-        String lastLoginText;
+    private String formatLastLoginText(CommandSender sender, PlayerAuth auth) {
         if (auth.getLastLogin() == null) {
-            lastLoginText = "never";
-        } else {
-            LocalDateTime lastLogin = LocalDateTime.ofInstant(ofEpochMilli(auth.getLastLogin()), getZoneId());
-            lastLoginText = DATE_FORMAT.format(lastLogin);
+            return commonService.retrieveSingleMessage(sender, MessageKey.ADMIN_LAST_LOGIN_NEVER);
         }
-
-        return "- " + auth.getRealName() + " (" + lastLoginText + " with IP " + auth.getLastIp() + ")";
+        LocalDateTime lastLogin = LocalDateTime.ofInstant(ofEpochMilli(auth.getLastLogin()), getZoneId());
+        return DATE_FORMAT.format(lastLogin);
     }
 }

@@ -36,9 +36,9 @@ public class AccountsCommand implements ExecutableCommand {
             bukkitService.runTaskAsynchronously(() -> {
                 List<String> accountList = dataSource.getAllAuthsByIp(playerName);
                 if (accountList.isEmpty()) {
-                    sender.sendMessage("[AuthMe] This IP does not exist in the database.");
+                    commonService.send(sender, MessageKey.ADMIN_ACCOUNTS_IP_UNKNOWN);
                 } else if (accountList.size() == 1) {
-                    sender.sendMessage("[AuthMe] " + playerName + " is a single account player");
+                    commonService.send(sender, MessageKey.ADMIN_ACCOUNTS_SINGLE, playerName);
                 } else {
                     outputAccountsList(sender, playerName, accountList);
                 }
@@ -50,7 +50,7 @@ public class AccountsCommand implements ExecutableCommand {
                     commonService.send(sender, MessageKey.UNKNOWN_USER);
                     return;
                 } else if (auth.getLastIp() == null) {
-                    sender.sendMessage("No known last IP address for player");
+                    commonService.send(sender, MessageKey.ADMIN_ACCOUNTS_NO_LAST_IP);
                     return;
                 }
 
@@ -58,7 +58,7 @@ public class AccountsCommand implements ExecutableCommand {
                 if (accountList.isEmpty()) {
                     commonService.send(sender, MessageKey.UNKNOWN_USER);
                 } else if (accountList.size() == 1) {
-                    sender.sendMessage("[AuthMe] " + playerName + " is a single account player");
+                    commonService.send(sender, MessageKey.ADMIN_ACCOUNTS_SINGLE, playerName);
                 } else {
                     outputAccountsList(sender, playerName, accountList);
                 }
@@ -66,9 +66,9 @@ public class AccountsCommand implements ExecutableCommand {
         }
     }
 
-    private static void outputAccountsList(CommandSender sender, String playerName, List<String> accountList) {
-        sender.sendMessage("[AuthMe] " + playerName + " has " + accountList.size() + " accounts.");
-        String message = "[AuthMe] " + String.join(", ", accountList) + ".";
-        sender.sendMessage(message);
+    private void outputAccountsList(CommandSender sender, String playerName, List<String> accountList) {
+        commonService.send(sender, MessageKey.ADMIN_ACCOUNTS_MULTIPLE, playerName,
+            String.valueOf(accountList.size()));
+        commonService.send(sender, MessageKey.ADMIN_ACCOUNTS_LIST, String.join(", ", accountList));
     }
 }

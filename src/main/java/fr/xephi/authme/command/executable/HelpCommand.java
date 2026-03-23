@@ -5,12 +5,15 @@ import fr.xephi.authme.command.CommandUtils;
 import fr.xephi.authme.command.ExecutableCommand;
 import fr.xephi.authme.command.FoundCommandResult;
 import fr.xephi.authme.command.FoundResultStatus;
+import fr.xephi.authme.command.help.HelpMessage;
+import fr.xephi.authme.command.help.HelpMessagesService;
 import fr.xephi.authme.command.help.HelpProvider;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
 import java.util.List;
+
+import static org.bukkit.ChatColor.translateAlternateColorCodes;
 
 import static fr.xephi.authme.command.FoundResultStatus.MISSING_BASE_COMMAND;
 import static fr.xephi.authme.command.FoundResultStatus.UNKNOWN_LABEL;
@@ -31,6 +34,9 @@ public class HelpCommand implements ExecutableCommand {
     @Inject
     private HelpProvider helpProvider;
 
+    @Inject
+    private HelpMessagesService helpMessagesService;
+
 
     // Convention: arguments is not the actual invoked arguments but the command that was invoked,
     // e.g. "/authme help register" would typically be arguments = [register], but here we pass [authme, register]
@@ -40,15 +46,19 @@ public class HelpCommand implements ExecutableCommand {
 
         FoundResultStatus resultStatus = result.getResultStatus();
         if (MISSING_BASE_COMMAND.equals(resultStatus)) {
-            sender.sendMessage(ChatColor.DARK_RED + "Could not get base command");
+            sender.sendMessage(translateAlternateColorCodes('&',
+                helpMessagesService.getMessage(HelpMessage.HELP_MISSING_BASE_COMMAND)));
             return;
         } else if (UNKNOWN_LABEL.equals(resultStatus)) {
             if (result.getCommandDescription() == null) {
-                sender.sendMessage(ChatColor.DARK_RED + "Unknown command");
+                sender.sendMessage(translateAlternateColorCodes('&',
+                    helpMessagesService.getMessage(HelpMessage.HELP_UNKNOWN_COMMAND)));
                 return;
             } else {
-                sender.sendMessage(ChatColor.GOLD + "Assuming " + ChatColor.WHITE
-                    + CommandUtils.constructCommandPath(result.getCommandDescription()));
+                String path = CommandUtils.constructCommandPath(result.getCommandDescription());
+                String message = helpMessagesService.getMessage(HelpMessage.HELP_ASSUMING_COMMAND)
+                    .replace("%command%", path);
+                sender.sendMessage(translateAlternateColorCodes('&', message));
             }
         }
 

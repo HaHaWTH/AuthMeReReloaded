@@ -22,13 +22,21 @@ public class PlayerListener19Spigot implements Listener {
         return isPlayerSpawnLocationEventCalled;
     }
 
+    /**
+     * Marks that the join spawn location was already handled (Paper async hook calls this).
+     */
+    public static void setJoinSpawnLocationHookRan() {
+        isPlayerSpawnLocationEventCalled = true;
+    }
+
     // Note: the following event is called since MC1.9, in older versions we have to fallback on the PlayerJoinEvent
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerSpawn(PlayerSpawnLocationEvent event) {
         isPlayerSpawnLocationEventCalled = true;
         final Player player = event.getPlayer();
 
-        Location customSpawnLocation = teleportationService.prepareOnJoinSpawnLocation(player);
+        Location customSpawnLocation = teleportationService.prepareOnJoinSpawnLocation(
+            player.getName(), event.getSpawnLocation());
         if (customSpawnLocation != null) {
             event.setSpawnLocation(customSpawnLocation);
         }

@@ -7,7 +7,6 @@ import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.util.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
@@ -81,7 +80,7 @@ public class CommandHandler {
                 executeCommand(sender, result);
                 break;
             case MISSING_BASE_COMMAND:
-                sender.sendMessage(ChatColor.DARK_RED + "Failed to parse " + AuthMe.getPluginName() + " command!");
+                messages.send(sender, MessageKey.COMMAND_PARSE_FAILED, AuthMe.getPluginName());
                 break;
             case INCORRECT_ARGUMENTS:
                 sendImproperArgumentsMessage(sender, result);
@@ -145,17 +144,16 @@ public class CommandHandler {
      * @param sender The command sender
      * @param result The command that was found during the mapping process
      */
-    private static void sendUnknownCommandMessage(CommandSender sender, FoundCommandResult result) {
-        sender.sendMessage(ChatColor.DARK_RED + "Unknown command!");
+    private void sendUnknownCommandMessage(CommandSender sender, FoundCommandResult result) {
+        messages.send(sender, MessageKey.UNKNOWN_AUTHME_COMMAND);
 
         // Show a command suggestion if available and the difference isn't too big
         if (result.getDifference() <= SUGGEST_COMMAND_THRESHOLD && result.getCommandDescription() != null) {
-            sender.sendMessage(ChatColor.YELLOW + "Did you mean " + ChatColor.GOLD
-                + CommandUtils.constructCommandPath(result.getCommandDescription()) + ChatColor.YELLOW + "?");
+            messages.send(sender, MessageKey.COMMAND_SUGGEST_SIMILAR,
+                CommandUtils.constructCommandPath(result.getCommandDescription()));
         }
 
-        sender.sendMessage(ChatColor.YELLOW + "Use the command " + ChatColor.GOLD + "/" + result.getLabels().get(0)
-            + " help" + ChatColor.YELLOW + " to view help.");
+        messages.send(sender, MessageKey.COMMAND_USE_HELP, result.getLabels().get(0));
     }
 
     private void sendImproperArgumentsMessage(CommandSender sender, FoundCommandResult result) {
@@ -175,12 +173,11 @@ public class CommandHandler {
     }
 
     private void showHelpForCommand(CommandSender sender, FoundCommandResult result) {
-        sender.sendMessage(ChatColor.DARK_RED + "Incorrect command arguments!");
+        messages.send(sender, MessageKey.INCORRECT_COMMAND_ARGUMENTS_GENERIC);
         helpProvider.outputHelp(sender, result, HelpProvider.SHOW_ARGUMENTS);
 
         List<String> labels = result.getLabels();
         String childLabel = labels.size() >= 2 ? labels.get(1) : "";
-        sender.sendMessage(ChatColor.GOLD + "Detailed help: " + ChatColor.WHITE
-            + "/" + labels.get(0) + " help " + childLabel);
+        messages.send(sender, MessageKey.COMMAND_DETAILED_HELP_SYNTAX, labels.get(0), childLabel);
     }
 }

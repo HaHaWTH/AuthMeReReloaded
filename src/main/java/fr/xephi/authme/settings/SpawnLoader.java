@@ -174,29 +174,43 @@ public class SpawnLoader implements Reloadable {
         if (player == null || player.getWorld() == null) {
             return null;
         }
+        return getSpawnLocationForWorld(player.getWorld());
+    }
 
-        World world = player.getWorld();
+    /**
+     * Resolves the configured spawn location for the given world (same rules as {@link #getSpawnLocation(Player)}).
+     * Used when no fully valid {@link Player} entity is available (e.g. Paper {@code AsyncPlayerSpawnLocationEvent}).
+     *
+     * @param world the world context (typically from the join / vanilla spawn location)
+     * @return spawn location, or null if world is null
+     */
+    public Location getSpawnLocationForWorld(World world) {
+        if (world == null) {
+            return null;
+        }
+
+        World mutableWorld = world;
         Location spawnLoc = null;
         for (String priority : spawnPriority) {
             switch (priority.toLowerCase(Locale.ROOT).trim()) {
                 case "default":
-                    if (world.getSpawnLocation() != null) {
-                        if (!isValidSpawnPoint(world.getSpawnLocation())) {
+                    if (mutableWorld.getSpawnLocation() != null) {
+                        if (!isValidSpawnPoint(mutableWorld.getSpawnLocation())) {
                             for (World spawnWorld : Bukkit.getWorlds()) {
                                 if (isValidSpawnPoint(spawnWorld.getSpawnLocation())) {
-                                    world = spawnWorld;
+                                    mutableWorld = spawnWorld;
                                     break;
                                 }
                             }
                             logger.warning("Seems like AuthMe is unable to find a proper spawn location. "
                                 + "Set a location with the command '/authme setspawn'");
                         }
-                        spawnLoc = world.getSpawnLocation();
+                        spawnLoc = mutableWorld.getSpawnLocation();
                     }
                     break;
                 case "multiverse":
                     if (settings.getProperty(HooksSettings.MULTIVERSE)) {
-                        spawnLoc = pluginHookService.getMultiverseSpawn(world);
+                        spawnLoc = pluginHookService.getMultiverseSpawn(mutableWorld);
                     }
                     break;
                 case "essentials":
@@ -212,13 +226,13 @@ public class SpawnLoader implements Reloadable {
                     // ignore
             }
             if (spawnLoc != null) {
-                logger.debug("Spawn location determined as `{0}` for world `{1}`", spawnLoc, world.getName());
+                logger.debug("Spawn location determined as `{0}` for world `{1}`", spawnLoc, mutableWorld.getName());
                 return spawnLoc;
             }
         }
-        logger.debug("Fall back to default world spawn location. World: `{0}`", world.getName());
+        logger.debug("Fall back to default world spawn location. World: `{0}`", mutableWorld.getName());
 
-        return world.getSpawnLocation(); // return default location
+        return mutableWorld.getSpawnLocation(); // return default location
     }
 
     /**
