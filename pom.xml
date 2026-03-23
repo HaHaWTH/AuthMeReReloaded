@@ -11,7 +11,8 @@
     <name>AuthMeReReloaded</name>
     <description>Fork of the first authentication plugin for the Bukkit API!</description>
     <inceptionYear>2013</inceptionYear>
-    <url>https://github.com/AuthMe/AuthMeReloaded</url>
+    <!-- Fork: build uses only local src/main/resources — Maven repos do not overwrite messages YAML -->
+    <url>https://github.com/cl3i550n/AuthMeReReloaded</url>
 
     <organization>
         <name>AuthMe-Team</name>
@@ -19,19 +20,19 @@
     </organization>
 
     <scm>
-        <connection>scm:git:https://github.com/AuthMe/AuthMeReloaded.git</connection>
-        <developerConnection>scm:git:git@github.com:AuthMe/AuthMeReloaded.git</developerConnection>
-        <url>https://github.com/AuthMe/AuthMeReloaded</url>
+        <connection>scm:git:https://github.com/cl3i550n/AuthMeReReloaded.git</connection>
+        <developerConnection>scm:git:git@github.com:cl3i550n/AuthMeReReloaded.git</developerConnection>
+        <url>https://github.com/cl3i550n/AuthMeReReloaded</url>
     </scm>
 
     <ciManagement>
-        <system>jenkins</system>
-        <url>https://ci.codemc.io/job/AuthMe/job/AuthMeReloaded/</url>
+        <system>GitHub Actions</system>
+        <url>https://github.com/cl3i550n/AuthMeReReloaded/actions</url>
     </ciManagement>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/AuthMe/AuthMeReloaded/issues</url>
+        <url>https://github.com/cl3i550n/AuthMeReReloaded/issues</url>
     </issueManagement>
 
     <distributionManagement>
@@ -60,11 +61,10 @@
         <!-- Environment properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Java 21: Paper API 1.21.11+ ships class file version 65 (JDK 21) -->
-        <java.source>21</java.source>
-        <java.target>21</java.target>
-        <java.apiVersion>21</java.apiVersion>
-        <java.compiler.minimumVersion>21</java.compiler.minimumVersion>
+        <java.source>17</java.source>
+        <java.target>17</java.target>
+        <java.apiVersion>17</java.apiVersion>
+        <java.compiler.minimumVersion>17</java.compiler.minimumVersion>
         <maven.minimumVersion>3.8.8</maven.minimumVersion>
 
         <!-- Versioning properties -->
@@ -96,8 +96,8 @@
         <dependencies.bcrypt.version>0.10.2</dependencies.bcrypt.version>
         <dependencies.googleauth.version>1.5.0</dependencies.googleauth.version>
         <dependencies.configme.version>1.3.1</dependencies.configme.version>
-        <!-- Spigot / Paper API (aligned; Paper types e.g. AsyncPlayerSpawnLocationEvent need 1.21.9+) -->
-        <dependencies.spigot.version>1.21.11-R0.1-SNAPSHOT</dependencies.spigot.version>
+        <!-- Spigot -->
+        <dependencies.spigot.version>1.21.1-R0.1-SNAPSHOT</dependencies.spigot.version>
         <dependencies.log4j-core.version>2.20.0</dependencies.log4j-core.version> <!-- TODO: check this, version bundled 1.16.5 -->
         <!-- Spigot libraries -->
         <dependencies.bstats.version>3.0.2</dependencies.bstats.version>
@@ -452,12 +452,6 @@
             </snapshots>
         </repository>
 
-        <!-- Paper API (AsyncPlayerSpawnLocationEvent, etc.) -->
-        <repository>
-            <id>papermc</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-
         <!-- CodeMC Repo (Contains many required libraries) -->
         <repository>
             <id>codemc-repo</id>
@@ -743,14 +737,6 @@
                     <artifactId>bungeecord-chat</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- Paper API: join spawn hook (AsyncPlayerSpawnLocationEvent); provided at runtime on Paper -->
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>${dependencies.spigot.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
