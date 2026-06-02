@@ -5,6 +5,7 @@ import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.data.captcha.RegistrationCaptchaManager;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
@@ -35,6 +36,9 @@ class LimboPlayerTaskManager {
     private PlayerCache playerCache;
 
     @Inject
+    private ForceLoginRequestService forceLoginRequestService;
+
+    @Inject
     private RegistrationCaptchaManager registrationCaptchaManager;
 
     LimboPlayerTaskManager() {
@@ -52,7 +56,7 @@ class LimboPlayerTaskManager {
         MessageResult result = getMessageKey(player.getName(), messageType);
         if (interval > 0) {
             String[] joinMessage = messages.retrieveSingle(player, result.messageKey, result.args).split("\n");
-            MessageTask messageTask = new MessageTask(player, joinMessage);
+            MessageTask messageTask = new MessageTask(player, joinMessage, playerCache, forceLoginRequestService);
             bukkitService.runTaskTimer(messageTask, 2 * TICKS_PER_SECOND, (long) interval * TICKS_PER_SECOND);
             limbo.setMessageTask(messageTask);
         }

@@ -3,6 +3,7 @@ package fr.xephi.authme.listener;
 import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.SettingsDependent;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.ValidationService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
@@ -20,15 +21,17 @@ import javax.inject.Inject;
 class ListenerService implements SettingsDependent {
     private final DataSource dataSource;
     private final PlayerCache playerCache;
+    private final ForceLoginRequestService forceLoginRequestService;
     private final ValidationService validationService;
     private boolean isRegistrationForced;
 
 
     @Inject
     ListenerService(Settings settings, DataSource dataSource, PlayerCache playerCache,
-                    ValidationService validationService) {
+                    ForceLoginRequestService forceLoginRequestService, ValidationService validationService) {
         this.dataSource = dataSource;
         this.playerCache = playerCache;
+        this.forceLoginRequestService = forceLoginRequestService;
         this.validationService = validationService;
         reload(settings);
     }
@@ -91,7 +94,9 @@ class ListenerService implements SettingsDependent {
      * @return true if the player may play, false otherwise
      */
     private boolean checkAuth(String name) {
-        if (validationService.isUnrestricted(name) || playerCache.isAuthenticated(name)){
+        if (validationService.isUnrestricted(name)
+            || playerCache.isAuthenticated(name)
+            || forceLoginRequestService.isPending(name)) {
             return true;
         }
         if (!isRegistrationForced && !dataSource.isAuthAvailable(name)) {
