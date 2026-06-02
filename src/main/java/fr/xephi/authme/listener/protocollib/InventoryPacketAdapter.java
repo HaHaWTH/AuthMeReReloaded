@@ -29,6 +29,7 @@ import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.BukkitService;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -50,11 +51,14 @@ class InventoryPacketAdapter extends PacketAdapter {
     private final ConsoleLogger logger = ConsoleLoggerFactory.get(InventoryPacketAdapter.class);
     private final PlayerCache playerCache;
     private final DataSource dataSource;
+    private final ForceLoginRequestService forceLoginRequestService;
 
-    InventoryPacketAdapter(AuthMe plugin, PlayerCache playerCache, DataSource dataSource) {
+    InventoryPacketAdapter(AuthMe plugin, PlayerCache playerCache, DataSource dataSource,
+                           ForceLoginRequestService forceLoginRequestService) {
         super(plugin, PacketType.Play.Server.SET_SLOT, PacketType.Play.Server.WINDOW_ITEMS);
         this.playerCache = playerCache;
         this.dataSource = dataSource;
+        this.forceLoginRequestService = forceLoginRequestService;
     }
 
     @Override
@@ -82,7 +86,9 @@ class InventoryPacketAdapter extends PacketAdapter {
     }
 
     private boolean shouldHideInventory(String playerName) {
-        return !playerCache.isAuthenticated(playerName) && dataSource.isAuthAvailable(playerName);
+        return !forceLoginRequestService.isPending(playerName)
+            && !playerCache.isAuthenticated(playerName)
+            && dataSource.isAuthAvailable(playerName);
     }
 
     public void unregister() {

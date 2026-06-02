@@ -5,6 +5,7 @@ import fr.xephi.authme.process.email.AsyncAddEmail;
 import fr.xephi.authme.process.email.AsyncChangeEmail;
 import fr.xephi.authme.process.join.AsynchronousJoin;
 import fr.xephi.authme.process.login.AsynchronousLogin;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.process.logout.AsynchronousLogout;
 import fr.xephi.authme.process.quit.AsynchronousQuit;
 import fr.xephi.authme.process.register.AsyncRegister;
@@ -41,6 +42,8 @@ public class Management {
     @Inject
     private AsynchronousLogin asynchronousLogin;
     @Inject
+    private ForceLoginRequestService forceLoginRequestService;
+    @Inject
     private AsynchronousUnregister asynchronousUnregister;
     @Inject
     private AsyncChangePassword asyncChangePassword;
@@ -54,10 +57,12 @@ public class Management {
     }
 
     public void forceLogin(Player player) {
+        forceLoginRequestService.markPending(player);
         runTask(() -> asynchronousLogin.forceLogin(player));
     }
 
     public void forceLogin(Player player, boolean quiet) {
+        forceLoginRequestService.markPending(player);
         runTask(() -> asynchronousLogin.forceLogin(player, quiet));
     }
 

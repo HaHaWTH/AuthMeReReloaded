@@ -7,6 +7,7 @@ import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.process.AsynchronousProcess;
 import fr.xephi.authme.process.SyncProcessManager;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.service.SessionService;
 import fr.xephi.authme.service.ValidationService;
@@ -37,6 +38,9 @@ public class AsynchronousQuit implements AsynchronousProcess {
     private PlayerCache playerCache;
 
     @Inject
+    private ForceLoginRequestService forceLoginRequestService;
+
+    @Inject
     private SyncProcessManager syncProcessManager;
 
     @Inject
@@ -60,7 +64,11 @@ public class AsynchronousQuit implements AsynchronousProcess {
      * @param player the player who left
      */
     public void processQuit(Player player) {
-        if (player == null || validationService.isUnrestricted(player.getName())) {
+        if (player == null) {
+            return;
+        }
+        forceLoginRequestService.clear(player);
+        if (validationService.isUnrestricted(player.getName())) {
             return;
         }
         String name = player.getName().toLowerCase(Locale.ROOT);

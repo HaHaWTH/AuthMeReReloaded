@@ -61,6 +61,9 @@ public class AsynchronousLogin implements AsynchronousProcess {
     private PlayerCache playerCache;
 
     @Inject
+    private ForceLoginRequestService forceLoginRequestService;
+
+    @Inject
     private SyncProcessManager syncProcessManager;
 
     @Inject
@@ -118,9 +121,14 @@ public class AsynchronousLogin implements AsynchronousProcess {
      * @param player the player to log in
      */
     public synchronized void forceLogin(Player player) {
-        PlayerAuth auth = getPlayerAuth(player);
-        if (auth != null) {
-            performLogin(player, auth);
+        forceLoginRequestService.markPending(player);
+        try {
+            PlayerAuth auth = getPlayerAuth(player);
+            if (auth != null) {
+                performLogin(player, auth);
+            }
+        } finally {
+            forceLoginRequestService.clear(player);
         }
     }
 
@@ -131,9 +139,14 @@ public class AsynchronousLogin implements AsynchronousProcess {
      * @param quiet if true no messages will be sent
      */
     public void forceLogin(Player player, boolean quiet) {
-        PlayerAuth auth = getPlayerAuth(player, quiet);
-        if (auth != null) {
-            performLogin(player, auth);
+        forceLoginRequestService.markPending(player);
+        try {
+            PlayerAuth auth = getPlayerAuth(player, quiet);
+            if (auth != null) {
+                performLogin(player, auth);
+            }
+        } finally {
+            forceLoginRequestService.clear(player);
         }
     }
 

@@ -8,6 +8,7 @@ import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import fr.xephi.authme.process.Management;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.AntiBotService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.JoinMessageService;
@@ -85,6 +86,8 @@ public class PlayerListener implements Listener {
     private OnJoinVerifier onJoinVerifier;
     @Inject
     private ListenerService listenerService;
+    @Inject
+    private ForceLoginRequestService forceLoginRequestService;
     @Inject
     private TeleportationService teleportationService;
     @Inject
@@ -518,8 +521,14 @@ public class PlayerListener implements Listener {
         return false;
     }
 
+    private boolean isTrustedForceLoginPending(HumanEntity player) {
+        return player instanceof Player && forceLoginRequestService.isPending(player.getName());
+    }
+
     private boolean shouldCancelInventoryInteraction(HumanEntity player, InventoryView inventory) {
-        return listenerService.shouldCancelEvent(player) && !isInventoryWhitelisted(inventory);
+        return !isTrustedForceLoginPending(player)
+            && listenerService.shouldCancelEvent(player)
+            && !isInventoryWhitelisted(inventory);
     }
 
     private void closeInventoryIfStillRestricted(HumanEntity player) {
