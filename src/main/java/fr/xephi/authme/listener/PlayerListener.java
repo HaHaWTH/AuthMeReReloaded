@@ -32,6 +32,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -517,25 +518,40 @@ public class PlayerListener implements Listener {
         return false;
     }
 
+    private boolean shouldCancelInventoryInteraction(HumanEntity player, InventoryView inventory) {
+        return listenerService.shouldCancelEvent(player) && !isInventoryWhitelisted(inventory);
+    }
+
+    private void closeInventoryIfStillRestricted(HumanEntity player) {
+        if (shouldCancelInventoryInteraction(player, player.getOpenInventory())) {
+            player.closeInventory();
+        }
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerInventoryOpen(InventoryOpenEvent event) {
         final HumanEntity player = event.getPlayer();
-        if (listenerService.shouldCancelEvent(player)
-            && !isInventoryWhitelisted(event.getView())) {
+        if (shouldCancelInventoryInteraction(player, event.getView())) {
             event.setCancelled(true);
 
             /*
              * @note little hack cause InventoryOpenEvent cannot be cancelled for
              * real, cause no packet is sent to server by client for the main inv
              */
-            bukkitService.scheduleSyncDelayedTask(player::closeInventory, 1);
+            bukkitService.runTaskLater((Player) player, () -> closeInventoryIfStillRestricted(player), 1);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerInventoryClick(InventoryClickEvent event) {
-        if (listenerService.shouldCancelEvent(event.getWhoClicked())
-            && !isInventoryWhitelisted(event.getView())) {
+        if (shouldCancelInventoryInteraction(event.getWhoClicked(), event.getView())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerInventoryDrag(InventoryDragEvent event) {
+        if (shouldCancelInventoryInteraction(event.getWhoClicked(), event.getView())) {
             event.setCancelled(true);
         }
     }

@@ -1,6 +1,7 @@
 package fr.xephi.authme.process.join;
 
 import fr.xephi.authme.ConsoleLogger;
+import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.data.ProxySessionManager;
 import fr.xephi.authme.data.limbo.LimboService;
 import fr.xephi.authme.datasource.DataSource;
@@ -51,6 +52,9 @@ public class AsynchronousJoin implements AsynchronousProcess {
 
     @Inject
     private DataSource database;
+
+    @Inject
+    private PlayerCache playerCache;
 
     @Inject
     private CommonService service;
@@ -121,6 +125,10 @@ public class AsynchronousJoin implements AsynchronousProcess {
         }
 
         boolean isAuthAvailable = database.isAuthAvailable(name);
+
+        if (playerCache.isAuthenticated(name)) {
+            return;
+        }
 
         if (isAuthAvailable) {
             // Protect inventory
@@ -195,6 +203,9 @@ public class AsynchronousJoin implements AsynchronousProcess {
         int registrationTimeout = service.getProperty(RestrictionSettings.TIMEOUT) * TICKS_PER_SECOND;
 
         bukkitService.scheduleSyncTaskFromOptionallyAsyncTask(() -> {
+            if (playerCache.isAuthenticated(player.getName())) {
+                return;
+            }
             limboService.createLimboPlayer(player, isAuthAvailable);
 
             player.setNoDamageTicks(registrationTimeout);
