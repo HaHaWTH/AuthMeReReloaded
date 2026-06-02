@@ -34,10 +34,12 @@ public class MessageTask extends UniversalRunnable {
 
     @Override
     public void run() {
-        if (!isMuted
-            && !playerCache.isAuthenticated(player.getName())
-            && !forceLoginRequestService.isPending(player.getName())) {
-            player.sendMessage(message);
+        if (!player.isOnline()
+            || isMuted
+            || playerCache.isAuthenticated(player.getName())
+            || forceLoginRequestService.isPending(player.getName())) {
+            return;
         }
+        player.sendMessage(message);
     }
 }

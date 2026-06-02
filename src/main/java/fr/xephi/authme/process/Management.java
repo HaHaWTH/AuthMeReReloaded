@@ -1,5 +1,6 @@
 package fr.xephi.authme.process;
 
+import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.process.changepassword.AsyncChangePassword;
 import fr.xephi.authme.process.email.AsyncAddEmail;
 import fr.xephi.authme.process.email.AsyncChangeEmail;
@@ -25,6 +26,9 @@ public class Management {
 
     @Inject
     private BukkitService bukkitService;
+
+    @Inject
+    private PlayerCache playerCache;
 
     // Processes
     @Inject
@@ -57,11 +61,25 @@ public class Management {
     }
 
     public void forceLogin(Player player) {
+        if (player == null) {
+            return;
+        }
+        if (playerCache.isAuthenticated(player.getName())) {
+            forceLoginRequestService.clear(player);
+            return;
+        }
         forceLoginRequestService.markPending(player);
         runTask(() -> asynchronousLogin.forceLogin(player));
     }
 
     public void forceLogin(Player player, boolean quiet) {
+        if (player == null) {
+            return;
+        }
+        if (playerCache.isAuthenticated(player.getName())) {
+            forceLoginRequestService.clear(player);
+            return;
+        }
         forceLoginRequestService.markPending(player);
         runTask(() -> asynchronousLogin.forceLogin(player, quiet));
     }

@@ -121,15 +121,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
      * @param player the player to log in
      */
     public synchronized void forceLogin(Player player) {
-        forceLoginRequestService.markPending(player);
-        try {
-            PlayerAuth auth = getPlayerAuth(player);
-            if (auth != null) {
-                performLogin(player, auth);
-            }
-        } finally {
-            forceLoginRequestService.clear(player);
-        }
+        forceLoginInternal(player, false);
     }
 
     /**
@@ -138,16 +130,101 @@ public class AsynchronousLogin implements AsynchronousProcess {
      * @param player the player to log in
      * @param quiet if true no messages will be sent
      */
-    public void forceLogin(Player player, boolean quiet) {
-        forceLoginRequestService.markPending(player);
-        try {
-            PlayerAuth auth = getPlayerAuth(player, quiet);
-            if (auth != null) {
-                performLogin(player, auth);
-            }
-        } finally {
-            forceLoginRequestService.clear(player);
+    public synchronized void forceLogin(Player player, boolean quiet) {
+        forceLoginInternal(player, quiet);
+    }
+
+    private void forceLoginInternal(Player player, boolean quiet) {
+        if (player == null) {
+            return;
         }
+
+        if (playerCache.isAuthenticated(player.getName())) {
+            forceLoginRequestService.clear(player);
+            return;
+        }
+
+        forceLoginRequestService.markPending(player);
+        if (!forceLoginRequestService.beginAttempt(player)) {
+            return;
+        }
+
+        boolean retryScheduled = false;
+        try {
+            forceLoginRequestService.incrementAttempt(player);
+            ForceLoginAttemptResult result = performForceLoginAttempt(player, quiet);
+            if (result == ForceLoginAttemptResult.SUCCESS
+                || result == ForceLoginAttemptResult.ALREADY_AUTHENTICATED) {
+                forceLoginRequestService.clear(player);
+                return;
+            }
+            if (result == ForceLoginAttemptResult.RETRYABLE_NOT_READY
+                && forceLoginRequestService.canRetry(player)) {
+                retryScheduled = true;
+                scheduleForceLoginRetry(player, quiet);
+                return;
+            }
+            forceLoginRequestService.clear(player);
+        } finally {
+            if (retryScheduled) {
+                forceLoginRequestService.finishAttempt(player);
+            }
+        }
+    }
+
+    private ForceLoginAttemptResult performForceLoginAttempt(Player player, boolean quiet) {
+        if (!player.isOnline()) {
+            return ForceLoginAttemptResult.RETRYABLE_NOT_READY;
+        }
+
+        String name = player.getName().toLowerCase(Locale.ROOT);
+        if (playerCache.isAuthenticated(name)) {
+            return ForceLoginAttemptResult.ALREADY_AUTHENTICATED;
+        }
+
+        PlayerAuth auth = dataSource.getAuth(name);
+        if (auth == null) {
+            return ForceLoginAttemptResult.RETRYABLE_NOT_READY;
+        }
+
+        if (!service.getProperty(DatabaseSettings.MYSQL_COL_GROUP).isEmpty()
+            && auth.getGroupId() == service.getProperty(HooksSettings.NON_ACTIVATED_USERS_GROUP)) {
+            if (!quiet) {
+                service.send(player, MessageKey.ACCOUNT_NOT_ACTIVATED);
+            }
+            return ForceLoginAttemptResult.FAILED;
+        }
+
+        String ip = PlayerUtils.getPlayerIp(player);
+        if (hasReachedMaxLoggedInPlayersForIp(player, ip)) {
+            if (!quiet) {
+                service.send(player, MessageKey.ALREADY_LOGGED_IN_ERROR);
+            }
+            return ForceLoginAttemptResult.FAILED;
+        }
+
+        boolean isAsync = service.getProperty(PluginSettings.USE_ASYNC_TASKS);
+        AuthMeAsyncPreLoginEvent event = new AuthMeAsyncPreLoginEvent(player, isAsync);
+        bukkitService.callEvent(event);
+        if (!event.canLogin()) {
+            return ForceLoginAttemptResult.FAILED;
+        }
+
+        performLogin(player, auth);
+        return ForceLoginAttemptResult.SUCCESS;
+    }
+
+    private void scheduleForceLoginRetry(Player player, boolean quiet) {
+        bukkitService.runTaskLater(player, () ->
+            bukkitService.runTaskOptionallyAsync(() -> forceLogin(player, quiet)),
+            forceLoginRequestService.retryDelayTicks());
+    }
+
+    private enum ForceLoginAttemptResult {
+        SUCCESS,
+        ALREADY_AUTHENTICATED,
+        RETRYABLE_NOT_READY,
+        FAILED
     }
 
     /**

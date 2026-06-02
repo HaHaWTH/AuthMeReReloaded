@@ -11,7 +11,6 @@ import fr.xephi.authme.output.ConsoleLoggerFactory;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import fr.xephi.authme.process.AsynchronousProcess;
 import fr.xephi.authme.process.login.AsynchronousLogin;
-import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.service.PluginHookService;
@@ -90,14 +89,7 @@ public class AsynchronousJoin implements AsynchronousProcess {
     @Inject
     private ProxySessionManager proxySessionManager;
 
-    @Inject
-    private ForceLoginRequestService forceLoginRequestService;
-
     AsynchronousJoin() {
-    }
-
-    private boolean isAuthenticatedOrForceLoginPending(String name) {
-        return playerCache.isAuthenticated(name) || forceLoginRequestService.isPending(name);
     }
 
     /**
@@ -134,7 +126,7 @@ public class AsynchronousJoin implements AsynchronousProcess {
 
         boolean isAuthAvailable = database.isAuthAvailable(name);
 
-        if (isAuthenticatedOrForceLoginPending(name)) {
+        if (playerCache.isAuthenticated(name)) {
             return;
         }
 
@@ -211,7 +203,7 @@ public class AsynchronousJoin implements AsynchronousProcess {
         int registrationTimeout = service.getProperty(RestrictionSettings.TIMEOUT) * TICKS_PER_SECOND;
 
         bukkitService.scheduleSyncTaskFromOptionallyAsyncTask(() -> {
-            if (isAuthenticatedOrForceLoginPending(player.getName())) {
+            if (playerCache.isAuthenticated(player.getName())) {
                 return;
             }
             limboService.createLimboPlayer(player, isAuthAvailable);
