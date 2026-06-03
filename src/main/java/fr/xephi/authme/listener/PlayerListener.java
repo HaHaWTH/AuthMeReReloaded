@@ -2,13 +2,13 @@ package fr.xephi.authme.listener;
 
 import fr.xephi.authme.data.QuickCommandsProtectionManager;
 import fr.xephi.authme.data.auth.PlayerAuth;
+import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
 import fr.xephi.authme.permission.PermissionsManager;
 import fr.xephi.authme.permission.PlayerStatePermission;
 import fr.xephi.authme.process.Management;
-import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.AntiBotService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.service.JoinMessageService;
@@ -21,6 +21,7 @@ import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import fr.xephi.authme.util.TeleportUtils;
+import fr.xephi.authme.util.PlayerUtils;
 import fr.xephi.authme.util.message.I18NUtils;
 import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.ChatColor;
@@ -75,6 +76,8 @@ public class PlayerListener implements Listener {
     @Inject
     private DataSource dataSource;
     @Inject
+    private PlayerCache playerCache;
+    @Inject
     private AntiBotService antiBotService;
     @Inject
     private Management management;
@@ -86,8 +89,6 @@ public class PlayerListener implements Listener {
     private OnJoinVerifier onJoinVerifier;
     @Inject
     private ListenerService listenerService;
-    @Inject
-    private ForceLoginRequestService forceLoginRequestService;
     @Inject
     private TeleportationService teleportationService;
     @Inject
@@ -521,14 +522,29 @@ public class PlayerListener implements Listener {
         return false;
     }
 
-    private boolean isTrustedForceLoginPending(HumanEntity player) {
-        return player instanceof Player && forceLoginRequestService.isPending(player.getName());
+    private boolean shouldCancelInventoryInteraction(HumanEntity humanEntity, InventoryView inventory) {
+        if (!(humanEntity instanceof Player)) {
+            return false;
+        }
+        final Player player = (Player) humanEntity;
+        return !canUseInventory(player) && !isInventoryWhitelisted(inventory);
     }
 
-    private boolean shouldCancelInventoryInteraction(HumanEntity player, InventoryView inventory) {
-        return !isTrustedForceLoginPending(player)
-            && listenerService.shouldCancelEvent(player)
-            && !isInventoryWhitelisted(inventory);
+    private boolean canUseInventory(Player player) {
+        final String name = player.getName();
+        if (PlayerUtils.isNpc(player)) {
+            return true;
+        }
+        if (validationService.isUnrestricted(name)) {
+            return true;
+        }
+        if (playerCache.isAuthenticated(name)) {
+            return true;
+        }
+        if (settings.getProperty(RegistrationSettings.FORCE)) {
+            return false;
+        }
+        return !dataSource.isAuthAvailable(name);
     }
 
     private void closeInventoryIfStillRestricted(HumanEntity player) {

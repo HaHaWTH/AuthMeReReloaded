@@ -7,7 +7,6 @@ import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.SettingsDependent;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
-import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.PluginSettings;
@@ -38,16 +37,14 @@ public class ProtocolLibService implements SettingsDependent {
     private final BukkitService bukkitService;
     private final PlayerCache playerCache;
     private final DataSource dataSource;
-    private final ForceLoginRequestService forceLoginRequestService;
 
     @Inject
     ProtocolLibService(AuthMe plugin, Settings settings, BukkitService bukkitService, PlayerCache playerCache,
-                       DataSource dataSource, ForceLoginRequestService forceLoginRequestService) {
+                       DataSource dataSource) {
         this.plugin = plugin;
         this.bukkitService = bukkitService;
         this.playerCache = playerCache;
         this.dataSource = dataSource;
-        this.forceLoginRequestService = forceLoginRequestService;
         reload(settings);
     }
 
@@ -77,7 +74,7 @@ public class ProtocolLibService implements SettingsDependent {
         if (protectInvBeforeLogin) {
             if (inventoryPacketAdapter == null) {
                 // register the packet listener and start hiding it for all already online players (reload)
-                inventoryPacketAdapter = new InventoryPacketAdapter(plugin, playerCache, dataSource, forceLoginRequestService);
+                inventoryPacketAdapter = new InventoryPacketAdapter(plugin, playerCache, dataSource);
                 inventoryPacketAdapter.register(bukkitService);
             }
         } else if (inventoryPacketAdapter != null) {

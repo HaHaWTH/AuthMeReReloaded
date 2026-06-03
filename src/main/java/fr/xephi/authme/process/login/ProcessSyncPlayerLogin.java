@@ -67,8 +67,13 @@ public class ProcessSyncPlayerLogin implements SynchronousProcess {
         RestoreInventoryEvent event = new RestoreInventoryEvent(player);
         bukkitService.callEvent(event);
         if (!event.isCancelled()) {
-            player.updateInventory();
+            resyncInventoryAfterLogin(player);
         }
+    }
+
+    private void resyncInventoryAfterLogin(Player player) {
+        player.updateInventory();
+        bukkitService.runTaskLater(player, player::updateInventory, 1L);
     }
 
     /**
@@ -82,13 +87,13 @@ public class ProcessSyncPlayerLogin implements SynchronousProcess {
         final String name = player.getName().toLowerCase(Locale.ROOT);
         final LimboPlayer limbo = limboService.getLimboPlayer(name);
 
-        // Limbo contains the State of the Player before /login
-        if (limbo != null) {
-            limboService.restoreData(player);
-        }
+        // Limbo contains the State of the Player before /login. Successful login is also the cleanup boundary for stale persisted limbo.
+        limboService.restoreData(player);
 
         if (commonService.getProperty(PROTECT_INVENTORY_BEFORE_LOGIN)) {
             restoreInventory(player);
+        } else {
+            resyncInventoryAfterLogin(player);
         }
 
         final PlayerAuth auth = playerCache.getAuth(name);

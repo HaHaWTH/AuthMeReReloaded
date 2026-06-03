@@ -149,25 +149,24 @@ public class AsynchronousLogin implements AsynchronousProcess {
             return;
         }
 
-        boolean retryScheduled = false;
+        boolean keepPendingForRetry = false;
         try {
             forceLoginRequestService.incrementAttempt(player);
             ForceLoginAttemptResult result = performForceLoginAttempt(player, quiet);
             if (result == ForceLoginAttemptResult.SUCCESS
                 || result == ForceLoginAttemptResult.ALREADY_AUTHENTICATED) {
-                forceLoginRequestService.clear(player);
                 return;
             }
             if (result == ForceLoginAttemptResult.RETRYABLE_NOT_READY
                 && forceLoginRequestService.canRetry(player)) {
-                retryScheduled = true;
+                keepPendingForRetry = true;
                 scheduleForceLoginRetry(player, quiet);
                 return;
             }
-            forceLoginRequestService.clear(player);
         } finally {
-            if (retryScheduled) {
-                forceLoginRequestService.finishAttempt(player);
+            forceLoginRequestService.finishAttempt(player);
+            if (!keepPendingForRetry || playerCache.isAuthenticated(player.getName())) {
+                forceLoginRequestService.clear(player);
             }
         }
     }
