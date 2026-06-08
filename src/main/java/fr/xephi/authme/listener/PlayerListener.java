@@ -21,7 +21,6 @@ import fr.xephi.authme.settings.properties.PluginSettings;
 import fr.xephi.authme.settings.properties.RegistrationSettings;
 import fr.xephi.authme.settings.properties.RestrictionSettings;
 import fr.xephi.authme.util.TeleportUtils;
-import fr.xephi.authme.util.PlayerUtils;
 import fr.xephi.authme.util.message.I18NUtils;
 import fr.xephi.authme.util.message.MiniMessageUtils;
 import org.bukkit.ChatColor;
@@ -527,24 +526,7 @@ public class PlayerListener implements Listener {
             return false;
         }
         final Player player = (Player) humanEntity;
-        return !canUseInventory(player) && !isInventoryWhitelisted(inventory);
-    }
-
-    private boolean canUseInventory(Player player) {
-        final String name = player.getName();
-        if (PlayerUtils.isNpc(player)) {
-            return true;
-        }
-        if (validationService.isUnrestricted(name)) {
-            return true;
-        }
-        if (playerCache.isAuthenticated(name)) {
-            return true;
-        }
-        if (settings.getProperty(RegistrationSettings.FORCE)) {
-            return false;
-        }
-        return !dataSource.isAuthAvailable(name);
+        return listenerService.shouldCancelEvent(player) && !isInventoryWhitelisted(inventory);
     }
 
     private void closeInventoryIfStillRestricted(HumanEntity player) {

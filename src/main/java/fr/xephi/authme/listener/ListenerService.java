@@ -17,7 +17,7 @@ import javax.inject.Inject;
 /**
  * Service class for the AuthMe listeners to determine whether an event should be canceled.
  */
-class ListenerService implements SettingsDependent {
+public class ListenerService implements SettingsDependent {
     private final DataSource dataSource;
     private final PlayerCache playerCache;
     private final ValidationService validationService;
