@@ -55,13 +55,13 @@ public class AsynchronousLogout implements AsynchronousProcess {
      * @param player the player wanting to log out
      */
     public void logout(Player player) {
-        String name = player.getName().toLowerCase(Locale.ROOT);
-        if (!playerCache.isAuthenticated(name)) {
+        var removedAuth = playerCache.deauthenticate(player);
+        if (removedAuth.isEmpty()) {
             service.send(player, MessageKey.NOT_LOGGED_IN);
             return;
         }
 
-        PlayerAuth auth = playerCache.getAuth(name);
+        PlayerAuth auth = removedAuth.get();
         database.updateSession(auth);
         // TODO: send an update when a messaging service will be implemented (SESSION)
         //if (service.getProperty(RestrictionSettings.SAVE_QUIT_LOCATION)) {
@@ -70,7 +70,7 @@ public class AsynchronousLogout implements AsynchronousProcess {
             // TODO: send an update when a messaging service will be implemented (QUITLOC)
         //} AuthMeReReloaded - Always save quit location
 
-        playerCache.removePlayer(name);
+        String name = player.getName().toLowerCase(Locale.ROOT);
         codeManager.unverify(name);
         database.setUnlogged(name);
         sessionService.revokeSession(name);

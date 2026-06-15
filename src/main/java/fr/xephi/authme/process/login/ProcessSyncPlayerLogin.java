@@ -85,6 +85,11 @@ public class ProcessSyncPlayerLogin implements SynchronousProcess {
      */
     public void processPlayerLogin(Player player, boolean isFirstLogin, List<String> authsWithSameIp) {
         final String name = player.getName().toLowerCase(Locale.ROOT);
+
+        if (playerCache.getAuth(player).isEmpty()) {
+            return;
+        }
+
         final LimboPlayer limbo = limboService.getLimboPlayer(name);
 
         // Limbo contains the State of the Player before /login. Successful login is also the cleanup boundary for stale persisted limbo.

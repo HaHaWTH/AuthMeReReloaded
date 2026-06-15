@@ -287,6 +287,9 @@ public enum MessageKey {
     /** Error: not all required settings are set for sending emails. Please contact an admin. */
     INCOMPLETE_EMAIL_SETTINGS("email.incomplete_settings"),
 
+    /** Inventory action blocked because this connection is not authenticated. */
+    DENIED_INVENTORY("error.denied_inventory"),
+
     /** The email could not be sent. Please contact an administrator. */
     EMAIL_SEND_FAILURE("email.send_failure"),
 

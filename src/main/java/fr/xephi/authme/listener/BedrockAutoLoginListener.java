@@ -26,8 +26,6 @@ public class BedrockAutoLoginListener implements Listener {
     private BukkitService bukkitService;
     @Inject
     private AuthMe plugin;
-    @Inject
-    private Messages messages;
 
     @Inject
     private Settings settings;
@@ -47,7 +45,6 @@ public class BedrockAutoLoginListener implements Listener {
         bukkitService.runTaskLater(player, () -> {
             if (isBedrockPlayer(uuid) && !authmeApi.isAuthenticated(player) && authmeApi.isRegistered(name)) {
                 authmeApi.forceLogin(player, true);
-                messages.send(player, MessageKey.BEDROCK_AUTO_LOGGED_IN);
             }
         },20L);
     }

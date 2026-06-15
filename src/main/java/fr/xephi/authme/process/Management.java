@@ -64,7 +64,7 @@ public class Management {
         if (player == null) {
             return;
         }
-        if (playerCache.isAuthenticated(player.getName())) {
+        if (playerCache.isAuthenticated(player)) {
             forceLoginRequestService.clear(player);
             return;
         }
@@ -76,7 +76,7 @@ public class Management {
         if (player == null) {
             return;
         }
-        if (playerCache.isAuthenticated(player.getName())) {
+        if (playerCache.isAuthenticated(player)) {
             forceLoginRequestService.clear(player);
             return;
         }
@@ -105,7 +105,11 @@ public class Management {
     }
 
     public void performQuit(Player player) {
-        runTask(() -> asynchronousQuit.processQuit(player));
+        var disconnected = playerCache.disconnect(player);
+        if (disconnected.isEmpty()) {
+            return;
+        }
+        runTask(() -> asynchronousQuit.processQuit(player, disconnected.get()));
     }
 
     public void performAddEmail(Player player, String newEmail) {

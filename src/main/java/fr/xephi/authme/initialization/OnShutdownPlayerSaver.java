@@ -58,7 +58,7 @@ public class OnShutdownPlayerSaver {
         } else {
             saveLoggedinPlayer(player);
         }
-        playerCache.removePlayer(name);
+        playerCache.disconnect(player);
     }
 
     private void saveLoggedinPlayer(Player player) {

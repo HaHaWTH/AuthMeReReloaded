@@ -139,7 +139,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
             return;
         }
 
-        if (playerCache.isAuthenticated(player.getName())) {
+        if (playerCache.isAuthenticated(player)) {
             forceLoginRequestService.clear(player);
             return;
         }
@@ -165,7 +165,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
             }
         } finally {
             forceLoginRequestService.finishAttempt(player);
-            if (!keepPendingForRetry || playerCache.isAuthenticated(player.getName())) {
+            if (!keepPendingForRetry || playerCache.isAuthenticated(player)) {
                 forceLoginRequestService.clear(player);
             }
         }
@@ -177,7 +177,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
         }
 
         String name = player.getName().toLowerCase(Locale.ROOT);
-        if (playerCache.isAuthenticated(name)) {
+        if (playerCache.isAuthenticated(player)) {
             return ForceLoginAttemptResult.ALREADY_AUTHENTICATED;
         }
 
@@ -209,8 +209,9 @@ public class AsynchronousLogin implements AsynchronousProcess {
             return ForceLoginAttemptResult.FAILED;
         }
 
-        performLogin(player, auth);
-        return ForceLoginAttemptResult.SUCCESS;
+        return performLogin(player, auth)
+            ? ForceLoginAttemptResult.SUCCESS
+            : ForceLoginAttemptResult.FAILED;
     }
 
     private void scheduleForceLoginRetry(Player player, boolean quiet) {
@@ -249,7 +250,7 @@ public class AsynchronousLogin implements AsynchronousProcess {
      */
     private PlayerAuth getPlayerAuth(Player player, boolean quiet) {
         String name = player.getName().toLowerCase(Locale.ROOT);
-        if (playerCache.isAuthenticated(name)) {
+        if (playerCache.isAuthenticated(player)) {
             if (!quiet) {
                 service.send(player, MessageKey.ALREADY_LOGGED_IN_ERROR);
             }
@@ -358,59 +359,69 @@ public class AsynchronousLogin implements AsynchronousProcess {
      *
      * @param player the player to log in
      * @param auth the associated PlayerAuth object
+     * @return true if authentication succeeded, false if stale connection rejected the login
      */
-    public void performLogin(Player player, PlayerAuth auth) {
-        if (player.isOnline()) {
-            boolean isFirstLogin = (auth.getLastLogin() == null);
-
-            // Update auth to reflect this new login
-            String ip = PlayerUtils.getPlayerIp(player);
-            auth.setRealName(player.getName());
-            auth.setLastLogin(System.currentTimeMillis());
-            auth.setLastIp(ip);
-            dataSource.updateSession(auth);
-
-            // TODO: send an update when a messaging service will be implemented (SESSION)
-
-            // Successful login, so reset the captcha & temp ban count
-            String name = player.getName();
-            loginCaptchaManager.resetLoginFailureCount(name);
-            tempbanManager.resetCount(ip, name);
-            player.setNoDamageTicks(0);
-
-            service.send(player, MessageKey.LOGIN_SUCCESS);
-
-            // Other auths
-            List<String> auths = dataSource.getAllAuthsByIp(auth.getLastIp());
-            displayOtherAccounts(auths, player);
-
-            String email = auth.getEmail();
-            if (service.getProperty(EmailSettings.RECALL_PLAYERS) && Utils.isEmailEmpty(email)) {
-                service.send(player, MessageKey.ADD_EMAIL_MESSAGE);
-            }
-
-            logger.fine(player.getName() + " logged in " + ip);
-
-            // makes player loggedin
-            playerCache.updatePlayer(auth);
-            dataSource.setLogged(name);
-            sessionService.grantSession(name);
-
-            if (bungeeSender.isEnabled()) {
-                // As described at https://www.spigotmc.org/wiki/bukkit-bungee-plugin-messaging-channel/
-                // "Keep in mind that you can't send plugin messages directly after a player joins."
-                bukkitService.scheduleSyncDelayedTask(() ->
-                    bungeeSender.sendAuthMeBungeecordMessage(player, MessageType.LOGIN), settings.getProperty(HooksSettings.PROXY_SEND_DELAY));
-            }
-
-            // As the scheduling executes the Task most likely after the current
-            // task, we schedule it in the end
-            // so that we can be sure, and have not to care if it might be
-            // processed in other order.
-            syncProcessManager.processSyncPlayerLogin(player, isFirstLogin, auths);
-        } else {
+    public boolean performLogin(Player player, PlayerAuth auth) {
+        if (!player.isOnline()) {
             logger.warning("Player '" + player.getName() + "' wasn't online during login process, aborted...");
+            return false;
         }
+
+        boolean isFirstLogin = (auth.getLastLogin() == null);
+
+        // Update auth to reflect this new login
+        String ip = PlayerUtils.getPlayerIp(player);
+        auth.setRealName(player.getName());
+        auth.setLastLogin(System.currentTimeMillis());
+        auth.setLastIp(ip);
+        dataSource.updateSession(auth);
+
+        // TODO: send an update when a messaging service will be implemented (SESSION)
+
+        // Successful login, so reset the captcha & temp ban count
+        String name = player.getName();
+        loginCaptchaManager.resetLoginFailureCount(name);
+        tempbanManager.resetCount(ip, name);
+        player.setNoDamageTicks(0);
+
+        // Authenticate the exact current connection before sending success
+        if (!playerCache.authenticate(player, auth)) {
+            logger.warning("AUTH_STALE_LOGIN_REJECTED player='" + player.getName()
+                + "' uuid=" + player.getUniqueId()
+                + " state=" + playerCache.getAuthenticationState(player));
+            forceLoginRequestService.clear(player);
+            return false;
+        }
+
+        service.send(player, MessageKey.LOGIN_SUCCESS);
+
+        // Other auths
+        List<String> auths = dataSource.getAllAuthsByIp(auth.getLastIp());
+        displayOtherAccounts(auths, player);
+
+        String email = auth.getEmail();
+        if (service.getProperty(EmailSettings.RECALL_PLAYERS) && Utils.isEmailEmpty(email)) {
+            service.send(player, MessageKey.ADD_EMAIL_MESSAGE);
+        }
+
+        logger.fine(player.getName() + " logged in " + ip);
+
+        dataSource.setLogged(name);
+        sessionService.grantSession(name);
+
+        if (bungeeSender.isEnabled()) {
+            // As described at https://www.spigotmc.org/wiki/bukkit-bungee-plugin-messaging-channel/
+            // "Keep in mind that you can't send plugin messages directly after a player joins."
+            bukkitService.scheduleSyncDelayedTask(() ->
+                bungeeSender.sendAuthMeBungeecordMessage(player, MessageType.LOGIN), settings.getProperty(HooksSettings.PROXY_SEND_DELAY));
+        }
+
+        // As the scheduling executes the Task most likely after the current
+        // task, we schedule it in the end
+        // so that we can be sure, and have not to care if it might be
+        // processed in other order.
+        syncProcessManager.processSyncPlayerLogin(player, isFirstLogin, auths);
+        return true;
     }
 
     /**

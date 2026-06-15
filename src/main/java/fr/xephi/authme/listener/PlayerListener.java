@@ -98,6 +98,8 @@ public class PlayerListener implements Listener {
     private PermissionsManager permissionsManager;
     @Inject
     private QuickCommandsProtectionManager quickCommandsProtectionManager;
+    @Inject
+    private InventoryRestrictionNotifier inventoryRestrictionNotifier;
 
     // Lowest priority to apply fast protection checks
     @EventHandler(priority = EventPriority.LOWEST)
@@ -198,6 +200,10 @@ public class PlayerListener implements Listener {
 
         quickCommandsProtectionManager.processJoin(player);
 
+        if (!validationService.isUnrestricted(player.getName())) {
+            playerCache.registerConnection(player);
+        }
+
         management.performJoin(player);
 
         teleportationService.teleportNewPlayerToFirstSpawn(player);
@@ -244,6 +250,8 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
+        inventoryRestrictionNotifier.clear(player);
+
         // Note: quit message can be null, despite api documentation says not
         if (settings.getProperty(RegistrationSettings.REMOVE_LEAVE_MESSAGE)) {
             event.setQuitMessage(null);
@@ -259,6 +267,7 @@ public class PlayerListener implements Listener {
         }
 
         if (antiBotService.wasPlayerKicked(player.getName())) {
+            playerCache.disconnect(player);
             return;
         }
 
@@ -273,11 +282,6 @@ public class PlayerListener implements Listener {
             && event.getReason().contains("You logged in from another location")) {
             event.setCancelled(true);
             return;
-        }
-
-        final Player player = event.getPlayer();
-        if (!antiBotService.wasPlayerKicked(player.getName())) {
-            management.performQuit(player);
         }
     }
 
@@ -482,6 +486,7 @@ public class PlayerListener implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "drop_item");
         }
     }
 
@@ -489,6 +494,7 @@ public class PlayerListener implements Listener {
     public void onPlayerHeldItem(PlayerItemHeldEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "change_held_item");
         }
     }
 
@@ -496,6 +502,7 @@ public class PlayerListener implements Listener {
     public void onPlayerConsumeItem(PlayerItemConsumeEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "consume_item");
         }
     }
 
@@ -540,6 +547,7 @@ public class PlayerListener implements Listener {
         final HumanEntity player = event.getPlayer();
         if (shouldCancelInventoryInteraction(player, event.getView())) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied((Player) player, "inventory_open");
 
             /*
              * @note little hack cause InventoryOpenEvent cannot be cancelled for
@@ -553,6 +561,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInventoryClick(InventoryClickEvent event) {
         if (shouldCancelInventoryInteraction(event.getWhoClicked(), event.getView())) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied((Player) event.getWhoClicked(), "inventory_click");
         }
     }
 
@@ -560,6 +569,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInventoryDrag(InventoryDragEvent event) {
         if (shouldCancelInventoryInteraction(event.getWhoClicked(), event.getView())) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied((Player) event.getWhoClicked(), "inventory_drag");
         }
     }
 }

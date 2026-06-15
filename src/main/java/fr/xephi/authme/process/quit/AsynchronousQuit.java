@@ -35,9 +35,6 @@ public class AsynchronousQuit implements AsynchronousProcess {
     private CommonService service;
 
     @Inject
-    private PlayerCache playerCache;
-
-    @Inject
     private ForceLoginRequestService forceLoginRequestService;
 
     @Inject
@@ -62,8 +59,9 @@ public class AsynchronousQuit implements AsynchronousProcess {
      * Processes that the given player has quit the server.
      *
      * @param player the player who left
+     * @param connection the connection snapshot taken at disconnect
      */
-    public void processQuit(Player player) {
+    public void processQuit(Player player, PlayerCache.ConnectionSnapshot connection) {
         if (player == null) {
             return;
         }
@@ -71,8 +69,8 @@ public class AsynchronousQuit implements AsynchronousProcess {
         if (validationService.isUnrestricted(player.getName())) {
             return;
         }
-        String name = player.getName().toLowerCase(Locale.ROOT);
-        boolean wasLoggedIn = playerCache.isAuthenticated(name);
+        String name = connection.getNormalizedName();
+        boolean wasLoggedIn = connection.wasAuthenticated();
 
         if (wasLoggedIn) {
             //if (service.getProperty(RestrictionSettings.SAVE_QUIT_LOCATION)) {
@@ -98,8 +96,6 @@ public class AsynchronousQuit implements AsynchronousProcess {
             // TODO: send an update when a messaging service will be implemented (QUITLOC)
         }
 
-        //always unauthenticate the player - use session only for auto logins on the same ip
-        playerCache.removePlayer(name);
         codeManager.unverify(name);
 
         //always update the database when the player quit the game (if sessions are disabled)

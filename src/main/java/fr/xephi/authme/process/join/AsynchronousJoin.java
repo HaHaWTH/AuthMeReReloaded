@@ -126,7 +126,7 @@ public class AsynchronousJoin implements AsynchronousProcess {
 
         boolean isAuthAvailable = database.isAuthAvailable(name);
 
-        if (playerCache.isAuthenticated(name)) {
+        if (playerCache.isAuthenticated(player)) {
             return;
         }
 
@@ -203,7 +203,7 @@ public class AsynchronousJoin implements AsynchronousProcess {
         int registrationTimeout = service.getProperty(RestrictionSettings.TIMEOUT) * TICKS_PER_SECOND;
 
         bukkitService.scheduleSyncTaskFromOptionallyAsyncTask(() -> {
-            if (playerCache.isAuthenticated(player.getName())) {
+            if (playerCache.isAuthenticated(player)) {
                 return;
             }
             limboService.createLimboPlayer(player, isAuthAvailable);

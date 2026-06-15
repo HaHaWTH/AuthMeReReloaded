@@ -121,10 +121,14 @@ public class AsynchronousUnregister implements AsynchronousProcess {
      * @param player the according Player object (nullable)
      */
     private void performPostUnregisterActions(String name, Player player) {
-        if (player != null && playerCache.isAuthenticated(name)) {
-            bungeeSender.sendAuthMeBungeecordMessage(player, MessageType.LOGOUT);
+        if (player != null) {
+            if (playerCache.isAuthenticated(player)) {
+                bungeeSender.sendAuthMeBungeecordMessage(player, MessageType.LOGOUT);
+            }
+            playerCache.deauthenticate(player);
+        } else {
+            playerCache.removePlayer(name);
         }
-        playerCache.removePlayer(name);
 
         // TODO: send an update when a messaging service will be implemented (UNREGISTER)
 

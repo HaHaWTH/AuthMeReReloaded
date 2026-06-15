@@ -15,10 +15,14 @@ public class PlayerListener19 implements Listener {
     @Inject
     private ListenerService listenerService;
 
+    @Inject
+    private InventoryRestrictionNotifier inventoryRestrictionNotifier;
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "swap_hands");
         }
     }
 }
