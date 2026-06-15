@@ -7,6 +7,7 @@ import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.process.AsynchronousProcess;
 import fr.xephi.authme.process.SyncProcessManager;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.service.CommonService;
 import fr.xephi.authme.service.SessionService;
 import fr.xephi.authme.service.ValidationService;
@@ -34,7 +35,7 @@ public class AsynchronousQuit implements AsynchronousProcess {
     private CommonService service;
 
     @Inject
-    private PlayerCache playerCache;
+    private ForceLoginRequestService forceLoginRequestService;
 
     @Inject
     private SyncProcessManager syncProcessManager;
@@ -58,13 +59,18 @@ public class AsynchronousQuit implements AsynchronousProcess {
      * Processes that the given player has quit the server.
      *
      * @param player the player who left
+     * @param connection the connection snapshot taken at disconnect
      */
-    public void processQuit(Player player) {
-        if (player == null || validationService.isUnrestricted(player.getName())) {
+    public void processQuit(Player player, PlayerCache.ConnectionSnapshot connection) {
+        if (player == null) {
             return;
         }
-        String name = player.getName().toLowerCase(Locale.ROOT);
-        boolean wasLoggedIn = playerCache.isAuthenticated(name);
+        forceLoginRequestService.clear(player);
+        if (validationService.isUnrestricted(player.getName())) {
+            return;
+        }
+        String name = connection.getNormalizedName();
+        boolean wasLoggedIn = connection.wasAuthenticated();
 
         if (wasLoggedIn) {
             //if (service.getProperty(RestrictionSettings.SAVE_QUIT_LOCATION)) {
@@ -90,8 +96,6 @@ public class AsynchronousQuit implements AsynchronousProcess {
             // TODO: send an update when a messaging service will be implemented (QUITLOC)
         }
 
-        //always unauthenticate the player - use session only for auto logins on the same ip
-        playerCache.removePlayer(name);
         codeManager.unverify(name);
 
         //always update the database when the player quit the game (if sessions are disabled)

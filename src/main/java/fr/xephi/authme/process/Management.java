@@ -1,10 +1,12 @@
 package fr.xephi.authme.process;
 
+import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.process.changepassword.AsyncChangePassword;
 import fr.xephi.authme.process.email.AsyncAddEmail;
 import fr.xephi.authme.process.email.AsyncChangeEmail;
 import fr.xephi.authme.process.join.AsynchronousJoin;
 import fr.xephi.authme.process.login.AsynchronousLogin;
+import fr.xephi.authme.process.login.ForceLoginRequestService;
 import fr.xephi.authme.process.logout.AsynchronousLogout;
 import fr.xephi.authme.process.quit.AsynchronousQuit;
 import fr.xephi.authme.process.register.AsyncRegister;
@@ -25,6 +27,9 @@ public class Management {
     @Inject
     private BukkitService bukkitService;
 
+    @Inject
+    private PlayerCache playerCache;
+
     // Processes
     @Inject
     private AsyncAddEmail asyncAddEmail;
@@ -41,6 +46,8 @@ public class Management {
     @Inject
     private AsynchronousLogin asynchronousLogin;
     @Inject
+    private ForceLoginRequestService forceLoginRequestService;
+    @Inject
     private AsynchronousUnregister asynchronousUnregister;
     @Inject
     private AsyncChangePassword asyncChangePassword;
@@ -54,10 +61,26 @@ public class Management {
     }
 
     public void forceLogin(Player player) {
+        if (player == null) {
+            return;
+        }
+        if (playerCache.isAuthenticated(player)) {
+            forceLoginRequestService.clear(player);
+            return;
+        }
+        forceLoginRequestService.markPending(player);
         runTask(() -> asynchronousLogin.forceLogin(player));
     }
 
     public void forceLogin(Player player, boolean quiet) {
+        if (player == null) {
+            return;
+        }
+        if (playerCache.isAuthenticated(player)) {
+            forceLoginRequestService.clear(player);
+            return;
+        }
+        forceLoginRequestService.markPending(player);
         runTask(() -> asynchronousLogin.forceLogin(player, quiet));
     }
 
@@ -82,7 +105,11 @@ public class Management {
     }
 
     public void performQuit(Player player) {
-        runTask(() -> asynchronousQuit.processQuit(player));
+        var disconnected = playerCache.disconnect(player);
+        if (disconnected.isEmpty()) {
+            return;
+        }
+        runTask(() -> asynchronousQuit.processQuit(player, disconnected.get()));
     }
 
     public void performAddEmail(Player player, String newEmail) {

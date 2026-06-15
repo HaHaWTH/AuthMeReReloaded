@@ -116,7 +116,7 @@ public class LimboService {
         LimboPlayer limbo = entries.remove(lowerName);
 
         if (limbo == null) {
-            logger.debug("No LimboPlayer found for `{0}` - cannot restore", lowerName);
+            logger.debug("No LimboPlayer found for `{0}` - only clearing persisted limbo state", lowerName);
         } else {
             player.setOp(limbo.isOperator());
             settings.getProperty(RESTORE_ALLOW_FLIGHT).restoreAllowFlight(player, limbo);
@@ -124,8 +124,8 @@ public class LimboService {
             settings.getProperty(RESTORE_WALK_SPEED).restoreWalkSpeed(player, limbo);
             limbo.clearTasks();
             logger.debug("Restored LimboPlayer stats for `{0}`", lowerName);
-            persistence.removeLimboPlayer(player);
         }
+        persistence.removeLimboPlayer(player);
         authGroupHandler.setGroup(player, limbo, AuthGroupType.LOGGED_IN);
     }
 

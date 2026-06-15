@@ -95,7 +95,7 @@ public class AuthMeApi {
      * @return true if the player is authenticated
      */
     public boolean isAuthenticated(Player player) {
-        return playerCache.isAuthenticated(player.getName());
+        return playerCache.isAuthenticated(player);
     }
 
     /**

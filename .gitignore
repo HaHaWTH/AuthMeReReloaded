@@ -115,3 +115,5 @@ nb-configuration.xml
 # Don't exclude the .gitignore itself
 !.gitignore
 /samples/
+
+.factorypath

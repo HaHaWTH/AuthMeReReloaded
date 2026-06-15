@@ -2,6 +2,7 @@ package fr.xephi.authme.listener;
 
 import fr.xephi.authme.data.QuickCommandsProtectionManager;
 import fr.xephi.authme.data.auth.PlayerAuth;
+import fr.xephi.authme.data.auth.PlayerCache;
 import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.message.MessageKey;
 import fr.xephi.authme.message.Messages;
@@ -32,6 +33,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -73,6 +75,8 @@ public class PlayerListener implements Listener {
     @Inject
     private DataSource dataSource;
     @Inject
+    private PlayerCache playerCache;
+    @Inject
     private AntiBotService antiBotService;
     @Inject
     private Management management;
@@ -94,6 +98,8 @@ public class PlayerListener implements Listener {
     private PermissionsManager permissionsManager;
     @Inject
     private QuickCommandsProtectionManager quickCommandsProtectionManager;
+    @Inject
+    private InventoryRestrictionNotifier inventoryRestrictionNotifier;
 
     // Lowest priority to apply fast protection checks
     @EventHandler(priority = EventPriority.LOWEST)
@@ -194,6 +200,10 @@ public class PlayerListener implements Listener {
 
         quickCommandsProtectionManager.processJoin(player);
 
+        if (!validationService.isUnrestricted(player.getName())) {
+            playerCache.registerConnection(player);
+        }
+
         management.performJoin(player);
 
         teleportationService.teleportNewPlayerToFirstSpawn(player);
@@ -240,6 +250,8 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
+        inventoryRestrictionNotifier.clear(player);
+
         // Note: quit message can be null, despite api documentation says not
         if (settings.getProperty(RegistrationSettings.REMOVE_LEAVE_MESSAGE)) {
             event.setQuitMessage(null);
@@ -255,6 +267,7 @@ public class PlayerListener implements Listener {
         }
 
         if (antiBotService.wasPlayerKicked(player.getName())) {
+            playerCache.disconnect(player);
             return;
         }
 
@@ -269,11 +282,6 @@ public class PlayerListener implements Listener {
             && event.getReason().contains("You logged in from another location")) {
             event.setCancelled(true);
             return;
-        }
-
-        final Player player = event.getPlayer();
-        if (!antiBotService.wasPlayerKicked(player.getName())) {
-            management.performQuit(player);
         }
     }
 
@@ -478,6 +486,7 @@ public class PlayerListener implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "drop_item");
         }
     }
 
@@ -485,6 +494,7 @@ public class PlayerListener implements Listener {
     public void onPlayerHeldItem(PlayerItemHeldEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "change_held_item");
         }
     }
 
@@ -492,6 +502,7 @@ public class PlayerListener implements Listener {
     public void onPlayerConsumeItem(PlayerItemConsumeEvent event) {
         if (listenerService.shouldCancelEvent(event)) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied(event.getPlayer(), "consume_item");
         }
     }
 
@@ -517,26 +528,48 @@ public class PlayerListener implements Listener {
         return false;
     }
 
+    private boolean shouldCancelInventoryInteraction(HumanEntity humanEntity, InventoryView inventory) {
+        if (!(humanEntity instanceof Player)) {
+            return false;
+        }
+        final Player player = (Player) humanEntity;
+        return listenerService.shouldCancelEvent(player) && !isInventoryWhitelisted(inventory);
+    }
+
+    private void closeInventoryIfStillRestricted(HumanEntity player) {
+        if (shouldCancelInventoryInteraction(player, player.getOpenInventory())) {
+            player.closeInventory();
+        }
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerInventoryOpen(InventoryOpenEvent event) {
         final HumanEntity player = event.getPlayer();
-        if (listenerService.shouldCancelEvent(player)
-            && !isInventoryWhitelisted(event.getView())) {
+        if (shouldCancelInventoryInteraction(player, event.getView())) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied((Player) player, "inventory_open");
 
             /*
              * @note little hack cause InventoryOpenEvent cannot be cancelled for
              * real, cause no packet is sent to server by client for the main inv
              */
-            bukkitService.scheduleSyncDelayedTask(player::closeInventory, 1);
+            bukkitService.runTaskLater((Player) player, () -> closeInventoryIfStillRestricted(player), 1);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerInventoryClick(InventoryClickEvent event) {
-        if (listenerService.shouldCancelEvent(event.getWhoClicked())
-            && !isInventoryWhitelisted(event.getView())) {
+        if (shouldCancelInventoryInteraction(event.getWhoClicked(), event.getView())) {
             event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied((Player) event.getWhoClicked(), "inventory_click");
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerInventoryDrag(InventoryDragEvent event) {
+        if (shouldCancelInventoryInteraction(event.getWhoClicked(), event.getView())) {
+            event.setCancelled(true);
+            inventoryRestrictionNotifier.notifyDenied((Player) event.getWhoClicked(), "inventory_drag");
         }
     }
 }

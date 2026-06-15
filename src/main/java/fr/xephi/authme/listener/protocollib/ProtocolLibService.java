@@ -4,9 +4,9 @@ import ch.jalu.injector.annotations.NoFieldScan;
 import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.ConsoleLogger;
 import fr.xephi.authme.data.auth.PlayerCache;
-import fr.xephi.authme.datasource.DataSource;
 import fr.xephi.authme.initialization.SettingsDependent;
 import fr.xephi.authme.output.ConsoleLoggerFactory;
+import fr.xephi.authme.listener.ListenerService;
 import fr.xephi.authme.service.BukkitService;
 import fr.xephi.authme.settings.Settings;
 import fr.xephi.authme.settings.properties.PluginSettings;
@@ -36,15 +36,15 @@ public class ProtocolLibService implements SettingsDependent {
     private final AuthMe plugin;
     private final BukkitService bukkitService;
     private final PlayerCache playerCache;
-    private final DataSource dataSource;
+    private final ListenerService listenerService;
 
     @Inject
     ProtocolLibService(AuthMe plugin, Settings settings, BukkitService bukkitService, PlayerCache playerCache,
-                       DataSource dataSource) {
+                       ListenerService listenerService) {
         this.plugin = plugin;
         this.bukkitService = bukkitService;
         this.playerCache = playerCache;
-        this.dataSource = dataSource;
+        this.listenerService = listenerService;
         reload(settings);
     }
 
@@ -74,7 +74,7 @@ public class ProtocolLibService implements SettingsDependent {
         if (protectInvBeforeLogin) {
             if (inventoryPacketAdapter == null) {
                 // register the packet listener and start hiding it for all already online players (reload)
-                inventoryPacketAdapter = new InventoryPacketAdapter(plugin, playerCache, dataSource);
+                inventoryPacketAdapter = new InventoryPacketAdapter(plugin, listenerService);
                 inventoryPacketAdapter.register(bukkitService);
             }
         } else if (inventoryPacketAdapter != null) {

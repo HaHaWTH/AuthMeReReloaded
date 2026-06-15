@@ -43,6 +43,7 @@ error:
   kick_for_vip: '&3A VIP player has joined the server when it was full!'
   kick_unresolved_hostname: '&cAn error occurred: unresolved player hostname!'
   tempban_max_logins: '&cYou have been temporarily banned for failing to log in too many times.'
+  denied_inventory: '&cAuthMe blocked this inventory action because this Minecraft connection is not authenticated. Use /login or /register first.'
 
 # AntiBot
 antibot:
