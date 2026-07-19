@@ -3,11 +3,11 @@ name: ${pluginDescription.name}
 # noinspection YAMLSchemaValidation
 authors: [${pluginDescription.authors}]
 website: https://github.com/DarkSpirit006/AuthMeReReloaded/
-description: A fork of AuthMeReloaded that contains bug fixes
+description: AuthMeReReloaded fork maintained by DarkSpirit006 with modern fixes, compatibility updates, and performance improvements
 # noinspection YAMLSchemaValidation
 main: ${pluginDescription.main}
 folia-supported: true
-version: 5.7.0-DarkSpirit006-b53
+version: 1.0.0
 api-version: 1.13
 softdepend:
     - Vault

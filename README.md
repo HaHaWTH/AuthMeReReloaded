@@ -1,9 +1,11 @@
-# AuthMeReReloaded
-**"A fork of the best authentication plugin for the Bukkit modding API!⭐"**
+# AuthMeReReloaded by DarkSpirit006
+
+**"A polished authentication plugin fork by DarkSpirit006, built for modern Bukkit servers with performance, compatibility, and security improvements.⭐"**
 
 [English](https://github.com/DarkSpirit006/AuthMeReReloaded) | [简体中文](https://github.com/DarkSpirit006/AuthMeReReloaded/blob/master/README-zh.md)
 
 ![Graph](https://bstats.org/signatures/bukkit/AuthMeReloaded-Fork.svg)
+
 <p align="center">
   <img src="https://img.shields.io/github/languages/code-size/DarkSpirit006/AuthMeReReloaded.svg" alt="Code size"/>
   <img src="https://img.shields.io/github/repo-size/DarkSpirit006/AuthMeReReloaded.svg" alt="GitHub repo size"/>
@@ -15,32 +17,33 @@
 </p>
 
 **Detailed Changes:**
- 1. Improved mail sending logic & support more emails
- 2. Shutdown mail sending(When server is closed, email you)
- 3. Legacy bug fixes
- 4. Anti Ghost Player(Doubled login bug)
- 5. Use the best performance method by server brand
- 6. Bedrock Compatibility(Floodgate needed)(based on UUID)
- 7. Update checker
- 8. Integrated GUI Captcha feature(Bedrock compatibility & ProtocolLib needed)(70% Asynchronous)
- 9. Improved listeners
- 10. Player login logic improvement to reduce lag
- 11. Automatically purge bot data
- 12. **Folia support (in active testing)**
- 13. **Velocity support (See [Velocity Support](./vc-support.md))**
- 14. Support Virtual Threads caching
- 15. Automatically fix portal stuck issue
- 16. Automatically login for Bedrock players(configurable)
- 17. Fix shulker box crash bug on legacy versions(MC 1.13-)
- 18. **H2 database support**
- 19. **100% compatibility with original authme and extensions**
- 20. More......
+
+1.  Improved mail sending logic & support more emails
+2.  Shutdown mail sending(When server is closed, email you)
+3.  Legacy bug fixes
+4.  Anti Ghost Player(Doubled login bug)
+5.  Use the best performance method by server brand
+6.  Bedrock Compatibility(Floodgate needed)(based on UUID)
+7.  Update checker
+8.  Integrated GUI Captcha feature(Bedrock compatibility & ProtocolLib needed)(70% Asynchronous)
+9.  Improved listeners
+10. Player login logic improvement to reduce lag
+11. Automatically purge bot data
+12. **Folia support (in active testing)**
+13. **Velocity support (See [Velocity Support](./vc-support.md))**
+14. Support Virtual Threads caching
+15. Automatically fix portal stuck issue
+16. Automatically login for Bedrock players(configurable)
+17. Fix shulker box crash bug on legacy versions(MC 1.13-)
+18. **H2 database support**
+19. **100% compatibility with original authme and extensions**
+20. More......
 
 **Download links:**
 [Releases](https://github.com/DarkSpirit006/AuthMeReReloaded/releases/latest)
 [Actions(Dev builds, use at your own risk!)](https://github.com/DarkSpirit006/AuthMeReReloaded/actions/workflows/maven.yml)
 
-**Pull Requests and suggestions are welcome!**
+**Pull requests and suggestions are welcome from the community!**
 
 ## License
 

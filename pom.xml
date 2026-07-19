@@ -6,10 +6,10 @@
 
     <groupId>fr.xephi</groupId>
     <artifactId>authme</artifactId>
-    <version>5.7.0-DarkSpirit006</version>
+    <version>1.0.0</version>
 
-    <name>AuthMeReReloaded</name>
-    <description>Fork of the first authentication plugin for the Bukkit API!</description>
+    <name>AuthMeReReloaded by DarkSpirit006</name>
+    <description>AuthMeReReloaded fork maintained by DarkSpirit006 with modern fixes, compatibility updates, and performance improvements.</description>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/DarkSpirit006/AuthMeReReloaded</url>
 
@@ -60,16 +60,16 @@
         <!-- Environment properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.source>17</java.source>
-        <java.target>17</java.target>
-        <java.apiVersion>17</java.apiVersion>
-        <java.compiler.minimumVersion>17</java.compiler.minimumVersion>
+        <java.source>25</java.source>
+        <java.target>25</java.target>
+        <java.apiVersion>25</java.apiVersion>
+        <java.compiler.minimumVersion>25</java.compiler.minimumVersion>
         <maven.minimumVersion>3.8.8</maven.minimumVersion>
 
         <!-- Versioning properties -->
         <project.outputName>AuthMe</project.outputName>
         <project.buildNumber>28</project.buildNumber>
-        <project.versionCode>${project.version}-b${project.buildNumber}</project.versionCode>
+        <project.versionCode>${project.version}</project.versionCode>
         <project.finalNameBase>${project.outputName}-${project.version}</project.finalNameBase>
 
         <!-- Plugin description file properties -->
@@ -281,6 +281,23 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                        <version>9.8</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm-commons</artifactId>
+                        <version>9.8</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm-tree</artifactId>
+                        <version>9.8</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>shaded-jar</id>
@@ -1002,6 +1019,13 @@
             <groupId>org.checkerframework</groupId>
             <artifactId>checker-qual</artifactId>
             <version>3.48.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
 
